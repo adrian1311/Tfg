@@ -113,11 +113,27 @@
             })
                 .then(function (response) {
                   self.userSteps= response.data
-                  self.convertResponseArrayToMapWithDateAndSteps(self.userSteps);
+                  self.testConverter(self.userSteps)
+                  //self.convertResponseArrayToMapWithDateAndSteps(self.userSteps);
                 }).catch(error => {
               console.log(error)
             })
           },
+          testConverter(steps){
+            //var self = this;
+            for(var step of steps ) {
+              console.log('start', step.startTimeMillis)
+              console.log('end', step.endTimeMillis)
+              //console.log(step.dataset[0].point)
+              if(step.dataset[0].point.length >0){
+                console.log('steps', step.dataset[0].point[0].value[0].intVal);
+              }else{
+                console.log(0);
+              }
+
+            }
+          },
+
           convertResponseArrayToMapWithDateAndSteps(userSteps){
             console.log(userSteps)
             var self = this;

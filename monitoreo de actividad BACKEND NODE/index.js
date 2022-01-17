@@ -15,7 +15,7 @@ const oauth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_U
 const scopes = ['https://www.googleapis.com/auth/fitness.activity.read', 'https://www.googleapis.com/auth/userinfo.profile'];
 
 const todayAtMidnight = new Date().setHours(0, 0, 0, 0);
-const sevenDaysAgo = todayAtMidnight - 86400000; // 7 days in millis 1296000000
+const sevenDaysAgo = todayAtMidnight - 604800000; // 7 days in millis 1296000000
 const arrr = [];
 let oauthResponse = '';
 let mapWithResults = new HashMap();
@@ -89,10 +89,10 @@ app.get('/getInformation', async (req, res, next) => {
             google.options({ auth: oauth2Client });
 
             const last7Days = await getAggregatedFitnessDataFromToInMillis(sevenDaysAgo, todayAtMidnight);
-            last7Days.reverse();
-            console.log('Steps last 7 days: ', last7Days);
-            const today = await getStepsForToday();
-            console.log('Today: ', today);
+            //last7Days.reverse();
+            //console.log('Steps last 7 days: ', last7Days);
+            //const today = await getStepsForToday();
+            //console.log('Today: ', today);
             res.send(last7Days)
         } catch (err) {
             next(err);
@@ -145,22 +145,25 @@ async function getAggregatedFitnessDataFromToInMillis(startTimeMillis, endTimeMi
                 },
             ],
             bucketByTime: {
-                durationMillis: 3600000 // Aggregate by 1 day
+                //durationMillis: 86400000 // Aggregate by 1 day
+                durationMillis: 3600000
             },
             startTimeMillis,
             endTimeMillis: endTimeMillis || now,
         },
     });
-    console.log('no se lo que es esto ',fitnessRes.data.bucket)
+    console.log('debug',fitnessRes.data.bucket)
     const stepsDataPointBucketArray = fitnessRes.data.bucket;
     const stepsArray = stepsDataPointBucketArray.map((day) => {
         //console.log(day);
-        if (day.dataset[0].point[0] != null) {
-            //console.log('value',day.dataset[0].point[0].value[0].intVal)
-            return day.dataset[0].point[0];
-        } else {
-            return 0;
-        }
+        // if (day.dataset[0].point[0] != null) {
+        //     //console.log('value',day.dataset[0].point[0].value[0].intVal)
+        //     return day.dataset[0].point[0];
+        // } else {
+        //     return 0;
+        // }
+        console.log('day', day)
+        return day;
     });
     return stepsArray;
 }
