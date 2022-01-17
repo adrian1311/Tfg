@@ -1,0 +1,26 @@
+{
+  "name": "google-fit-step-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Peter Poliwoda",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.2",
+    "googleapis": "^67.1.1",
+    "hashmap": "^2.4.0",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.15",
+    "open": "^8.0.2",
+    "query-string": "^7.0.1",
+    "request": "^2.88.2",
+    "url-parse": "^1.5.3"
+  }
+}
