@@ -33,6 +33,10 @@ var con = mysql.createConnection({
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
+    console.log(req.query.personName)
+    console.log(req.query.personLastName)
+    console.log(req.query.personHeight)
+    console.log(req.query.personWeight)
     const url = oauth2Client.generateAuthUrl({
         access_type: 'offline',
         scope: scopes,

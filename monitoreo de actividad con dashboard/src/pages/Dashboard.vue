@@ -75,6 +75,7 @@
 <script>
 import { StatsCard, ChartCard } from "@/components/index";
 import Chartist from 'chartist';
+const axios = require('axios').default;
 export default {
   components: {
     StatsCard,
@@ -85,6 +86,8 @@ export default {
    */
   data() {
     return {
+      refreshToken:'',
+      userSteps :[],
       statsCards: [
         {
           type: "warning",
@@ -189,6 +192,29 @@ export default {
         options: {}
       }
     };
+  },
+  mounted() {
+    this.refreshToken = this.$route.params.refToken;
+    this.seeSteps(this.refreshToken)
+  },
+  methods:{
+    seeSteps(token){
+      console.log('my token ',token)
+      var self=this;
+      axios.get("http://localhost:5999/getInformation",{
+        params:{
+          userToken:token
+        }
+      })
+        .then(function (response) {
+          self.userSteps= response.data
+          console.log('steps ',self.userSteps)
+          //self.testConverter(self.userSteps)
+          //self.convertResponseArrayToMapWithDateAndSteps(self.userSteps);
+        }).catch(error => {
+        console.log(error)
+      })
+    },
   }
 };
 </script>

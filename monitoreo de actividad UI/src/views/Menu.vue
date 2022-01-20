@@ -113,7 +113,7 @@
             })
                 .then(function (response) {
                   self.userSteps= response.data
-                  self.testConverter(self.userSteps)
+                  //self.testConverter(self.userSteps)
                   //self.convertResponseArrayToMapWithDateAndSteps(self.userSteps);
                 }).catch(error => {
               console.log(error)

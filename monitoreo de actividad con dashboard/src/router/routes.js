@@ -1,4 +1,4 @@
-import DashboardLayout from "@/layout/dashboard/DashboardLayout.vue";
+//import DashboardLayout from "@/layout/dashboard/DashboardLayout.vue";
 // GeneralViews
 import NotFound from "@/pages/NotFoundPage.vue";
 
@@ -10,6 +10,9 @@ import Icons from "@/pages/Icons.vue";
 import Maps from "@/pages/Maps.vue";
 import Typography from "@/pages/Typography.vue";
 import TableList from "@/pages/TableList.vue";
+import Main from "@/pages/Main.vue"
+import DashboardLayout from "../layout/dashboard/DashboardLayout";
+import Register from "../pages/Register";
 
 const routes = [
   {
@@ -20,7 +23,8 @@ const routes = [
       {
         path: "dashboard",
         name: "dashboard",
-        component: Dashboard
+        component: Dashboard,
+        props: true
       },
       {
         path: "stats",
@@ -51,6 +55,17 @@ const routes = [
         path: "table-list",
         name: "table-list",
         component: TableList
+      },
+      {
+        path: "main",
+        name: "All users bands",
+        component: Main
+      }
+      ,
+      {
+        path: "registerUser",
+        name: "registerUser",
+        component: Register
       }
     ]
   },
