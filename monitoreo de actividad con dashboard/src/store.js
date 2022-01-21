@@ -6,6 +6,12 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
   state:{
     userStepsWithDates: [],
-    exampleArray:[]
+    exampleArray:[],
+    userInformation :{
+      firstName:'',
+      lastName:'',
+      height:'',
+      weight:'',
+    }
   }
 });

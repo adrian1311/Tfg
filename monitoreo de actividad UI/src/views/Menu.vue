@@ -9,7 +9,7 @@
             <div class="row justify-content-center mt-4 " v-for="[fooKey, barValue,key] in mapStepsAndDate" :key="key" >
               Date:  {{fooKey}} => Steps:  {{barValue}}
             </div>
-            <Chart type="doughnut" :data="chartData" :options="chartOptions" />
+
           </div>
           <b-button class="mt-3" variant="outline-danger" block @click="hideModal">Close</b-button>
         </b-modal>
@@ -113,7 +113,7 @@
             })
                 .then(function (response) {
                   self.userSteps= response.data
-                  //self.testConverter(self.userSteps)
+                  self.testConverter(self.userSteps)
                   //self.convertResponseArrayToMapWithDateAndSteps(self.userSteps);
                 }).catch(error => {
               console.log(error)
@@ -122,8 +122,13 @@
           testConverter(steps){
             //var self = this;
             for(var step of steps ) {
+              console.log('dddddddd'+ typeof step.startTimeMillis)
               console.log('start', step.startTimeMillis)
-              console.log('end', step.endTimeMillis)
+              console.log(step.endTimeNanos/1000000)
+              var date = new Date(step.endTimeNanos/1000000);
+              var date2 = new Date( step.startTimeMillis);
+              console.log('end', date)
+              console.log('end2', date2)
               //console.log(step.dataset[0].point)
               if(step.dataset[0].point.length >0){
                 console.log('steps', step.dataset[0].point[0].value[0].intVal);
@@ -139,6 +144,9 @@
             var self = this;
             self.mapStepsAndDate = new Map();
             for(var step of userSteps ){
+
+
+
               console.log(step.endTimeNanos/1000000)
               var date = new Date(step.endTimeNanos/1000000);
               if(step.value != null){

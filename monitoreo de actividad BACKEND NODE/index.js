@@ -19,6 +19,10 @@ const sevenDaysAgo = todayAtMidnight - 604800000; // 7 days in millis 1296000000
 const arrr = [];
 let oauthResponse = '';
 let mapWithResults = new HashMap();
+let personName = '';
+let personLastName = '';
+let personHeight = '';
+let personWeight = '';
 
 const cors = require('cors');
 app.use(cors());
@@ -33,10 +37,10 @@ var con = mysql.createConnection({
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-    console.log(req.query.personName)
-    console.log(req.query.personLastName)
-    console.log(req.query.personHeight)
-    console.log(req.query.personWeight)
+    personName = req.query.personName;
+    personLastName = req.query.personLastName;
+    personHeight = req.query.personHeight;
+    personWeight = req.query.personWeight;
     const url = oauth2Client.generateAuthUrl({
         access_type: 'offline',
         scope: scopes,
@@ -114,7 +118,7 @@ function updateUserInDB(name,token){
 }
 
 function saveInDB(name, token) {
-    var sql = "INSERT INTO users (name,refresh_token) VALUES ('" + name + "','" + token + "')";
+    var sql = "INSERT INTO users (name,refresh_token,first_name,last_name,height,weight) VALUES ('" + name + "','" + token + "','" + personName + "','" + personLastName + "','" + personHeight + "','" + personWeight + "')";
     con.query(sql, function (err, result) {
         if (err) throw err;
         console.log("1 record inserted");

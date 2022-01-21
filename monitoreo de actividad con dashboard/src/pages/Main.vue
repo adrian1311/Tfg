@@ -19,7 +19,7 @@
     <div class="row">
       <div class="col-md-6 col-xl-3" v-for="user in allUsers" :key="user.name">
 
-        <stats-card @click.native="changeToDashboard(user.refresh_token)">
+        <stats-card @click.native="changeToDashboard(user)">
           <div class="icon-big text-center" slot="header">
             <i :class="'ti-user'"></i>
           </div>
@@ -45,16 +45,7 @@ export default {
     return {
       allUsers:[],
       targetId :'',
-      // statsCards: [
-      //   {
-      //     type: "warning",
-      //     icon: "ti-user",
-      //     title: "Calorias",
-      //     value: "105GB",
-      //     footerText: "Updated now",
-      //     footerIcon: "ti-reload"
-      //   }
-      // ],
+      refreshToken : '',
     }
     },
   mounted() {
@@ -65,17 +56,27 @@ export default {
       var self=this;
       axios.get("http://localhost:5998/pasos/getUsers")
         .then(function (response) {
-          self.allUsers= response.data
+          self.allUsers= response.data;
           console.log(self.allUsers)
         }).catch(error => {
         console.log(error)
       })
     },
-    changeToDashboard: function(refreshToken) {
-      this.$router.push({name: 'dashboard', params: { refToken: refreshToken}});
+    changeToDashboard: function(user) {
+      this.putInformationInGLobalVariable(user)
+      console.log('USER',user)
+      this.refreshToken = user.refresh_token
+      console.log('',this.refreshToken)
+      this.$router.push({name: 'dashboard', params: { refToken: this.refreshToken}});
     },
     changeToRegisterUser: function() {
       this.$router.push({name: 'registerUser'});
+    },
+    putInformationInGLobalVariable(user){
+      this.$store.state.userInformation.firstName = user.firstName;
+      this.$store.state.userInformation.lastName = user.lastName;
+      this.$store.state.userInformation.weight = user.weight;
+      this.$store.state.userInformation.height = user.height;
     }
 
   }

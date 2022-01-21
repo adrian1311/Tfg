@@ -195,8 +195,11 @@ export default {
     };
   },
   mounted() {
-    this.refreshToken = this.$route.params.refToken;
-    this.seeSteps(this.refreshToken)
+    if(this.$route.params.refToken != undefined){
+      this.refreshToken = this.$route.params.refToken;
+      this.seeSteps(this.refreshToken)
+    }
+
   },
   methods:{
     seeSteps(token){
@@ -208,6 +211,7 @@ export default {
       })
         .then(function (response) {
           self.$store.state.userStepsWithDates= response.data
+          console.log(self.$store.state.userStepsWithDates)
           self.convertStepsAndDatesToApropiateFormat();
         }).catch(error => {
         console.log(error)
@@ -224,7 +228,7 @@ export default {
       const date = step.endTimeMillis
       const date2 = new Date (+date)
       if(step.dataset[0].point.length > 0){
-        self.dateWithSteps={ date : date2, steps : step.dataset[0].point[0].value[0].intVal}
+        self.dateWithSteps={ date : date2.toString(), steps : step.dataset[0].point[0].value[0].intVal}
       }else {
         self.dateWithSteps={ date : date2, steps : 0}
       }

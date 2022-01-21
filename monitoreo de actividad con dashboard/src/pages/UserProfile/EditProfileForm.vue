@@ -5,76 +5,33 @@
         <div class="row">
           <div class="col-md-5">
             <fg-input type="text"
-                      label="Company"
-                      :disabled="true"
-                      placeholder="Paper dashboard"
-                      v-model="user.company">
-            </fg-input>
-          </div>
-          <div class="col-md-3">
-
-            <fg-input type="text"
-                      label="Username"
-                      placeholder="Username"
-                      v-model="user.username">
-            </fg-input>
-          </div>
-          <div class="col-md-4">
-            <fg-input type="email"
-                      label="Username"
-                      placeholder="Email"
-                      v-model="user.email">
-            </fg-input>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-6">
-            <fg-input type="text"
                       label="First Name"
                       placeholder="First Name"
                       v-model="user.firstName">
             </fg-input>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-5">
             <fg-input type="text"
-                      label="Last Name"
-                      placeholder="Last Name"
+                      label="lastName"
+                      placeholder="Paper dashboard"
                       v-model="user.lastName">
             </fg-input>
           </div>
         </div>
 
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-2">
             <fg-input type="text"
-                      label="Address"
-                      placeholder="Home Address"
-                      v-model="user.address">
+                      label="Height"
+                      placeholder="Height"
+                      v-model="user.height">
             </fg-input>
           </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-2">
             <fg-input type="text"
-                      label="City"
-                      placeholder="City"
-                      v-model="user.city">
-            </fg-input>
-          </div>
-          <div class="col-md-4">
-            <fg-input type="text"
-                      label="Country"
-                      placeholder="Country"
-                      v-model="user.country">
-            </fg-input>
-          </div>
-          <div class="col-md-4">
-            <fg-input type="number"
-                      label="Postal Code"
-                      placeholder="ZIP Code"
-                      v-model="user.postalCode">
+                      label="Weight"
+                      placeholder="Weight"
+                      v-model="user.weight">
             </fg-input>
           </div>
         </div>
@@ -107,23 +64,28 @@
 export default {
   data() {
     return {
-      user: {
-        company: "Paper Dashboard",
-        username: "michael23",
-        email: "",
-        firstName: "Chet",
-        lastName: "Faker",
-        address: "Melbourne, Australia",
-        city: "Melbourne",
-        postalCode: "",
-        aboutMe: `We must accept finite disappointment, but hold on to infinite hope.`
+      user:{
+        firstName : '',
+        lastName : '',
+        weight : '',
+        height : '',
       }
+
     };
   },
   methods: {
     updateProfile() {
       alert("Your data: " + JSON.stringify(this.user));
+    },
+    loadInformationForUser(){
+      this.user.firstName = this.$store.state.userInformation.firstName;
+      this.user.lastName = this.$store.state.userInformation.lastName;
+      this.user.height = this.$store.state.userInformation.height;
+      this.user.weight = this.$store.state.userInformation.weight;
     }
+  },
+  mounted() {
+    this.loadInformationForUser();
   }
 };
 </script>
