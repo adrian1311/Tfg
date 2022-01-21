@@ -15,7 +15,8 @@ const oauth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_U
 const scopes = ['https://www.googleapis.com/auth/fitness.activity.read', 'https://www.googleapis.com/auth/userinfo.profile'];
 
 const todayAtMidnight = new Date().setHours(0, 0, 0, 0);
-const sevenDaysAgo = todayAtMidnight - 604800000; // 7 days in millis 1296000000
+const sevenDaysInMillis = 604800000;
+let daysAgo = todayAtMidnight - sevenDaysInMillis; // 7 days in millis 1296000000
 const arrr = [];
 let oauthResponse = '';
 let mapWithResults = new HashMap();
@@ -88,6 +89,10 @@ app.get('/steps', async (req, res, next) => {
 });
 
 app.get('/getInformation', async (req, res, next) => {
+    if(req.query.daysForSearch != undefined){
+        daysAgo = todayAtMidnight - req.query.daysForSearch * 24 * 60 * 60 * 1000;
+        console.log(typeof daysAgo, daysAgo)
+    }
         try {
             oauth2Client.setCredentials({
                 refresh_token: req.query.userToken
@@ -96,7 +101,7 @@ app.get('/getInformation', async (req, res, next) => {
             oauth2Client.setCredentials(oauthResponse.res.data);
             google.options({ auth: oauth2Client });
 
-            const last7Days = await getAggregatedFitnessDataFromToInMillis(sevenDaysAgo, todayAtMidnight);
+            const last7Days = await getAggregatedFitnessDataFromToInMillis(daysAgo, todayAtMidnight);
             //last7Days.reverse();
             //console.log('Steps last 7 days: ', last7Days);
             //const today = await getStepsForToday();
