@@ -3,6 +3,7 @@
       <div class="col-xl-12 col-lg-7 col-md-6">
         <edit-profile-form>
 
+
         </edit-profile-form>
       </div>
     </div>

@@ -86,6 +86,7 @@ export default {
    */
   data() {
     return {
+      dateWithSteps : {},
       refreshToken:'',
       userSteps :[],
       statsCards: [
@@ -199,7 +200,6 @@ export default {
   },
   methods:{
     seeSteps(token){
-      console.log('my token ',token)
       var self=this;
       axios.get("http://localhost:5999/getInformation",{
         params:{
@@ -207,14 +207,29 @@ export default {
         }
       })
         .then(function (response) {
-          self.userSteps= response.data
-          console.log('steps ',self.userSteps)
-          //self.testConverter(self.userSteps)
-          //self.convertResponseArrayToMapWithDateAndSteps(self.userSteps);
+          self.$store.state.userStepsWithDates= response.data
+          self.convertStepsAndDatesToApropiateFormat();
         }).catch(error => {
         console.log(error)
       })
     },
+    convertStepsAndDatesToApropiateFormat(){
+      var self=this;
+      for(var step of self.$store.state.userStepsWithDates ) {
+        self.dateConverter(step);
+      }
+    },
+    dateConverter(step){
+      var self=this;
+      const date = step.endTimeMillis
+      const date2 = new Date (+date)
+      if(step.dataset[0].point.length > 0){
+        self.dateWithSteps={ date : date2, steps : step.dataset[0].point[0].value[0].intVal}
+      }else {
+        self.dateWithSteps={ date : date2, steps : 0}
+      }
+      self.$store.state.exampleArray.push(self.dateWithSteps)
+    }
   }
 };
 </script>

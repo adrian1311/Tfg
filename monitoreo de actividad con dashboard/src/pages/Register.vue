@@ -1,5 +1,8 @@
 <template>
 <div>
+  <div class="row justify-content-center mt-3 mb-3" v-if="firstName== '' || lastName== '' ||height== '' || weight== ''">
+    <span style="font-size: large ;color: red">ALL THE INPUTS ARE OBLIGATORIOS FOR ENABLE THE BUTTON !</span>
+  </div>
   <div class="row">
     <div class="col-md-5">
       <fg-input type="text"
@@ -31,7 +34,7 @@
     </div>
   </div>
   <div class="text-center">
-    <p-button type="info"
+    <p-button type="info" :disabled="firstName== '' || lastName== '' ||height== '' || weight== ''"
               round
               @click.native.prevent="addBand">
      Register Band
