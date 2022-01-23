@@ -24,7 +24,7 @@ export default {
     return {
       table1: {
         title: "STEPS IN THE LAST 7 DAYS",
-        subTitle: "Here is a subtitle for this table",
+        subTitle: "",
         columns: [...tableColumns],
         data: this.$store.state.exampleArray
       },

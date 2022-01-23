@@ -64,10 +64,8 @@ export default {
     },
     changeToDashboard: function(user) {
       this.putInformationInGLobalVariable(user)
-      console.log('USER',user)
-      this.refreshToken = user.refresh_token
-      console.log('',this.refreshToken)
-      this.$router.push({name: 'dashboard', params: { refToken: this.refreshToken}});
+      //this.refreshToken = user.refresh_token
+      this.$router.push({name: 'dashboard'});
     },
     changeToRegisterUser: function() {
       this.$router.push({name: 'registerUser'});
@@ -77,6 +75,7 @@ export default {
       this.$store.state.userInformation.lastName = user.lastName;
       this.$store.state.userInformation.weight = user.weight;
       this.$store.state.userInformation.height = user.height;
+      this.$store.state.userInformation.refreshToken = user.refresh_token;
     }
 
   }

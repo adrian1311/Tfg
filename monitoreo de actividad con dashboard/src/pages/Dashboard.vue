@@ -2,6 +2,11 @@
   <div>
 
     <!--Stats cards-->
+    <div class="row justify-content-center">
+      <div class="col-sm-6 mb-3 text-center">
+        <Dropdown v-model="$store.state.daysForSearch" v-on:change="seeSteps($store.state.userInformation.refreshToken)" :options="days" placeholder="Days" />
+      </div>
+    </div>
     <div class="row">
       <div class="col-md-6 col-xl-3" v-for="stats in statsCards" :key="stats.title">
         <stats-card>
@@ -10,11 +15,11 @@
           </div>
           <div class="numbers" slot="content">
             <p>{{stats.title}}</p>
-            10
+            <p>{{totalSteps/$store.state.daysForSearch}}</p>
           </div>
-          <div class="stats" slot="footer">
+          <!--div class="stats" slot="footer">
             <i :class="stats.footerIcon"></i> {{stats.footerText}}
-          </div>
+          </div-->
         </stats-card>
       </div>
     </div>
@@ -74,26 +79,34 @@
 </template>
 <script>
 import { StatsCard, ChartCard } from "@/components/index";
+import Dropdown from 'primevue/dropdown';
 import Chartist from 'chartist';
 const axios = require('axios').default;
+
 export default {
   components: {
     StatsCard,
-    ChartCard
+    ChartCard,
+    Dropdown
   },
   /**
    * Chart data used to render stats, charts. Should be replaced with server data
    */
   data() {
     return {
+      selectedCity: null,
+      days: [
+       1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
+      ],
       dateWithSteps : {},
       refreshToken:'',
       userSteps :[],
+      totalSteps:0,
       statsCards: [
         {
-          type: "warning",
+          type: "success",
           icon: "ti-server",
-          title: "Calorias",
+          title: "Average daily steps",
           value: "105GB",
           footerText: "Updated now",
           footerIcon: "ti-reload"
@@ -195,27 +208,34 @@ export default {
     };
   },
   mounted() {
-    if(this.$route.params.refToken != undefined){
-      this.refreshToken = this.$route.params.refToken;
-      this.seeSteps(this.refreshToken)
+
+    if(this.$store.state.userInformation.refreshToken != ''){
+      this.totalSteps = 0;
+      this.seeSteps(this.$store.state.userInformation.refreshToken)
     }
 
   },
   methods:{
     seeSteps(token){
       var self=this;
+      if(self.$store.state.userInformation.refreshToken != ''){
+        self.$store.state.userStepsWithDates = [];
+        self.$store.state.exampleArray = [];
+        self.totalSteps = 0;
+        self.$store.state.daysForSearch=self.$store.state.daysForSearch
       axios.get("http://localhost:5999/getInformation",{
         params:{
-          userToken:token
+          userToken:token,
+          daysForSearch: self.$store.state.daysForSearch
         }
       })
         .then(function (response) {
           self.$store.state.userStepsWithDates= response.data
-          console.log(self.$store.state.userStepsWithDates)
           self.convertStepsAndDatesToApropiateFormat();
         }).catch(error => {
         console.log(error)
       })
+      }
     },
     convertStepsAndDatesToApropiateFormat(){
       var self=this;
@@ -229,8 +249,10 @@ export default {
       const date2 = new Date (+date)
       if(step.dataset[0].point.length > 0){
         self.dateWithSteps={ date : date2.toString(), steps : step.dataset[0].point[0].value[0].intVal}
+        self.totalSteps +=step.dataset[0].point[0].value[0].intVal;
       }else {
         self.dateWithSteps={ date : date2, steps : 0}
+        self.totalSteps += 0;
       }
       self.$store.state.exampleArray.push(self.dateWithSteps)
     }

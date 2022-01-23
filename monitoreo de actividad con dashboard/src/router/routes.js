@@ -53,7 +53,7 @@ const routes = [
       },
       {
         path: "table-list",
-        name: "table-list",
+        name: "TABLE WITH STEPS FOR LAST WEEK",
         component: TableList
       },
       {

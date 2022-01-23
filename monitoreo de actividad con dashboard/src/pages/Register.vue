@@ -3,7 +3,7 @@
   <div class="row justify-content-center mt-3 mb-3" v-if="firstName== '' || lastName== '' ||height== '' || weight== ''">
     <span style="font-size: large ;color: red">ALL THE INPUTS ARE OBLIGATORIOS FOR ENABLE THE BUTTON !</span>
   </div>
-  <div class="row">
+  <div class="row justify-content-center">
     <div class="col-md-5">
       <fg-input type="text"
                 label="First name"
@@ -20,6 +20,23 @@
     </div>
     <div class="col-md-2">
       <fg-input type="text"
+                label="Age"
+                placeholder="Age"
+                v-model="age">
+      </fg-input>
+    </div>
+
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-md-2">
+      <fg-input type="text"
+                label="Gender"
+                placeholder="Gender"
+                v-model="gender">
+      </fg-input>
+    </div>
+    <div class="col-md-2">
+      <fg-input type="text"
                 label="Height"
                 placeholder="Height"
                 v-model="height">
@@ -30,6 +47,22 @@
                 label="Weight"
                 placeholder="Weight"
                 v-model="weight">
+      </fg-input>
+    </div>
+    <div class="col-md-2">
+      <fg-input type="text"
+                label="Age"
+                placeholder="Age"
+                v-model="age">
+      </fg-input>
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-md-4">
+      <fg-input type="text"
+                label="Daily estimated steps"
+                placeholder="Daily estimated steps"
+                v-model="estimetedSteps">
       </fg-input>
     </div>
   </div>

@@ -12,6 +12,8 @@ export const store = new Vuex.Store({
       lastName:'',
       height:'',
       weight:'',
-    }
+      refreshToken:'',
+    },
+    daysForSearch:7,
   }
 });
