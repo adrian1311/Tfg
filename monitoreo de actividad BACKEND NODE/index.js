@@ -25,6 +25,11 @@ let personLastName = '';
 let personHeight = '';
 let personWeight = '';
 
+let personAge = '';
+let personGender = '';
+let personestimatedSteps = '';
+let personNotes = '';
+
 const cors = require('cors');
 app.use(cors());
 
@@ -38,10 +43,7 @@ var con = mysql.createConnection({
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-    personName = req.query.personName;
-    personLastName = req.query.personLastName;
-    personHeight = req.query.personHeight;
-    personWeight = req.query.personWeight;
+    getVariablesFromRequest(req);
     const url = oauth2Client.generateAuthUrl({
         access_type: 'offline',
         scope: scopes,
@@ -113,9 +115,20 @@ app.get('/getInformation', async (req, res, next) => {
 
 });
 
+function getVariablesFromRequest(req){
+    personName = req.query.personName;
+    personLastName = req.query.personLastName;
+    personHeight = req.query.personHeight;
+    personWeight = req.query.personWeight;
+    personAge = req.query.age
+    personGender = req.query.gender
+    personestimatedSteps = req.query.estimetedSteps
+    personNotes = req.query.notes;
+}
+
 function updateUserInDB(name,token){
         //Update the address field:
-        var sql = "UPDATE users SET refresh_token = '" + token + "' WHERE name = '" + name + "'";
+        var sql = "UPDATE users SET refresh_token = '" + token + "', first_name = '" + personName + "',last_name = '" + personLastName + "',height = '" + personHeight + "',weight = '" + personWeight + "',age = '" + personAge + "',gender = '" + personGender + "',estimated_steps = '" + personestimatedSteps + "',notes = '" + personNotes + "' WHERE name = '" + name + "'";
         con.query(sql, function (err, result) {
           if (err) throw err;
           console.log(result.affectedRows + " record(s) updated");
@@ -123,7 +136,7 @@ function updateUserInDB(name,token){
 }
 
 function saveInDB(name, token) {
-    var sql = "INSERT INTO users (name,refresh_token,first_name,last_name,height,weight) VALUES ('" + name + "','" + token + "','" + personName + "','" + personLastName + "','" + personHeight + "','" + personWeight + "')";
+    var sql = "INSERT INTO users (name,refresh_token,first_name,last_name,height,weight,age,gender,estimated_steps,notes) VALUES ('" + name + "','" + token + "','" + personName + "','" + personLastName + "','" + personHeight + "','" + personWeight + "','" + personAge + "','" + personGender + "','" + personestimatedSteps + "','" + personNotes + "')";
     con.query(sql, function (err, result) {
         if (err) throw err;
         console.log("1 record inserted");

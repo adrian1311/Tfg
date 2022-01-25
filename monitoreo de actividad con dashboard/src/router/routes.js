@@ -28,7 +28,7 @@ const routes = [
       },
       {
         path: "stats",
-        name: "stats",
+        name: "USER PROFILE",
         component: UserProfile
       },
       {

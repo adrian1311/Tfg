@@ -5,7 +5,7 @@
         <sidebar-link to="/main" name="All band users" icon="ti-layout-grid3"/>
         <sidebar-link to="/dashboard" name="Dashboard" icon="ti-panel"/>
         <sidebar-link to="/stats" name="User Profile" icon="ti-user"/>
-        <sidebar-link to="/table-list" name="Table List" icon="ti-view-list-alt"/>
+        <sidebar-link to="/table-list" name="Steps by hours" icon="ti-view-list-alt"/>
       </template>
       <mobile-menu>
         <li class="nav-item">
