@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="row justify-content-center mt-3 mb-3" v-if="firstName== '' || lastName== '' ||height== '' || weight== ''">
-    <span style="font-size: large ;color: red">ALL THE INPUTS ARE OBLIGATORIOS FOR ENABLE THE BUTTON !</span>
+    <span style="font-size: large ;color: red">ALL THE INPUTS ARE MANDATORY FOR ENABLE THE BUTTON !</span>
   </div>
   <div class="row justify-content-center">
     <div class="col-md-5">
@@ -66,6 +66,18 @@
       </fg-input>
     </div>
   </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label>About Me</label>
+        <textarea rows="5" class="form-control border-input"
+                  placeholder="Here can be your description"
+                  v-model="notes">
+
+              </textarea>
+      </div>
+    </div>
+  </div>
   <div class="text-center">
     <p-button type="info" :disabled="firstName== '' || lastName== '' ||height== '' || weight== ''"
               round
@@ -88,6 +100,10 @@ export default {
       lastName : '',
       height : '',
       weight : '',
+      age: '',
+      gender:'',
+      estimetedSteps:'',
+      notes:'',
     }
   },
   methods:{
@@ -99,7 +115,11 @@ export default {
           personName: self.firstName,
           personLastName: self.lastName,
           personHeight: self.height,
-          personWeight: self.weight
+          personWeight: self.weight,
+          age:self.age,
+          gender:self.gender,
+          estimetedSteps:self.estimetedSteps,
+          notes:self.notes
         }
       }).then(function (response) {
           self.urlForSteps= response.data

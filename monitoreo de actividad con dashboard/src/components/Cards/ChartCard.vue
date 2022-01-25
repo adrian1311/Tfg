@@ -106,6 +106,15 @@ export default {
         this.initChart(ChartistLib);
       });
     });
+  },
+  chartData:{
+    usersChart: {
+      immediate: true,
+      deep: true,
+      handler(value) {
+       console.log('here value',value)
+      }
+    },
   }
 };
 </script>

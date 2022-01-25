@@ -17,61 +17,13 @@
             <p>{{stats.title}}</p>
             <p>{{totalSteps/$store.state.daysForSearch}}</p>
           </div>
-          <!--div class="stats" slot="footer">
-            <i :class="stats.footerIcon"></i> {{stats.footerText}}
-          </div-->
         </stats-card>
       </div>
     </div>
+    <Chart type="line" :data="basicData" />
 
     <!--Charts-->
     <div class="row">
-
-      <div class="col-12">
-        <chart-card title="Users behavior"
-                    sub-title="24 Hours performance"
-                    :chart-data="usersChart.data"
-                    :chart-options="usersChart.options">
-          <span slot="footer">
-            <i class="ti-reload"></i> Updated 3 minutes ago
-          </span>
-          <div slot="legend">
-            <i class="fa fa-circle text-info"></i> Open
-            <i class="fa fa-circle text-danger"></i> Click
-            <i class="fa fa-circle text-warning"></i> Click Second Time
-          </div>
-        </chart-card>
-      </div>
-
-      <div class="col-md-6 col-12">
-        <chart-card title="Email Statistics"
-                    sub-title="Last campaign performance"
-                    :chart-data="preferencesChart.data"
-                    chart-type="Pie">
-          <span slot="footer">
-            <i class="ti-timer"></i> Campaign set 2 days ago</span>
-          <div slot="legend">
-            <i class="fa fa-circle text-info"></i> Open
-            <i class="fa fa-circle text-danger"></i> Bounce
-            <i class="fa fa-circle text-warning"></i> Unsubscribe
-          </div>
-        </chart-card>
-      </div>
-
-      <div class="col-md-6 col-12">
-        <chart-card title="2015 Sales"
-                    sub-title="All products including Taxes"
-                    :chart-data="activityChart.data"
-                    :chart-options="activityChart.options">
-          <span slot="footer">
-            <i class="ti-check"></i> Data information certified
-          </span>
-          <div slot="legend">
-            <i class="fa fa-circle text-info"></i> Tesla Model S
-            <i class="fa fa-circle text-warning"></i> BMW 5 Series
-          </div>
-        </chart-card>
-      </div>
 
     </div>
 
@@ -80,20 +32,37 @@
 <script>
 import { StatsCard, ChartCard } from "@/components/index";
 import Dropdown from 'primevue/dropdown';
-import Chartist from 'chartist';
+import moment from "moment";
 const axios = require('axios').default;
+import Chart from 'primevue/chart';
 
 export default {
   components: {
     StatsCard,
     ChartCard,
-    Dropdown
+    Dropdown,
+    Chart
   },
   /**
    * Chart data used to render stats, charts. Should be replaced with server data
    */
   data() {
     return {
+      basicData: {
+        labels: [],
+        datasets: [
+          {
+            label: 'First Dataset',
+            data: [],
+            fill: false,
+            borderColor: '#42A5F5',
+            tension: .4
+          }
+        ]
+      },
+      exxx:true,
+      datess:[],
+      averageSteps:[],
       selectedCity: null,
       days: [
        1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
@@ -136,75 +105,6 @@ export default {
           footerIcon: "ti-reload"
         }
       ],
-      usersChart: {
-        data: {
-          labels: [
-            "9:00AM",
-            "12:00AM",
-            "3:00PM",
-            "6:00PM",
-            "9:00PM",
-            "12:00PM",
-            "3:00AM",
-            "6:00AM"
-          ],
-          series: [
-            [287, 385, 490, 562, 594, 626, 698, 895, 952],
-            [67, 152, 193, 240, 387, 435, 535, 642, 744],
-            [23, 113, 67, 108, 190, 239, 307, 410, 410]
-          ]
-        },
-        options: {
-          low: 0,
-          high: 1000,
-          showArea: true,
-          height: "245px",
-          axisX: {
-            showGrid: false
-          },
-          lineSmooth: Chartist.Interpolation.simple({
-            divisor: 3
-          }),
-          showLine: true,
-          showPoint: false
-        }
-      },
-      activityChart: {
-        data: {
-          labels: [
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "Mai",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec"
-          ],
-          series: [
-            [542, 543, 520, 680, 653, 753, 326, 434, 568, 610, 756, 895],
-            [230, 293, 380, 480, 503, 553, 600, 664, 698, 710, 736, 795]
-          ]
-        },
-        options: {
-          seriesBarDistance: 10,
-          axisX: {
-            showGrid: false
-          },
-          height: "245px"
-        }
-      },
-      preferencesChart: {
-        data: {
-          labels: ["62%", "32%", "6%"],
-          series: [62, 32, 6]
-        },
-        options: {}
-      }
     };
   },
   mounted() {
@@ -218,9 +118,11 @@ export default {
   methods:{
     seeSteps(token){
       var self=this;
-      if(self.$store.state.userInformation.refreshToken != ''){
+      if(self.$store.state.userInformation.refreshToken !== ''){
         self.$store.state.userStepsWithDates = [];
         self.$store.state.exampleArray = [];
+        self.basicData.labels = [];
+        self.basicData.datasets[0].data = [];
         self.totalSteps = 0;
         self.$store.state.daysForSearch=self.$store.state.daysForSearch
       axios.get("http://localhost:5999/getInformation",{
@@ -242,21 +144,42 @@ export default {
       for(var step of self.$store.state.userStepsWithDates ) {
         self.dateConverter(step);
       }
+      self.convertArrayWithInformationToArraysWithDaysAndSteps();
     },
     dateConverter(step){
       var self=this;
       const date = step.endTimeMillis
       const date2 = new Date (+date)
       if(step.dataset[0].point.length > 0){
-        self.dateWithSteps={ date : date2.toString(), steps : step.dataset[0].point[0].value[0].intVal}
+        self.dateWithSteps={ date : date2, steps : step.dataset[0].point[0].value[0].intVal}
         self.totalSteps +=step.dataset[0].point[0].value[0].intVal;
       }else {
         self.dateWithSteps={ date : date2, steps : 0}
         self.totalSteps += 0;
       }
       self.$store.state.exampleArray.push(self.dateWithSteps)
+    },
+    convertArrayWithInformationToArraysWithDaysAndSteps(){
+      var self=this;
+      var stepss = 0;
+      self.datess = [];
+      for(let info of self.$store.state.exampleArray){
+         if(!self.datess.includes(moment(info.date).format('MM/DD/YYYY'))){
+           self.averageSteps.push(stepss)
+           stepss = 0;
+           self.datess.push(moment(info.date).format('MM/DD/YYYY'));
+           stepss+=info.steps;
+         }else{
+           stepss+=info.steps;
+         }
+      }
+      self.basicData.labels = self.datess;
+      self.basicData.datasets[0].data = self.averageSteps;
     }
-  }
+  },
+  computed:{
+  },
+
 };
 </script>
 <style>
