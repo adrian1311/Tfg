@@ -7,7 +7,7 @@
         <Dropdown v-model="$store.state.daysForSearch" v-on:change="seeSteps($store.state.userInformation.refreshToken)" :options="days" placeholder="Days" />
       </div>
     </div>
-    <div class="row">
+    <div class="row justify-content-center">
       <div class="col-md-6 col-xl-3" v-for="stats in statsCards" :key="stats.title">
         <stats-card>
           <div class="icon-big text-center" :class="`icon-${stats.type}`" slot="header">
@@ -15,7 +15,7 @@
           </div>
           <div class="numbers" slot="content">
             <p>{{stats.title}}</p>
-            <p>{{totalSteps/$store.state.daysForSearch}}</p>
+            <p>{{stats.value}}</p>
           </div>
         </stats-card>
       </div>
@@ -52,7 +52,7 @@ export default {
         labels: [],
         datasets: [
           {
-            label: 'First Dataset',
+            label: 'Steps',
             data: [],
             fill: false,
             borderColor: '#42A5F5',
@@ -71,39 +71,40 @@ export default {
       refreshToken:'',
       userSteps :[],
       totalSteps:0,
+      valuesInstatsCards:[],
       statsCards: [
         {
           type: "success",
           icon: "ti-server",
           title: "Average daily steps",
-          value: "105GB",
+          value: "",
           footerText: "Updated now",
           footerIcon: "ti-reload"
         },
         {
           type: "success",
           icon: "ti-wallet",
-          title: "Pasos",
-          value: "$1,345",
+          title: "Estimeted daily steps",
+          value: "$",
           footerText: "Last day",
           footerIcon: "ti-calendar"
         },
         {
           type: "danger",
           icon: "ti-pulse",
-          title: "Errors",
-          value: "23",
+          title: "Calories",
+          value: "",
           footerText: "In the last hour",
           footerIcon: "ti-timer"
         },
-        {
-          type: "info",
-          icon: "ti-twitter-alt",
-          title: "Followers",
-          value: "+45",
-          footerText: "Updated now",
-          footerIcon: "ti-reload"
-        }
+        // {
+        //   type: "info",
+        //   icon: "ti-twitter-alt",
+        //   title: "Followers",
+        //   value: "",
+        //   footerText: "Updated now",
+        //   footerIcon: "ti-reload"
+        // }
       ],
     };
   },
@@ -175,6 +176,21 @@ export default {
       }
       self.basicData.labels = self.datess;
       self.basicData.datasets[0].data = self.averageSteps;
+      self.informationInTiles();
+      self.putInformationInTiles();
+    },
+
+    putInformationInTiles(){
+      for(let i=0;i<this.statsCards.length; i++){
+        this.statsCards[i].value=this.valuesInstatsCards[i];
+      }
+    },
+
+    informationInTiles(){
+      this.valuesInstatsCards[0]=parseInt(this.totalSteps/this.$store.state.daysForSearch);
+      this.valuesInstatsCards[1]=this.$store.state.userInformation.estimatedSteps;
+      this.valuesInstatsCards[2]=0;
+
     }
   },
   computed:{

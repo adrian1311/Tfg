@@ -18,14 +18,6 @@
                 v-model="lastName">
       </fg-input>
     </div>
-    <div class="col-md-2">
-      <fg-input type="text"
-                label="Age"
-                placeholder="Age"
-                v-model="age">
-      </fg-input>
-    </div>
-
   </div>
   <div class="row justify-content-center">
     <div class="col-md-2">

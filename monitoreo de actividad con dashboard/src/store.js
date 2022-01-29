@@ -13,6 +13,10 @@ export const store = new Vuex.Store({
       height:'',
       weight:'',
       refreshToken:'',
+      age:'',
+      notes:'',
+      estimatedSteps:'',
+      gender:'',
     },
     daysForSearch:7,
   }

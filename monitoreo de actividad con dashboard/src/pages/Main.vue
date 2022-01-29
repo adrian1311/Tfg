@@ -76,6 +76,11 @@ export default {
       this.$store.state.userInformation.weight = user.weight;
       this.$store.state.userInformation.height = user.height;
       this.$store.state.userInformation.refreshToken = user.refresh_token;
+      this.$store.state.userInformation.age = user.age;
+      this.$store.state.userInformation.estimatedSteps = user.estimatedSteps;
+      this.$store.state.userInformation.gender = user.gender;
+      this.$store.state.userInformation.notes = user.notes;
+
     }
 
   }

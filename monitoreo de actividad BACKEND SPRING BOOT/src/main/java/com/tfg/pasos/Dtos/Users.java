@@ -32,4 +32,15 @@ public class Users {
     @Column(name = "height")
     private Integer height;
 
+    @Column(name = "gender")
+    private String gender;
+
+    @Column(name = "age")
+    private Integer age;
+
+    @Column(name = "estimated_steps")
+    private Integer estimatedSteps;
+
+    @Column(name = "notes")
+    private String notes;
 }
