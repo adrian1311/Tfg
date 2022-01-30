@@ -30,35 +30,32 @@
     <div class="row mt-3">
       <div class="col-sm-6">
         <h3 class="text-success font-weight-bold">Days with the highest number of steps</h3>
-        <Chart type="bar" :data="basicData" :options="horizontalOptions" />
+        <Chart type="bar" :data="dataHighestSteps" :options="horizontalOptions" />
       </div>
       <div class="col-sm-6">
-        <h3 class="text-success font-weight-bold">Days with fewer steps</h3>
-        <Chart type="bar" :data="basicData" :options="horizontalOptions" />
+        <h3 class="text-danger font-weight-bold">Days with fewer steps</h3>
+        <Chart type="bar" :data="dataLowerSteps" :options="horizontalOptions" />
       </div>
     </div>
 
-
-
-
-    <div class="row justify-content-center">
-      <div class="col-sm-12">
-        <div class="row p-grid p-formgrid p-text-center">
-          <div class="col-sm-4 p-field p-col-12 p-md-4">
-            <h5>Basic</h5>
-            <Knob v-model="value1" />
-          </div>
-          <div class="col-sm-4 p-field p-col-12 p-md-4">
-            <h5>Basic</h5>
-            <Knob v-model="value2" />
-          </div>
-          <div class="col-sm-4 p-field p-col-12 p-md-4">
-            <h5>Basic</h5>
-            <Knob v-model="value3" />
-          </div>
-      </div>
-      </div>
-    </div>
+<!--    <div class="row justify-content-center">-->
+<!--      <div class="col-sm-12">-->
+<!--        <div class="row p-grid p-formgrid p-text-center">-->
+<!--          <div class="col-sm-4 p-field p-col-12 p-md-4">-->
+<!--            <h5>Basic</h5>-->
+<!--            <Knob v-model="value1" />-->
+<!--          </div>-->
+<!--          <div class="col-sm-4 p-field p-col-12 p-md-4">-->
+<!--            <h5>Basic</h5>-->
+<!--            <Knob v-model="value2" />-->
+<!--          </div>-->
+<!--          <div class="col-sm-4 p-field p-col-12 p-md-4">-->
+<!--            <h5>Basic</h5>-->
+<!--            <Knob v-model="value3" />-->
+<!--          </div>-->
+<!--      </div>-->
+<!--      </div>-->
+<!--    </div>-->
 
     <!--Charts-->
     <div class="row">
@@ -88,9 +85,40 @@ export default {
    */
   data() {
     return {
+      lowerFinallyThreeDates:[],
+      lowerFinallyThreeSteps:[],
+      highestSteps:[],
+      highestDates:[],
+      highestFirstThreeSteps:[],
+      highestFirstThreeDates:[],
+      sortedMapBySteps: new Map(),
       value1:10,
       value2:20,
       value3:30,
+      dataLowerSteps: {
+        labels: [],
+        datasets: [
+          {
+            label: 'Steps',
+            data: [],
+            fill: false,
+            borderColor: '#42A5F5',
+            tension: .4
+          }
+        ]
+      },
+      dataHighestSteps: {
+        labels: [],
+        datasets: [
+          {
+            label: 'Steps',
+            data: [],
+            fill: false,
+            borderColor: '#42A5F5',
+            tension: .4
+          }
+        ]
+      },
       basicData: {
         labels: [],
         datasets: [
@@ -103,7 +131,6 @@ export default {
           }
         ]
       },
-      exxx:true,
       datess:[],
       averageSteps:[],
       selectedCity: null,
@@ -141,6 +168,34 @@ export default {
           footerIcon: "ti-timer"
         },
       ],
+      horizontalOptions: {
+        indexAxis: 'y',
+        plugins: {
+          legend: {
+            labels: {
+              color: '#495057'
+            }
+          }
+        },
+        scales: {
+          x: {
+            ticks: {
+              color: '#495057'
+            },
+            grid: {
+              color: '##99ff33'
+            }
+          },
+          y: {
+            ticks: {
+              color: '#495057'
+            },
+            grid: {
+              color: '#ebedef'
+            }
+          }
+        }
+      },
     };
   },
   mounted() {
@@ -152,6 +207,7 @@ export default {
 
   },
   methods:{
+
     seeSteps(token){
       let self=this;
       if(self.$store.state.userInformation.refreshToken !== ''){
@@ -176,15 +232,17 @@ export default {
       })
       }
     },
+
     convertStepsAndDatesToApropiateFormat(){
-      var self=this;
-      for(var stepWithOutFormat of self.$store.state.userStepsWithDates ) {
+      let self=this;
+      for(let stepWithOutFormat of self.$store.state.userStepsWithDates ) {
         self.convertOriginalResponseToArrayWithImportantInfo(stepWithOutFormat);
       }
       self.convertArrayWithInformationToArraysWithDaysAndSteps();
     },
+
     convertOriginalResponseToArrayWithImportantInfo(step){
-      var self=this;
+      let self=this;
       const date = step.endTimeMillis
       const date2 = new Date (+date)
       if(step.dataset[0].point.length > 0){
@@ -196,9 +254,9 @@ export default {
       }
       self.$store.state.exampleArray.push(self.dateWithSteps)
     },
+
     convertArrayWithInformationToArraysWithDaysAndSteps(){
       let self=this;
-      let stepss = 0;
       self.datess = [];
       for(let info of self.$store.state.exampleArray){
         let date = moment(info.date).format('DD/MM/YYYY')
@@ -212,10 +270,48 @@ export default {
           self.$store.state.mapWithDatesAndSteps.set(date,sumSteps)
         }
       }
+
       self.$store.state.mapWithDatesAndSteps.forEach (function(value, key) {
         self.datess.push(key)
         self.averageSteps.push(value)
       })
+      self.sortedMapBySteps.clear();
+      self.sortedMapBySteps = new Map([...self.$store.state.mapWithDatesAndSteps.entries()].sort((a, b) => b[1] - a[1]));
+      self.highestSteps=[];
+      self.highestDates=[];
+      self.sortedMapBySteps.forEach (function(value, key) {
+        self.highestSteps.push(value);
+        self.highestDates.push(key);
+      })
+
+      self.highestFirstThreeDates=[];
+        self.highestFirstThreeSteps=[];
+      self.highestFirstThreeDates.push(self.highestDates[0]);
+      self.highestFirstThreeDates.push(self.highestDates[1]);
+      self.highestFirstThreeDates.push(self.highestDates[2]);
+      self.highestFirstThreeSteps.push(self.highestSteps[0]);
+      self.highestFirstThreeSteps.push(self.highestSteps[1]);
+      self.highestFirstThreeSteps.push(self.highestSteps[2]);
+
+      self.lowerFinallyThreeDates=[];
+      self.lowerFinallyThreeSteps=[];
+      self.lowerFinallyThreeDates.push(self.highestDates[self.highestDates.length-2]);
+      self.lowerFinallyThreeDates.push(self.highestDates[self.highestDates.length-3]);
+      self.lowerFinallyThreeDates.push(self.highestDates[self.highestDates.length-4]);
+      self.lowerFinallyThreeSteps.push(self.highestSteps[self.highestSteps.length-2]);
+      self.lowerFinallyThreeSteps.push(self.highestSteps[self.highestSteps.length-3]);
+      self.lowerFinallyThreeSteps.push(self.highestSteps[self.highestSteps.length-4]);
+
+      self.dataLowerSteps.labels = [];
+      self.dataLowerSteps.datasets[0].data =[];
+      self.dataLowerSteps.labels =  self.lowerFinallyThreeDates;
+      self.dataLowerSteps.datasets[0].data = self.lowerFinallyThreeSteps;
+
+      self.dataHighestSteps.labels = [];
+      self.dataHighestSteps.datasets[0].data =[];
+      self.dataHighestSteps.labels =  self.highestFirstThreeDates;
+      self.dataHighestSteps.datasets[0].data =  self.highestFirstThreeSteps;
+
       self.basicData.labels = self.datess;
       self.basicData.datasets[0].data = self.averageSteps;
       self.informationInTiles();
@@ -234,8 +330,6 @@ export default {
       this.valuesInstatsCards[2]=0;
 
     }
-  },
-  computed:{
   },
 
 };
