@@ -13,12 +13,24 @@ import TableList from "@/pages/TableList.vue";
 import Main from "@/pages/Main.vue"
 import DashboardLayout from "../layout/dashboard/DashboardLayout";
 import Register from "../pages/Register";
+import ExternLogin from "../pages/ExternLogin";
 
 const routes = [
   {
+    path: "/externLogin",
+    name: "main",
+    component: ExternLogin,
+    props: true
+  } ,
+  {
+    path: "registerUser",
+    name: "registerUser",
+    component: Register
+  },
+  {
     path: "/",
     component: DashboardLayout,
-    redirect: "/dashboard",
+    redirect: "main",
     children: [
       {
         path: "dashboard",

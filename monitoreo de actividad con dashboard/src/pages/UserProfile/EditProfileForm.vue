@@ -13,7 +13,7 @@
           <div class="col-md-5">
             <fg-input type="text"
                       label="Last Name"
-                      placeholder="Paper dashboard"
+                      placeholder="Last Name"
                       v-model="user.lastName">
             </fg-input>
           </div>

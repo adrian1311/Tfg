@@ -19,5 +19,6 @@ export const store = new Vuex.Store({
       gender:'',
     },
     daysForSearch:7,
+    mapWithDatesAndSteps : new Map(),
   }
 });

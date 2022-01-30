@@ -20,7 +20,45 @@
         </stats-card>
       </div>
     </div>
-    <Chart type="line" :data="basicData" />
+    <div class="row">
+      <div class="col-sm-12">
+        <h3 class="text-success font-weight-bold">Steps for the last {{$store.state.daysForSearch}} days</h3>
+        <Chart type="line" :data="basicData" />
+      </div>
+
+    </div>
+    <div class="row mt-3">
+      <div class="col-sm-6">
+        <h3 class="text-success font-weight-bold">Days with the highest number of steps</h3>
+        <Chart type="bar" :data="basicData" :options="horizontalOptions" />
+      </div>
+      <div class="col-sm-6">
+        <h3 class="text-success font-weight-bold">Days with fewer steps</h3>
+        <Chart type="bar" :data="basicData" :options="horizontalOptions" />
+      </div>
+    </div>
+
+
+
+
+    <div class="row justify-content-center">
+      <div class="col-sm-12">
+        <div class="row p-grid p-formgrid p-text-center">
+          <div class="col-sm-4 p-field p-col-12 p-md-4">
+            <h5>Basic</h5>
+            <Knob v-model="value1" />
+          </div>
+          <div class="col-sm-4 p-field p-col-12 p-md-4">
+            <h5>Basic</h5>
+            <Knob v-model="value2" />
+          </div>
+          <div class="col-sm-4 p-field p-col-12 p-md-4">
+            <h5>Basic</h5>
+            <Knob v-model="value3" />
+          </div>
+      </div>
+      </div>
+    </div>
 
     <!--Charts-->
     <div class="row">
@@ -35,19 +73,24 @@ import Dropdown from 'primevue/dropdown';
 import moment from "moment";
 const axios = require('axios').default;
 import Chart from 'primevue/chart';
+import Knob from 'primevue/knob';
 
 export default {
   components: {
     StatsCard,
     ChartCard,
     Dropdown,
-    Chart
+    Chart,
+    Knob
   },
   /**
    * Chart data used to render stats, charts. Should be replaced with server data
    */
   data() {
     return {
+      value1:10,
+      value2:20,
+      value3:30,
       basicData: {
         labels: [],
         datasets: [
@@ -85,7 +128,7 @@ export default {
           type: "success",
           icon: "ti-wallet",
           title: "Estimeted daily steps",
-          value: "$",
+          value: "",
           footerText: "Last day",
           footerIcon: "ti-calendar"
         },
@@ -97,14 +140,6 @@ export default {
           footerText: "In the last hour",
           footerIcon: "ti-timer"
         },
-        // {
-        //   type: "info",
-        //   icon: "ti-twitter-alt",
-        //   title: "Followers",
-        //   value: "",
-        //   footerText: "Updated now",
-        //   footerIcon: "ti-reload"
-        // }
       ],
     };
   },
@@ -118,13 +153,14 @@ export default {
   },
   methods:{
     seeSteps(token){
-      var self=this;
+      let self=this;
       if(self.$store.state.userInformation.refreshToken !== ''){
         self.$store.state.userStepsWithDates = [];
         self.$store.state.exampleArray = [];
         self.basicData.labels = [];
         self.basicData.datasets[0].data = [];
         self.totalSteps = 0;
+        self.$store.state.mapWithDatesAndSteps.clear();
         self.$store.state.daysForSearch=self.$store.state.daysForSearch
       axios.get("http://localhost:5999/getInformation",{
         params:{
@@ -142,12 +178,12 @@ export default {
     },
     convertStepsAndDatesToApropiateFormat(){
       var self=this;
-      for(var step of self.$store.state.userStepsWithDates ) {
-        self.dateConverter(step);
+      for(var stepWithOutFormat of self.$store.state.userStepsWithDates ) {
+        self.convertOriginalResponseToArrayWithImportantInfo(stepWithOutFormat);
       }
       self.convertArrayWithInformationToArraysWithDaysAndSteps();
     },
-    dateConverter(step){
+    convertOriginalResponseToArrayWithImportantInfo(step){
       var self=this;
       const date = step.endTimeMillis
       const date2 = new Date (+date)
@@ -161,19 +197,25 @@ export default {
       self.$store.state.exampleArray.push(self.dateWithSteps)
     },
     convertArrayWithInformationToArraysWithDaysAndSteps(){
-      var self=this;
-      var stepss = 0;
+      let self=this;
+      let stepss = 0;
       self.datess = [];
       for(let info of self.$store.state.exampleArray){
-         if(!self.datess.includes(moment(info.date).format('MM/DD/YYYY'))){
-           self.averageSteps.push(stepss)
-           stepss = 0;
-           self.datess.push(moment(info.date).format('MM/DD/YYYY'));
-           stepss+=info.steps;
-         }else{
-           stepss+=info.steps;
-         }
+        let date = moment(info.date).format('DD/MM/YYYY')
+        let stepsCounter = 0;
+        stepsCounter = info.steps;
+        if(!self.$store.state.mapWithDatesAndSteps.has(date)){
+          console.log('DAY',date)
+          self.$store.state.mapWithDatesAndSteps.set(date,stepsCounter)
+        }else{
+          let sumSteps = self.$store.state.mapWithDatesAndSteps.get(date) + info.steps;
+          self.$store.state.mapWithDatesAndSteps.set(date,sumSteps)
+        }
       }
+      self.$store.state.mapWithDatesAndSteps.forEach (function(value, key) {
+        self.datess.push(key)
+        self.averageSteps.push(value)
+      })
       self.basicData.labels = self.datess;
       self.basicData.datasets[0].data = self.averageSteps;
       self.informationInTiles();
