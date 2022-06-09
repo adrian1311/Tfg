@@ -1,5 +1,7 @@
 package com.tfg.pasos.Controllers;
 
+import com.tfg.pasos.Dtos.GenericInformation;
+import com.tfg.pasos.Dtos.GetAllUsersStepsBody;
 import com.tfg.pasos.Dtos.Users;
 import com.tfg.pasos.Manager.PasosManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +19,15 @@ public class PasosController {
     @Autowired
     PasosManager pasosManager;
 
+
+
     @GetMapping(value = "/getUsers", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Users> showProductsInShop() {
+    public List<Users> getUsers() {
         return pasosManager.getUsers();
+    }
+
+    @PostMapping(value = "/getAllUsersSteps")
+    public List<Users> getAllUsersSteps(@RequestBody GetAllUsersStepsBody getAllUsersStepsBody) {
+        return pasosManager.getStepsForUsers(getAllUsersStepsBody.getUsers(), getAllUsersStepsBody.getDays());
     }
 }

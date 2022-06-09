@@ -1079,3 +1079,8 @@
 .ti-rss-alt:before {
 	content: "\e75f";
 }
+
+.p-dropdown {
+  min-width: 100% !important;
+  max-width: 100% !important;
+}

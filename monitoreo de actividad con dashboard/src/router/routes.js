@@ -14,6 +14,8 @@ import Main from "@/pages/Main.vue"
 import DashboardLayout from "../layout/dashboard/DashboardLayout";
 import Register from "../pages/Register";
 import ExternLogin from "../pages/ExternLogin";
+import GenericInfo from "../pages/GenericInfo";
+import CompareUsers from "../pages/CompareUsers";
 
 const routes = [
   {
@@ -22,11 +24,11 @@ const routes = [
     component: ExternLogin,
     props: true
   } ,
-  {
-    path: "registerUser",
-    name: "registerUser",
-    component: Register
-  },
+  // {
+  //   path: "registerUser",
+  //   name: "registerUser",
+  //   component: Register
+  // },
   {
     path: "/",
     component: DashboardLayout,
@@ -78,6 +80,16 @@ const routes = [
         path: "registerUser",
         name: "registerUser",
         component: Register
+      },
+      {
+        path: "genericInfo",
+        name: "INFORMACION GENERAL",
+        component: GenericInfo
+      },
+      {
+        path: "compareUsers",
+        name: "COMPARAR RESIDENTES",
+        component: CompareUsers
       }
     ]
   },

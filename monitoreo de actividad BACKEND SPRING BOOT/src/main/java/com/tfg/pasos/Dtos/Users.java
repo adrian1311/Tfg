@@ -1,8 +1,13 @@
 package com.tfg.pasos.Dtos;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.TreeMap;
 
 
 @Entity
@@ -14,9 +19,11 @@ public class Users {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
+    @JsonProperty(value = "name")
     @Column(name = "name")
     private String name;
 
+    @JsonProperty(value = "refresh_token")
     @Column(name = "refresh_token")
     private String refresh_token;
 
@@ -43,4 +50,10 @@ public class Users {
 
     @Column(name = "notes")
     private String notes;
+
+    @Transient
+    private List<UserStepsAndDates> stepsWithDates;
+
+    @Transient
+    private TreeMap<LocalDate, Integer> stepsWithDatesMap;
 }

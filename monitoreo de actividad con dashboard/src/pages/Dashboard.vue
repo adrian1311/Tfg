@@ -38,30 +38,6 @@
       </div>
     </div>
 
-<!--    <div class="row justify-content-center">-->
-<!--      <div class="col-sm-12">-->
-<!--        <div class="row p-grid p-formgrid p-text-center">-->
-<!--          <div class="col-sm-4 p-field p-col-12 p-md-4">-->
-<!--            <h5>Basic</h5>-->
-<!--            <Knob v-model="value1" />-->
-<!--          </div>-->
-<!--          <div class="col-sm-4 p-field p-col-12 p-md-4">-->
-<!--            <h5>Basic</h5>-->
-<!--            <Knob v-model="value2" />-->
-<!--          </div>-->
-<!--          <div class="col-sm-4 p-field p-col-12 p-md-4">-->
-<!--            <h5>Basic</h5>-->
-<!--            <Knob v-model="value3" />-->
-<!--          </div>-->
-<!--      </div>-->
-<!--      </div>-->
-<!--    </div>-->
-
-    <!--Charts-->
-    <div class="row">
-
-    </div>
-
   </div>
 </template>
 <script>

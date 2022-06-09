@@ -9,7 +9,7 @@
             <i :class="'ti-plus'"></i>
           </div>
           <div class="numbers" slot="content">
-            <p>ADD USER BAND</p>
+            <p>АÑADIR NUEVO RESIDENTE</p>
           </div>
         </stats-card>
       </div>
@@ -19,7 +19,7 @@
     <div class="row">
       <div class="col-md-6 col-xl-3" v-for="user in allUsers" :key="user.name">
 
-        <stats-card @click.native="changeToDashboard(user)">
+        <stats-card @click.native="changeToEditUser(user)">
           <div class="icon-big text-center" slot="header">
             <i :class="'ti-user'"></i>
           </div>
@@ -62,13 +62,12 @@ export default {
         console.log(error)
       })
     },
-    changeToDashboard: function(user) {
+    changeToEditUser: function(user) {
       this.putInformationInGLobalVariable(user)
-      //this.refreshToken = user.refresh_token
-      this.$router.push({name: 'dashboard'});
+      this.$router.push({name: 'registerUser', params: { calledFrom: 'edit' }});
     },
     changeToRegisterUser: function() {
-      this.$router.push({name: 'registerUser'});
+      this.$router.push({name: 'registerUser', params: { calledFrom: 'register' }});
     },
     putInformationInGLobalVariable(user){
       this.$store.state.userInformation.firstName = user.firstName;

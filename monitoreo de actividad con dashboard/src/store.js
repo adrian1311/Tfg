@@ -20,5 +20,8 @@ export const store = new Vuex.Store({
     },
     daysForSearch:7,
     mapWithDatesAndSteps : new Map(),
+
+    //new vsrisbles
+    allUsersInformation : []
   }
 });

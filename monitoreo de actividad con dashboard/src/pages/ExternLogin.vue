@@ -7,7 +7,7 @@
             <i :class="'ti-plus'"></i>
           </div>
           <div class="numbers" slot="content">
-            <p>ADD USER BAND</p>
+            <p>АÑADIR NUEVO RESIDENTE</p>
           </div>
         </stats-card>
     </div>

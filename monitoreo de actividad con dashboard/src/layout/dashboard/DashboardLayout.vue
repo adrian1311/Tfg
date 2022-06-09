@@ -2,10 +2,12 @@
   <div class="wrapper">
     <side-bar>
       <template slot="links">
-        <sidebar-link to="/main" name="All band users" icon="ti-layout-grid3"/>
-        <sidebar-link to="/dashboard" name="Dashboard" icon="ti-panel"/>
-        <sidebar-link to="/stats" name="User Profile" icon="ti-user"/>
-        <sidebar-link to="/table-list" name="Steps by hours" icon="ti-view-list-alt"/>
+        <sidebar-link to="/genericInfo" name="INFORMACION GENERAL" icon="ti-bar-chart-alt"/>
+        <sidebar-link to="/compareUsers" name="COMPARAR RESIDENTES" icon="ti-layout-grid3"/>
+        <sidebar-link to="/main" name="VER RESIDENTES" icon="ti-layout-grid3"/>
+        <!--sidebar-link to="/dashboard" name="Dashboard" icon="ti-panel"/-->
+        <!--sidebar-link to="/stats" name="User Profile" icon="ti-user"/>
+        <sidebar-link to="/table-list" name="Steps by hours" icon="ti-view-list-alt"/-->
       </template>
       <mobile-menu>
         <li class="nav-item">
