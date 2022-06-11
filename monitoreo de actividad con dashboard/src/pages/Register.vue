@@ -20,7 +20,6 @@
       <div class="input-group input-group-lg">
         <span class="input-group-text">Genero</span>
         <select class="form-control" v-model="gender" >
-          <option selected>Choose...</option>
           <option value="male">Hombre</option>
           <option value="female">Mujer</option>
         </select>
@@ -50,10 +49,28 @@
   </div>
 
   <div class="row justify-content-center">
-    <div class="col-sm-5">
+    <div class="col-sm-3">
       <div class="input-group input-group-lg">
         <span class="input-group-text">Pasos diarios estimados</span>
         <input type="text"  v-model="estimetedSteps"  class="form-control">
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="input-group input-group-lg">
+        <span class="input-group-text">Necesita ayuda ?</span>
+        <select class="form-control" v-model="needHelp" >
+          <option value="no">No</option>
+          <option value="yes">Si</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="input-group input-group-lg">
+        <span class="input-group-text">Toma medicamentos ?</span>
+        <select class="form-control" v-model="medicines" >
+          <option value="no">No</option>
+          <option value="yes">Si</option>
+        </select>
       </div>
     </div>
   </div>
@@ -97,9 +114,11 @@ export default {
       height : '',
       weight : '',
       age: '',
-      gender:'',
+      gender:'female',
       estimetedSteps:'',
       notes:'',
+      needHelp:'no',
+      medicines:'no'
     }
   },
   mounted() {

@@ -1,11 +1,31 @@
 <template>
   <div>
-
+    <div class="loader d-flex justify-content-center align-items-center" v-if="isLoading">
+      <div class="spinner-grow text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+      <div class="spinner-grow text-secondary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+      <div class="spinner-grow text-success" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+      <div class="spinner-grow text-danger" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+      <div class="spinner-grow text-warning" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+      <div class="spinner-grow text-info" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+      <div class="spinner-grow text-dark" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
 
 <div class="row justify-content-center mb-3">
     <label class="font-weight-bold">Numero total de residentes : {{allUsers.length}}</label>
-
-
 </div>
   <div class="row justify-content-center">
     <div class="col-md-3 col-xl-3" >
@@ -90,7 +110,7 @@
     </div>
     <div class="row justify-content-center">
       <div class="col-sm-10 text-center border border-primary bg-white rounded-lg">
-        <h3 class="text-success font-weight-bold">Pasos medios en los ultimos {{selectedDays}} dias</h3>
+        <h3 class="text-success font-weight-bold" >Pasos medios en los ultimos {{selectedDays}} dias</h3>
         <Chart type="line" :data="basicData" />
       </div>
 
@@ -98,34 +118,50 @@
 
     <div class="row mt-3 justify-content-center">
       <div class="col-sm-5 text-center border border-success m-1 bg-white rounded-lg">
-        <h3 class="text-success font-weight-bold">Dias de mayor actividad</h3>
+        <h3 class="text-success font-weight-bold" :class="`ti-arrow-up`">Dias de mayor actividad</h3>
         <Chart type="bar" :data="dataHighestSteps" :options="horizontalOptions" />
       </div>
       <div class="col-sm-5 text-center border border-danger m-1 bg-white rounded-lg">
-        <h3 class="text-danger font-weight-bold">Dias de menor actividad</h3>
+        <h3 class="text-danger font-weight-bold" :class="`ti-arrow-down`">Dias de menor actividad</h3>
         <Chart type="bar" :data="dataLowerSteps" :options="horizontalOptions" />
       </div>
     </div>
 
     <div class="row justify-content-center">
       <div class="col-sm-5 text-center border border-success m-1 bg-white rounded-lg">
-        <h3 class="text-danger font-weight-bold">Usuarios mas activos</h3>
+        <h3 class="text-success font-weight-bold" :class="`ti-bar-chart-alt`" >Usuarios mas activos</h3>
+
         <Chart type="bar" :data="moreActiveUsers" :options="horizontalOptions" />
       </div>
       <div class="col-sm-5 text-center border border-danger m-1 bg-white rounded-lg">
-      <h3 class="text-danger font-weight-bold">Usuarios menos activos</h3>
+      <h3 class="text-danger font-weight-bold" :class="`ti-bar-chart`">Usuarios menos activos</h3>
       <Chart type="bar" :data="lessActiveUsers" :options="horizontalOptions" />
     </div>
     </div>
 
+<!--    <div class="row mt-4 bg-white rounded-lg">-->
+<!--      <div class="col-12 text-center border border-primary">-->
+<!--        <card :title="table1.title" :subTitle="table1.subTitle">-->
+<!--          <div slot="raw-content" class="table-responsive">-->
+<!--            <paper-table :data="table1.data" :columns="table1.columns"></paper-table>-->
+<!--          </div>-->
+<!--        </card>-->
+<!--      </div>-->
+<!--    </div>-->
     <div class="row mt-4 bg-white rounded-lg">
       <div class="col-12 text-center border border-primary">
-        <card :title="table1.title" :subTitle="table1.subTitle">
-          <div slot="raw-content" class="table-responsive">
-            <paper-table :data="table1.data" :columns="table1.columns">
-            </paper-table>
-          </div>
-        </card>
+        <vue-good-table
+          :columns="columns"
+          :rows="rows">
+          <template slot="table-row" slot-scope="props">
+    <span v-if="props.column.field == 'medios' && (props.row.estimados > props.row.medios)">
+      <span style="font-weight: bold; color: red;">{{props.row.medios}}</span>
+    </span>
+            <span v-else>
+      {{props.formattedRow[props.column.field]}}
+    </span>
+          </template>
+        </vue-good-table>
       </div>
     </div>
 
@@ -138,20 +174,45 @@ import { StatsCard } from "@/components/index";
 const axios = require('axios').default;
 import Dropdown from 'primevue/dropdown';
 import { PaperTable } from "@/components";
-const tableColumns = ["nombre", "medios", "mensuales"];
+const tableColumns = ["nombre", "medios", "mensuales", "estimados", "ayuda"];
 import Chart from 'primevue/chart';
+import 'vue-good-table/dist/vue-good-table.css'
+import { VueGoodTable } from 'vue-good-table';
+
 
 export default {
   components: {
     StatsCard,
     Dropdown,
     Chart,
-    PaperTable
+    PaperTable,
+    VueGoodTable,
   },
   data() {
     return {
+      columns: [
+        {
+          label: 'Nombre',
+          field: 'nombre',
+        },
+        {
+          label: 'Pasos medios',
+          field: 'medios',
+        },
+        {
+          label: 'Mensuales',
+          field: 'mensuales',
+        },
+        {
+          label: 'Estimados',
+          field: 'estimados',
+        },
+      ],
+      rows: [],
+      isLoading:false,
       threeMoreActiveUsersSteps :[],
       threeMoreActiveUsersNames :[],
+      estimatedStepsArray : [],
       list :[],
       names : [],
       lowerFinallyThreeDates:[],
@@ -286,6 +347,7 @@ export default {
     //metodo para recuperar todos los usuarios de la BD
     getAllUsers() {
       let self = this;
+      self.isLoading = true;
       axios.get("http://localhost:5998/pasos/getUsers")
         .then(function (response) {
           self.allUsers = response.data;
@@ -302,6 +364,7 @@ export default {
         days: 30
       }).then(function (response) {
         self.$store.state.allUsersInformation = response.data;
+        self.isLoading = false;
         self.processInformation();
       }).catch(error => {
         console.log(error)
@@ -331,25 +394,31 @@ export default {
       self.$store.state.exampleArray = [];
       self.datess = [];
       self.averageSteps = [];
+      self.names= [];
       let s = [];
       let mapWIthTotalSteps = new Map();
       //Creo una lista de maps con los maps de todos los usuarion.
       for (let userInfo of self.$store.state.allUsersInformation) {
+        console.log(userInfo)
        let list = self.selectGender(userInfo)
         if(list !== null && list !== undefined){
           let map1 = new Map(Object.entries(list));
           s.push(map1)
           self.names.push(userInfo.name)
+          self.estimatedStepsArray.push(userInfo.estimatedSteps)
         }
 
       }
-
+      self.list = []
       //crear tabla con informacion
       self.list = self.createMoreActiveUsers(s);
       for (let usr in self.list){
         self.list[usr].nombre = (self.names[usr])
+        self.list[usr].estimados = (self.estimatedStepsArray[usr])
       }
 
+      console.log('my list',self.list)
+      self.rows = self.list;
       self.showMoreActiveUsers(self.list);
       self.table1.data = self.list;
 
@@ -478,7 +547,6 @@ export default {
           this.threeMoreActiveUsersNames.push(orderedUsersByAvergeSteps[2].nombre)
         }
 
-        console.log('Steps',this.threeMoreActiveUsersSteps)
         this.moreActiveUsers.labels =  this.threeMoreActiveUsersNames;
         this.moreActiveUsers.datasets[0].data =  this.threeMoreActiveUsersSteps;
       }
@@ -567,5 +635,14 @@ export default {
 </script>
 
 <style scoped>
+.loader {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(245, 245, 245, 0.5);
+  z-index: 99999;
+}
 
 </style>
