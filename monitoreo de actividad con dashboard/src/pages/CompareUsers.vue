@@ -45,13 +45,13 @@
       MOSTRAR INFORMACION
     </p-button>
   </div>
-  <div class="row justify-content-center border border-info mt-5" v-if="false">
+  <div class="row justify-content-center border border-info mt-5" v-if="showShortWindow">
     <div class="col-sm-12 text-center">
       <h3 class="text-info font-weight-bold">INFORMACION DE RESIDENTES</h3>
       <h3 class="text-info font-weight-bold">Por favor seleccione los residentes y el intervalo</h3>
     </div>
   </div>
-  <div class="row justify-content-center border border-info mt-5">
+  <div class="row justify-content-center border border-info mt-5" v-if="showInformationWindow">
     <div class="col-sm-12">
       <div class="row justify-content-center">
         <div class="col-sm-5 text-center m-1">
@@ -191,6 +191,8 @@ export default {
   },
   data() {
     return {
+      showShortWindow : true,
+      showInformationWindow : false,
       isLoading : false,
       value: 0,
       stepsCompareGraphicFirstUser : [],
@@ -322,6 +324,8 @@ export default {
     },
 
      transformInformation() {
+      this.showInformationWindow = true;
+      this.showShortWindow = false;
        let s = [];
        for (let userInfo of this.$store.state.allUsersInformation) {
           if(userInfo.firstName === this.firstResident){
