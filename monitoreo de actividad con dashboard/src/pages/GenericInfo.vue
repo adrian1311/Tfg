@@ -25,7 +25,7 @@
     </div>
 
 <div class="row justify-content-center mb-3">
-    <label class="font-weight-bold">Numero total de residentes : {{allUsers.length}}</label>
+    <label class="font-weight-bold font-weight-bold h4 text-success">Número total de residentes : {{allUsers.length}}</label>
 </div>
   <div class="row justify-content-center">
     <div class="col-md-3 col-xl-3" >
@@ -74,43 +74,54 @@
       </div>
   </div>
     <div class="row justify-content-center">
-      <div class="col-sm-3">
-        <div class="input-group input-group-lg">
-          <span class="input-group-text">Intervalo</span>
-          <select class="form-control" v-model="selectedDays" v-on:change="processInformation">
-            <option value="3">3</option>
-            <option value="7">7</option>
-            <option value="30">30</option>
-          </select>
+      <div class="col-sm-8 bg-white  border border-primary bg-white rounded-lg mb-2">
+        <div class="row justify-content-center">
+          <h4>Seleccione los criterios para filtrar la informacion</h4>
+        </div>
+        <div class="row justify-content-md-center">
+          <div class="col-sm-4">
+            <div class="input-group input-group-lg">
+              <span class="input-group-text font-weight-bold">Intervalo (dias)</span>
+              <select class="form-control" v-model="selectedDays" v-on:change="processInformation">
+                <option value="3">3</option>
+                <option value="7">7</option>
+                <option value="30">30</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="input-group input-group-lg">
+              <span class="input-group-text font-weight-bold">Genero</span>
+              <select class="form-control" v-model="selectedGender" v-on:change="processInformation">
+                <option value="male">Hombre</option>
+                <option value="female">Mujer</option>
+                <option value="both">Hombre y Mujer</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="input-group input-group-lg ">
+              <span class="input-group-text font-weight-bold">Edad</span>
+              <select class="form-control" v-model="selectedAge" v-on:change="processInformation">
+                <option value="six">60-69</option>
+                <option value="seven">70-79</option>
+                <option value="eight">80-89</option>
+                <option value="nine">90-99</option>
+                <option value="ten">100 +</option>
+                <option value="all">Todas las edades</option>
+              </select>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="col-sm-3">
-        <div class="input-group input-group-lg">
-          <span class="input-group-text">Genero</span>
-          <select class="form-control" v-model="selectedGender" v-on:change="processInformation">
-            <option value="male">Hombre</option>
-            <option value="female">Mujer</option>
-            <option value="both">Hombre y Mujer</option>
-          </select>
-        </div>
-      </div>
-      <div class="col-sm-3">
-        <div class="input-group input-group-lg">
-          <span class="input-group-text">Edad</span>
-          <select class="form-control" v-model="selectedAge" v-on:change="processInformation">
-            <option value="six">60-69</option>
-            <option value="seven">70-79</option>
-            <option value="eight">80-89</option>
-            <option value="nine">90-99</option>
-            <option value="ten">100 +</option>
-            <option value="all">Todas las edades</option>
-          </select>
-        </div>
-      </div>
+
+
+
+
     </div>
     <div class="row justify-content-center">
       <div class="col-sm-10 text-center border border-primary bg-white rounded-lg">
-        <h3 class="text-success font-weight-bold" >Pasos medios en los ultimos {{selectedDays}} dias</h3>
+        <h3 class="text-info font-weight-bold" >Pasos medios en los ultimos {{selectedDays}} dias</h3>
         <Chart type="line" :data="basicData" />
       </div>
 
@@ -118,7 +129,7 @@
 
     <div class="row mt-3 justify-content-center">
       <div class="col-sm-5 text-center border border-success m-1 bg-white rounded-lg">
-        <h3 class="text-success font-weight-bold" :class="`ti-arrow-up`">Dias de mayor actividad</h3>
+        <h3 class="text-success font-weight-bold" :class="`ti-arrow-up`">Top 3 de dias con mayor actividad en los ultimos {{selectedDays}}</h3>
         <Chart type="bar" :data="dataHighestSteps" :options="horizontalOptions" />
       </div>
       <div class="col-sm-5 text-center border border-danger m-1 bg-white rounded-lg">
@@ -129,12 +140,12 @@
 
     <div class="row justify-content-center">
       <div class="col-sm-5 text-center border border-success m-1 bg-white rounded-lg">
-        <h3 class="text-success font-weight-bold" :class="`ti-bar-chart-alt`" >Usuarios mas activos</h3>
+        <h3 class="text-success font-weight-bold" :class="`ti-bar-chart-alt`" >Usuarios mas activos en los ultimos {{selectedDays}} dias</h3>
 
         <Chart type="bar" :data="moreActiveUsers" :options="horizontalOptions" />
       </div>
       <div class="col-sm-5 text-center border border-danger m-1 bg-white rounded-lg">
-      <h3 class="text-danger font-weight-bold" :class="`ti-bar-chart`">Usuarios menos activos</h3>
+      <h3 class="text-danger font-weight-bold" :class="`ti-bar-chart`">Usuarios menos activos en los ultimos {{selectedDays}} dias</h3>
       <Chart type="bar" :data="lessActiveUsers" :options="horizontalOptions" />
     </div>
     </div>
@@ -148,6 +159,11 @@
 <!--        </card>-->
 <!--      </div>-->
 <!--    </div>-->
+    <div class="row">
+      <div class="col-12 text-center">
+        <h3 class="font-weight-bold text-info">Informacion mostrada para los ultimos {{selectedDays}} dias</h3>
+      </div>
+    </div>
     <div class="row mt-4 bg-white rounded-lg">
       <div class="col-12 text-center border border-primary">
         <vue-good-table
@@ -178,6 +194,7 @@ const tableColumns = ["nombre", "medios", "mensuales", "estimados", "ayuda"];
 import Chart from 'primevue/chart';
 import 'vue-good-table/dist/vue-good-table.css'
 import { VueGoodTable } from 'vue-good-table';
+import Button from 'primevue/button';
 
 
 export default {
@@ -187,12 +204,13 @@ export default {
     Chart,
     PaperTable,
     VueGoodTable,
+    Button
   },
   data() {
     return {
       columns: [
         {
-          label: 'Nombre',
+          label: 'Nombre del residente',
           field: 'nombre',
         },
         {
@@ -224,8 +242,8 @@ export default {
       sortedMapWIthTotalSteps:new Map(),
       datess:[],
       averageSteps:[],
-      selectedAge:'six',
-      selectedGender: 'male',
+      selectedAge:'all',
+      selectedGender: 'both',
       selectedDays : 30,
       totalStepsByDates : new Map(),
       genders:["Hombre","Mujer","Hombres y Mujeres"],

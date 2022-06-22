@@ -2,9 +2,10 @@
   <div class="wrapper">
     <side-bar>
       <template slot="links">
-        <sidebar-link to="/genericInfo" name="INFORMACION GENERAL" icon="ti-bar-chart-alt"/>
-        <sidebar-link to="/compareUsers" name="COMPARAR RESIDENTES" icon="ti-layout-grid3"/>
-        <sidebar-link to="/main" name="VER RESIDENTES" icon="ti-layout-grid3"/>
+        <sidebar-link to="/frontPage"><img class="mr-2 text-warning" src="@/assets/img/home1.png" width="30" /><span class="text-white font-weight-bold small">HOME</span></sidebar-link>
+        <sidebar-link to="/genericInfo"><img class="mr-2 text-warning" src="@/assets/img/gen_info.png" width="30" /><span class="text-white font-weight-bold small">INFORMACION GENERAL</span></sidebar-link>
+        <sidebar-link to="/compareUsers"><img class="mr-2 text-warning" src="@/assets/img/compare.png" width="30" /><span class="text-white font-weight-bold small">COMPARAR RESIDENTES</span></sidebar-link>
+        <sidebar-link to="/main"><img class="mr-2 text-warning" src="@/assets/img/people.png" width="30" /><span class="text-white font-weight-bold small">VER RESIDENTES</span></sidebar-link>
         <!--sidebar-link to="/dashboard" name="Dashboard" icon="ti-panel"/-->
         <!--sidebar-link to="/stats" name="User Profile" icon="ti-user"/>
         <sidebar-link to="/table-list" name="Steps by hours" icon="ti-view-list-alt"/-->

@@ -16,14 +16,15 @@ import Register from "../pages/Register";
 import ExternLogin from "../pages/ExternLogin";
 import GenericInfo from "../pages/GenericInfo";
 import CompareUsers from "../pages/CompareUsers";
+import FrontPage from "../pages/FrontPage";
 
 const routes = [
-  {
-    path: "/externLogin",
-    name: "main",
-    component: ExternLogin,
-    props: true
-  } ,
+  // {
+  //   path: "/externLogin",
+  //   name: "main",
+  //   component: ExternLogin,
+  //   props: true
+  // } ,
   // {
   //   path: "registerUser",
   //   name: "registerUser",
@@ -34,45 +35,50 @@ const routes = [
     component: DashboardLayout,
     redirect: "main",
     children: [
+      // {
+      //   path: "dashboard",
+      //   name: "dashboard",
+      //   component: Dashboard,
+      //   props: true
+      // },
+      // {
+      //   path: "stats",
+      //   name: "USER PROFILE",
+      //   component: UserProfile
+      // },
+      // {
+      //   path: "notifications",
+      //   name: "notifications",
+      //   component: Notifications
+      // },
+      // {
+      //   path: "icons",
+      //   name: "icons",
+      //   component: Icons
+      // },
+      // {
+      //   path: "maps",
+      //   name: "maps",
+      //   component: Maps
+      // },
+      // {
+      //   path: "typography",
+      //   name: "typography",
+      //   component: Typography
+      // },
+      // {
+      //   path: "table-list",
+      //   name: "TABLE WITH STEPS FOR LAST WEEK",
+      //   component: TableList
+      // },
       {
-        path: "dashboard",
-        name: "dashboard",
-        component: Dashboard,
-        props: true
-      },
-      {
-        path: "stats",
-        name: "USER PROFILE",
-        component: UserProfile
-      },
-      {
-        path: "notifications",
-        name: "notifications",
-        component: Notifications
-      },
-      {
-        path: "icons",
-        name: "icons",
-        component: Icons
-      },
-      {
-        path: "maps",
-        name: "maps",
-        component: Maps
-      },
-      {
-        path: "typography",
-        name: "typography",
-        component: Typography
-      },
-      {
-        path: "table-list",
-        name: "TABLE WITH STEPS FOR LAST WEEK",
-        component: TableList
+        path: "frontPage",
+        name: "AAAAA",
+        component: FrontPage
       },
       {
         path: "main",
-        name: "All users bands",
+        //name: "All users bands",
         component: Main
       }
       ,

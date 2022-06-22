@@ -45,8 +45,8 @@
       MOSTRAR INFORMACION
     </p-button>
   </div>
-  <div class="row justify-content-center border border-info mt-5" v-if="showShortWindow">
-    <div class="col-sm-12 text-center">
+  <div class="row justify-content-center border border-info mt-5 " v-if="showShortWindow">
+    <div class="col-sm-12 text-center bg-white">
       <h3 class="text-info font-weight-bold">INFORMACION DE RESIDENTES</h3>
       <h3 class="text-info font-weight-bold">Por favor seleccione los residentes y el intervalo</h3>
     </div>

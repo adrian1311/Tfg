@@ -6,7 +6,7 @@
 
         <stats-card @click.native="changeToRegisterUser()">
           <div class="icon-big text-center" slot="header">
-            <i :class="'ti-plus'"></i>
+            <img src="@/assets/img/contact.png" width="60" />
           </div>
           <div class="numbers" slot="content">
             <p>АÑADIR NUEVO RESIDENTE</p>
@@ -21,7 +21,7 @@
 
         <stats-card @click.native="changeToEditUser(user)">
           <div class="icon-big text-center" slot="header">
-            <i :class="'ti-user'"></i>
+            <img src="@/assets/img/user.png" width="60" />
           </div>
           <div class="numbers" slot="content">
             <p>{{user.name}}</p>
