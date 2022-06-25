@@ -24,7 +24,7 @@
             <img src="@/assets/img/user.png" width="60" />
           </div>
           <div class="numbers" slot="content">
-            <p>{{user.name}}</p>
+            <p>{{user.firstName}} -> ( {{user.name}} )</p>
           </div>
         </stats-card>
       </div>

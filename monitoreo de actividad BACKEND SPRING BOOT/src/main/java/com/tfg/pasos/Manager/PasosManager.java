@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
@@ -31,12 +32,13 @@ public class PasosManager {
 
     public List <Users> getStepsForUsers(List<Users> users, Integer days){
         totalStepsWithDates.clear();
-        GenericInformation genericInformation = new GenericInformation();
+        //GenericInformation genericInformation = new GenericInformation();
        for(Users user:users){
            List<UserStepsAndDates> stepsAndDates = userStepsService.getAllInfo(user.getRefresh_token(),days);
            TreeMap<LocalDate,Integer> userStepsAndDates = StepsAndDatesConverter.convertStepsToMap(stepsAndDates);
+           TreeMap<LocalDateTime,Integer> userStepsAndDatesWithTime = StepsAndDatesConverter.convertStepsToMapWithTime(stepsAndDates);
            user.setStepsWithDatesMap(userStepsAndDates);
-           //createMapWithAllUsersSteps(userStepsAndDates);
+           user.setStepsWithDatesMapWithTime(userStepsAndDatesWithTime);
        }
        System.out.println(users);
        return users;

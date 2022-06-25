@@ -56,4 +56,7 @@ public class Users {
 
     @Transient
     private TreeMap<LocalDate, Integer> stepsWithDatesMap;
+
+    @Transient
+    private TreeMap<LocalDateTime, Integer> stepsWithDatesMapWithTime;
 }

@@ -1,10 +1,12 @@
 <template>
 <div>
   <div class="row justify-content-center">
-    <h3 class="text-center font-weight-bold">Plataforma de control de niveles de sedentarismo y actividad física en adultos mayores institucionalizados  </h3>
+    <blockquote class="blockquote">
+      <p class="mb-0 text-dark h5">Plataforma de control de niveles de sedentarismo y actividad física en adultos mayores institucionalizados </p>
+    </blockquote>
   </div>
   <div class="row px-0 justify-content-center">
-    <img src="@/assets/img/imagen3.jpeg" class="img-fluid rounded-lg">
+    <img src="@/assets/img/imagen3.jpeg" class="img-fluid rounded-lg" width="800">
   </div>
   <div class="row mt-2 mb-2 border bg-dark">
 

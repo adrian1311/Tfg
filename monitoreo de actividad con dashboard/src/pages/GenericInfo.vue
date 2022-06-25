@@ -74,7 +74,7 @@
       </div>
   </div>
     <div class="row justify-content-center">
-      <div class="col-sm-8 bg-white  border border-primary bg-white rounded-lg mb-2">
+      <div class="col-sm-10 bg-white  border border-primary bg-white rounded-lg mb-2">
         <div class="row justify-content-center">
           <h4>Seleccione los criterios para filtrar la informacion</h4>
         </div>

@@ -54,57 +54,60 @@
   <div class="row justify-content-center border border-info mt-5" v-if="showInformationWindow">
     <div class="col-sm-12">
       <div class="row justify-content-center">
+        <h3>Informacion mostrada para los ultimos {{selectedDays}} dias</h3>
+      </div>
+      <div class="row justify-content-center">
         <div class="col-sm-5 text-center m-1">
-          <h4>{{firstUserName}}</h4>
+          <h4>Primer residente: {{firstUserName}}</h4>
         </div>
         <div class="col-sm-5 text-center m-1">
-          <h4>{{secondUserName}}</h4>
+          <h4>Segundo residente: {{secondUserName}}</h4>
         </div>
       </div>
       <div class="row justify-content-center">
         <div class="col-sm-5 text-center border border-info rounded-lg m-1">
           <div class="row justify-content-center m-2">
             <div class="col-sm-5 text-center border border-info rounded-lg m-1">
-              <h5 class="text-info font-weight-bold">Edad : {{firstUserAge}} </h5>
+              <h5 class="text-info font-weight-bold">Edad (años) : {{firstUserAge}} </h5>
             </div>
             <div class="col-sm-5 text-center border border-info rounded-lg m-1">
-              <h5 class="text-info font-weight-bold">Peso : {{firstUserWeight}}</h5>
+              <h5 class="text-info font-weight-bold">Peso (kg) : {{firstUserWeight}}</h5>
             </div>
           </div>
           <div class="row justify-content-center m-2">
             <div class="col-sm-5 text-center border border-info m-1">
-              <h5 class="text-info font-weight-bold">Altura : {{firstUserHight}} </h5>
+              <h5 class="text-info font-weight-bold">Altura (cm) : {{firstUserHight}} </h5>
             </div>
             <div class="col-sm-5 text-center border border-info rounded-lg m-1">
-              <h5 class="text-info font-weight-bold">Pasos estimados : {{firstUserEstimatedSteps}}</h5>
+              <h5 class="text-info font-weight-bold">Pasos diarios estimados : {{firstUserEstimatedSteps}}</h5>
             </div>
           </div>
           <div class="row justify-content-center m-2">
             <div class="col-sm-10 text-center border border-info  rounded-lg m-1">
-              <h5 class="text-info font-weight-bold">Notas : </h5>
+              <h5 class="text-info font-weight-bold">Notas sobre el usuario: </h5>
             </div>
           </div>
         </div>
         <div class="col-sm-5 text-center border border-danger rounded-lg m-1">
           <div class="row justify-content-center m-2">
             <div class="col-sm-5 text-center border border-danger  rounded-lg m-1">
-              <h5 class="text-danger font-weight-bold">Edad : {{secondUserAge}}</h5>
+              <h5 class="text-danger font-weight-bold">Edad (años): {{secondUserAge}}</h5>
             </div>
             <div class="col-sm-5 text-center border border-danger rounded-lg m-1">
-              <h5 class="text-danger font-weight-bold">Peso: {{secondUserWeight}}</h5>
+              <h5 class="text-danger font-weight-bold">Peso (kg): {{secondUserWeight}}</h5>
             </div>
           </div>
           <div class="row justify-content-center m-2">
             <div class="col-sm-5 text-center border border-danger  rounded-lg m-1">
-              <h5 class="text-danger font-weight-bold">Altura : {{secondUserHight}} </h5>
+              <h5 class="text-danger font-weight-bold">Altura (cm): {{secondUserHight}} </h5>
             </div>
             <div class="col-sm-5 text-center border border-danger  rounded-lg m-1">
-              <h5 class="text-danger font-weight-bold">Pasos estimados : {{secondUserEstimatedSteps}}</h5>
+              <h5 class="text-danger font-weight-bold">Pasos diarios estimados : {{secondUserEstimatedSteps}}</h5>
             </div>
           </div>
           <div class="row justify-content-center m-2">
             <div class="col-sm-10 text-center border border-danger  rounded-lg m-1">
-              <h5 class="text-danger font-weight-bold">Notas: </h5>
+              <h5 class="text-danger font-weight-bold">Notas sobre el usuario: </h5>
             </div>
           </div>
         </div>
@@ -170,16 +173,62 @@
       </div>
     </div>
 
+    <div class="col-sm-12 mt-2">
+      <div class="row justify-content-center">
+        <div class="col-sm-5 mt-2 text-center border border-info m-1 rounded-lg">
+          <h3 class="text-info">Informacion por horas de los ultimos {{selectedDays}} de {{ firstUserName }}</h3>
+          <vue-good-table
+            :columns="columns"
+            :rows="rowsFirstUser"
+            max-height="400px"
+            :fixed-header="true">
+          </vue-good-table>
+        </div>
+        <div class="col-sm-1"> </div>
+        <div class="col-sm-5 mt-2 text-center border border-info m-1 rounded-lg">
+          <h3 class="text-danger">Informacion por horas de los ultimos {{selectedDays}} de {{secondUserName}} </h3>
+          <vue-good-table
+            :columns="columns"
+            :rows="rowsSecondUser"
+            max-height="400px"
+            :fixed-header="true">
+          </vue-good-table>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-12 mt-2">
+      <div class="row justify-content-center">
+        <div class="col-sm-5 mt-2 text-center border border-info m-1 rounded-lg">
+        </div>
+        <div class="col-sm-5 mt-2 text-center border border-info m-1 rounded-lg">
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 mt-2">
+      <div class="row justify-content-center">
+        <div class="col-sm-5 mt-2 text-center border border-info m-1 rounded-lg">
+        </div>
+        <div class="col-sm-5 mt-2 text-center border border-info m-1 rounded-lg">
+        </div>
+      </div>
+    </div>
+
+
   </div>
 </div>
 </template>
 
 <script>
+import moment from "moment";
+import Dialog from 'primevue/dialog';
+
 const axios = require('axios').default;
 import Dropdown from "primevue/dropdown";
 import { StatsCard } from "@/components/index";
 import Chart from 'primevue/chart';
 import Knob from 'primevue/knob';
+import { VueGoodTable } from 'vue-good-table';
 
 export default {
   name: "CompareUsers",
@@ -187,10 +236,24 @@ export default {
     Dropdown,
     StatsCard,
     Chart,
-    Knob
+    Knob,
+    VueGoodTable,
+    Dialog
   },
   data() {
     return {
+      columns: [
+        {
+          label: 'Fecha y hora',
+          field: 'date',
+        },
+        {
+          label: 'Pasos',
+          field: 'steps',
+        },
+      ],
+      rowsFirstUser :[],
+      rowsSecondUser :[],
       showShortWindow : true,
       showInformationWindow : false,
       isLoading : false,
@@ -327,25 +390,30 @@ export default {
       this.showInformationWindow = true;
       this.showShortWindow = false;
        let s = [];
+       let listWithHours = [];
        for (let userInfo of this.$store.state.allUsersInformation) {
           if(userInfo.firstName === this.firstResident){
             let map = new Map(Object.entries(userInfo.stepsWithDatesMap));
+            let mapWithHours = new Map(Object.entries(userInfo.stepsWithDatesMapWithTime));
             s.push(map)
+            listWithHours.push(mapWithHours)
             this.putInformationInFirstBoxInfo(userInfo)
           }
          if(userInfo.firstName === this.secondResident){
            let map = new Map(Object.entries(userInfo.stepsWithDatesMap));
+           let mapWithHours = new Map(Object.entries(userInfo.stepsWithDatesMapWithTime));
+           listWithHours.push(mapWithHours)
            s.push(map)
            this.putInformationInSecondBoxInfo(userInfo)
          }
        }
+       this.createInfoForTables(listWithHours);
        this.list = this.createTotalSteps(s);
        this.putInformationWithTotalSteps();
 
        this.datesForCompareGraphic = [];
        this.stepsCompareGraphicFirstUser = [];
        this.stepsCompareGraphicSecondUser = [];
-
 
        for (const [i, value] of s.entries()) {
          let eachMapCOnvertedToList = Array.from(value);
@@ -379,6 +447,29 @@ export default {
 
      },
 
+    createInfoForTables(listWithHours){
+      this.rowsFirstUser = []
+      this.rowsSecondUser = []
+      for (const [i, value] of listWithHours.entries()) {
+        let arrayWithValuesAndTime = Array.from(value);
+        if(i === 0){
+          if(this.selectedDays !== 30){
+            arrayWithValuesAndTime.splice(0,720-this.selectedDays*24)
+          }
+          for(let entry of arrayWithValuesAndTime){
+            this.rowsFirstUser.push({date:moment(entry[0]).format('MMMM Do YYYY, H:mm'),steps:entry[1]})
+          }
+        }
+        if(i === 1){
+          if(this.selectedDays !== 30){
+            arrayWithValuesAndTime.splice(0,720-this.selectedDays*24)
+          }
+          for(let entry of arrayWithValuesAndTime){
+            this.rowsSecondUser.push({date:moment(entry[0]).format('MMMM Do YYYY, H:mm'),steps:entry[1]})
+          }
+        }
+        }
+    },
     putInformationWithTotalSteps(){
       this.firstUserAveragueSteps = this.list[0].medios;
       this.firstUserTotalSteps = this.list[0].mensuales;
