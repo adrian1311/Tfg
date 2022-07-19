@@ -165,18 +165,39 @@
           <Knob v-model="value" readonly  />
         </div>
       </div>
-
-
-
       <div class="row justify-content-center">
-
       </div>
     </div>
 
     <div class="col-sm-12 mt-2">
       <div class="row justify-content-center">
         <div class="col-sm-5 mt-2 text-center border border-info m-1 rounded-lg">
-          <h3 class="text-info">Informacion por horas de los ultimos {{selectedDays}} de {{ firstUserName }}</h3>
+          <h3 class="text-success font-weight-bold" :class="`ti-arrow-up`">Top 3 de dias con mayor actividad en los ultimos {{selectedDays}}</h3>
+          <Chart type="bar" :data="dataHighestStepsFirstUser" :options="horizontalOptions" />
+        </div>
+        <div class="col-sm-5 mt-2 text-center border border-info m-1 rounded-lg">
+          <h3 class="text-success font-weight-bold" :class="`ti-arrow-up`">Top 3 de dias con mayor actividad en los ultimos {{selectedDays}}</h3>
+          <Chart type="bar" :data="dataHighestStepsSecondUser" :options="horizontalOptions" />
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 mt-2">
+      <div class="row justify-content-center">
+        <div class="col-sm-5 mt-2 text-center border border-info m-1 rounded-lg">
+          <h3 class="text-danger font-weight-bold" :class="`ti-arrow-down`">Dias de menor actividad</h3>
+          <Chart type="bar" :data="dataLowerStepsFirstUser" :options="horizontalOptions" />
+        </div>
+        <div class="col-sm-5 mt-2 text-center border border-info m-1 rounded-lg">
+          <h3 class="text-danger font-weight-bold" :class="`ti-arrow-down`">Dias de menor actividad</h3>
+          <Chart type="bar" :data="dataLowerStepsSecondUser" :options="horizontalOptions" />
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-12 mt-2">
+      <div class="row justify-content-center">
+        <div class="col-sm-5 mt-2 text-center border border-info m-1 rounded-lg">
+          <h4 class="text-info">Informacion por horas de los ultimos {{selectedDays}} de {{ firstUserName }}</h4>
           <vue-good-table
             :columns="columns"
             :rows="rowsFirstUser"
@@ -186,7 +207,7 @@
         </div>
         <div class="col-sm-1"> </div>
         <div class="col-sm-5 mt-2 text-center border border-info m-1 rounded-lg">
-          <h3 class="text-danger">Informacion por horas de los ultimos {{selectedDays}} de {{secondUserName}} </h3>
+          <h4 class="text-danger">Informacion por horas de los ultimos {{selectedDays}} de {{secondUserName}} </h4>
           <vue-good-table
             :columns="columns"
             :rows="rowsSecondUser"
@@ -197,22 +218,7 @@
       </div>
     </div>
 
-    <div class="col-sm-12 mt-2">
-      <div class="row justify-content-center">
-        <div class="col-sm-5 mt-2 text-center border border-info m-1 rounded-lg">
-        </div>
-        <div class="col-sm-5 mt-2 text-center border border-info m-1 rounded-lg">
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-12 mt-2">
-      <div class="row justify-content-center">
-        <div class="col-sm-5 mt-2 text-center border border-info m-1 rounded-lg">
-        </div>
-        <div class="col-sm-5 mt-2 text-center border border-info m-1 rounded-lg">
-        </div>
-      </div>
-    </div>
+
 
 
   </div>
@@ -282,6 +288,20 @@ export default {
       secondResident:'',
       usersForDropdown : [],
       selectedDays : 30,
+      highestStepsFirstUser:[],
+      highestDatesFirstUser:[],
+      highestStepsSecondUser:[],
+      highestDatesSecondUser:[],
+      lowerFinallyThreeDatesFirstUser:[],
+      lowerFinallyThreeStepsFirstUser:[],
+      highestFirstThreeDatesFirstUser:[],
+      highestFirstThreeStepsFirstUser:[],
+      lowerFinallyThreeDatesSecondUser:[],
+      lowerFinallyThreeStepsSecondUser:[],
+      highestFirstThreeDatesSecondUser:[],
+      highestFirstThreeStepsSecondUser:[],
+      sortedMapWIthTotalStepsFirstUser : new Map(),
+      sortedMapWIthTotalStepsSecondUser : new Map(),
       daysForSearchOprions : [{
         name : '3',
         value : 3,
@@ -346,7 +366,83 @@ export default {
             }
           }
         }
-      }
+      },
+      horizontalOptions: {
+        indexAxis: 'y',
+        plugins: {
+          legend: {
+            labels: {
+              color: '#495057'
+            }
+          }
+        },
+        scales: {
+          x: {
+            ticks: {
+              color: '#495057'
+            },
+            grid: {
+              color: '##99ff33'
+            }
+          },
+          y: {
+            ticks: {
+              color: '#495057'
+            },
+            grid: {
+              color: '#ebedef'
+            }
+          }
+        }
+      },
+      dataHighestStepsFirstUser: {
+        labels: [],
+        datasets: [
+          {
+            label: 'Pasos',
+            data: [],
+            fill: false,
+            borderColor: '#42A5F5',
+            tension: .4
+          }
+        ]
+      },
+      dataHighestStepsSecondUser: {
+        labels: [],
+        datasets: [
+          {
+            label: 'Pasos',
+            data: [],
+            fill: false,
+            borderColor: '#42A5F5',
+            tension: .4
+          }
+        ]
+      },
+      dataLowerStepsFirstUser: {
+        labels: [],
+        datasets: [
+          {
+            label: 'Pasos',
+            data: [],
+            fill: false,
+            borderColor: '#42A5F5',
+            tension: .4
+          }
+        ]
+      },
+      dataLowerStepsSecondUser: {
+        labels: [],
+        datasets: [
+          {
+            label: 'Pasos',
+            data: [],
+            fill: false,
+            borderColor: '#42A5F5',
+            tension: .4
+          }
+        ]
+      },
 
     }
   },
@@ -409,6 +505,7 @@ export default {
        }
        this.createInfoForTables(listWithHours);
        this.list = this.createTotalSteps(s);
+       this.convertMapsToGraphicsMoreAndLessDays(s)
        this.putInformationWithTotalSteps();
 
        this.datesForCompareGraphic = [];
@@ -417,7 +514,6 @@ export default {
 
        for (const [i, value] of s.entries()) {
          let eachMapCOnvertedToList = Array.from(value);
-         console.log(eachMapCOnvertedToList)
          for (let datesWithSteps in eachMapCOnvertedToList){
            for(let paramsInArray in eachMapCOnvertedToList[datesWithSteps]){
 
@@ -431,8 +527,9 @@ export default {
            }
          }
        }
+
        this.chartData.labels = [];
-         this.chartData.datasets[0].data = [];
+       this.chartData.datasets[0].data = [];
        this.chartData.datasets[1].data = [];
        if(this.selectedDays != 30){
          this.chartData.labels = this.datesForCompareGraphic.splice(30 - this.selectedDays,30)
@@ -446,6 +543,145 @@ export default {
 
 
      },
+    convertMapsToGraphicsMoreAndLessDays(s){
+      var self = this;
+      for (const [i, value] of s.entries()) {
+        if(self.selectedDays == 3){
+          if( i == 0){
+            self.sortedMapWIthTotalStepsFirstUser.clear();
+          }
+          if( i == 1){
+            self.sortedMapWIthTotalStepsSecondUser.clear();
+          }
+          let values = Array.from(value);
+          if(values.length > 0){
+            value.clear();
+            value.set(values[29][0],values[29][1]);
+            value.set(values[28][0],values[28][1]);
+            value.set(values[27][0],values[27][1]);
+            if( i == 0){
+              self.sortedMapWIthTotalStepsFirstUser = new Map([...value.entries()].sort((a, b) => b[1] - a[1]));
+            }
+            if( i == 1){
+              self.sortedMapWIthTotalStepsSecondUser = new Map([...value.entries()].sort((a, b) => b[1] - a[1]));
+            }
+          }
+        }else if(self.selectedDays == 7){
+          if( i == 0){
+            self.sortedMapWIthTotalStepsFirstUser.clear();
+          }
+          if( i == 1){
+            self.sortedMapWIthTotalStepsSecondUser.clear();
+          }
+          let values = Array.from(value);
+          if(values.length > 0){
+            value.clear();
+            value.set(values[29][0],values[29][1]);
+            value.set(values[28][0],values[28][1]);
+            value.set(values[27][0],values[27][1]);
+            value.set(values[26][0],values[26][1]);
+            value.set(values[25][0],values[25][1]);
+            value.set(values[24][0],values[24][1]);
+            value.set(values[23][0],values[23][1]);
+            if( i == 0){
+              self.sortedMapWIthTotalStepsFirstUser = new Map([...value.entries()].sort((a, b) => b[1] - a[1]));
+            }
+            if( i == 1){
+              self.sortedMapWIthTotalStepsSecondUser = new Map([...value.entries()].sort((a, b) => b[1] - a[1]));
+            }
+          }
+        }else{
+          // console.log('in other')
+          if( i == 0){
+            self.sortedMapWIthTotalStepsFirstUser.clear();
+            self.sortedMapWIthTotalStepsFirstUser = new Map([...value.entries()].sort((a, b) => b[1] - a[1]));
+          }
+          if( i == 1){
+            self.sortedMapWIthTotalStepsSecondUser.clear();
+            self.sortedMapWIthTotalStepsSecondUser = new Map([...value.entries()].sort((a, b) => b[1] - a[1]));
+          }
+        }
+      }
+      console.log( self.sortedMapWIthTotalStepsFirstUser)
+      console.log( self.sortedMapWIthTotalStepsSecondUser)
+
+      self.highestStepsFirstUser=[];
+      self.highestDatesFirstUser=[];
+      self.highestStepsSecondUser=[];
+      self.highestDatesSecondUser=[];
+
+      // convierto maps ordenados de fechas y pasos de los ultimos x dias seleccionados en 2 listas (una de fechas y otra de pasos)
+      self.sortedMapWIthTotalStepsFirstUser.forEach (function(value, key) {
+        self.highestStepsFirstUser.push(value);
+        self.highestDatesFirstUser.push(key);
+
+      })
+      //
+      self.sortedMapWIthTotalStepsSecondUser.forEach (function(value, key) {
+        self.highestStepsSecondUser.push(value);
+        self.highestDatesSecondUser.push(key);
+      })
+
+      self.highestFirstThreeDatesFirstUser=[];
+      self.highestFirstThreeStepsFirstUser=[];
+      self.highestFirstThreeDatesFirstUser.push(self.highestStepsFirstUser[0]);
+      self.highestFirstThreeDatesFirstUser.push(self.highestStepsFirstUser[1]);
+      self.highestFirstThreeDatesFirstUser.push(self.highestStepsFirstUser[2]);
+      self.highestFirstThreeStepsFirstUser.push(self.highestDatesFirstUser[0]);
+      self.highestFirstThreeStepsFirstUser.push(self.highestDatesFirstUser[1]);
+      self.highestFirstThreeStepsFirstUser.push(self.highestDatesFirstUser[2]);
+
+      self.lowerFinallyThreeDatesFirstUser=[];
+      self.lowerFinallyThreeStepsFirstUser=[];
+      self.lowerFinallyThreeDatesFirstUser.push(self.highestDatesFirstUser[self.highestDatesFirstUser.length-2]);
+      self.lowerFinallyThreeDatesFirstUser.push(self.highestDatesFirstUser[self.highestDatesFirstUser.length-3]);
+      self.lowerFinallyThreeDatesFirstUser.push(self.highestDatesFirstUser[self.highestDatesFirstUser.length-4]);
+      self.lowerFinallyThreeStepsFirstUser.push(self.highestStepsFirstUser[self.highestStepsFirstUser.length-2]);
+      self.lowerFinallyThreeStepsFirstUser.push(self.highestStepsFirstUser[self.highestStepsFirstUser.length-3]);
+      self.lowerFinallyThreeStepsFirstUser.push(self.highestStepsFirstUser[self.highestStepsFirstUser.length-4]);
+
+      self.dataLowerStepsFirstUser.labels = [];
+      self.dataLowerStepsFirstUser.datasets[0].data =[];
+      self.dataLowerStepsFirstUser.labels =  self.lowerFinallyThreeDatesFirstUser;
+      self.dataLowerStepsFirstUser.datasets[0].data = self.lowerFinallyThreeStepsFirstUser;
+
+      self.dataHighestStepsFirstUser.labels = [];
+      self.dataHighestStepsFirstUser.datasets[0].data =[];
+      self.dataHighestStepsFirstUser.labels =  self.highestFirstThreeStepsFirstUser;
+      self.dataHighestStepsFirstUser.datasets[0].data =  self.highestFirstThreeDatesFirstUser;
+
+
+
+      //Segundo residente
+      self.highestFirstThreeDatesSecondUser=[];
+      self.highestFirstThreeStepsSecondUser=[];
+      self.highestFirstThreeDatesSecondUser.push(self.highestStepsSecondUser[0]);
+      self.highestFirstThreeDatesSecondUser.push(self.highestStepsSecondUser[1]);
+      self.highestFirstThreeDatesSecondUser.push(self.highestStepsSecondUser[2]);
+      self.highestFirstThreeStepsSecondUser.push(self.highestDatesSecondUser[0]);
+      self.highestFirstThreeStepsSecondUser.push(self.highestDatesSecondUser[1]);
+      self.highestFirstThreeStepsSecondUser.push(self.highestDatesSecondUser[2]);
+
+      self.lowerFinallyThreeDatesSecondUser=[];
+      self.lowerFinallyThreeStepsSecondUser=[];
+      self.lowerFinallyThreeDatesSecondUser.push(self.highestDatesSecondUser[self.highestDatesSecondUser.length-2]);
+      self.lowerFinallyThreeDatesSecondUser.push(self.highestDatesSecondUser[self.highestDatesSecondUser.length-3]);
+      self.lowerFinallyThreeDatesSecondUser.push(self.highestDatesSecondUser[self.highestDatesSecondUser.length-4]);
+      self.lowerFinallyThreeStepsSecondUser.push(self.highestStepsSecondUser[self.highestStepsSecondUser.length-2]);
+      self.lowerFinallyThreeStepsSecondUser.push(self.highestStepsSecondUser[self.highestStepsSecondUser.length-3]);
+      self.lowerFinallyThreeStepsSecondUser.push(self.highestStepsSecondUser[self.highestStepsSecondUser.length-4]);
+
+      self.dataLowerStepsSecondUser.labels = [];
+      self.dataLowerStepsSecondUser.datasets[0].data =[];
+      self.dataLowerStepsSecondUser.labels =  self.lowerFinallyThreeDatesSecondUser;
+      self.dataLowerStepsSecondUser.datasets[0].data = self.lowerFinallyThreeStepsSecondUser;
+
+      self.dataHighestStepsSecondUser.labels = [];
+      self.dataHighestStepsSecondUser.datasets[0].data =[];
+      self.dataHighestStepsSecondUser.labels =  self.highestFirstThreeStepsSecondUser;
+      self.dataHighestStepsSecondUser.datasets[0].data =  self.highestFirstThreeDatesSecondUser;
+
+    },
 
     createInfoForTables(listWithHours){
       this.rowsFirstUser = []

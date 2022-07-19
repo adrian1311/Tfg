@@ -149,16 +149,6 @@
       <Chart type="bar" :data="lessActiveUsers" :options="horizontalOptions" />
     </div>
     </div>
-
-<!--    <div class="row mt-4 bg-white rounded-lg">-->
-<!--      <div class="col-12 text-center border border-primary">-->
-<!--        <card :title="table1.title" :subTitle="table1.subTitle">-->
-<!--          <div slot="raw-content" class="table-responsive">-->
-<!--            <paper-table :data="table1.data" :columns="table1.columns"></paper-table>-->
-<!--          </div>-->
-<!--        </card>-->
-<!--      </div>-->
-<!--    </div>-->
     <div class="row">
       <div class="col-12 text-center">
         <h3 class="font-weight-bold text-info">Informacion mostrada para los ultimos {{selectedDays}} dias</h3>
