@@ -24,141 +24,169 @@
       </div>
     </div>
 
-<div class="row justify-content-center mb-3">
+<!--<div class="row justify-content-center mb-3">
     <label class="font-weight-bold font-weight-bold h4 text-success">Número total de residentes : {{allUsers.length}}</label>
-</div>
-  <div class="row justify-content-center">
-    <div class="col-md-3 col-xl-3" >
-      <stats-card>
-        <div class="icon-big text-center" :class="`icon-info`" slot="header">
-          <i :class="'ti-user'"></i>
-        </div>
-        <div class="numbers" slot="content">
-          <p>HOMBRES</p>
-          <p>{{numberOfMens}}</p>
-        </div>
-      </stats-card>
-    </div>
-    <div class="col-md-3 col-xl-3" >
-      <stats-card>
-        <div class="icon-big text-center" :class="`icon-info`" slot="header">
-          <i :class="'ti-user'"></i>
-        </div>
-        <div class="numbers" slot="content">
-          <p>MUJERES</p>
-          <p>{{numberOfWomans}}</p>
-        </div>
-      </stats-card>
-    </div>
-      <div class="col-md-3 col-xl-3" >
-        <stats-card>
-          <div class="icon-big text-center" :class="`icon-danger`" slot="header">
-            <i :class="'ti-angle-double-down'"></i>
-          </div>
-          <div class="numbers" slot="content">
-            <p>Debajo de la media</p>
-            <p>{{numberOfMens}}</p>
-          </div>
-        </stats-card>
-      </div>
-      <div class="col-md-3 col-xl-3" >
-        <stats-card>
-          <div class="icon-big text-center" :class="`icon-success`" slot="header">
-            <i :class="'ti-angle-double-up'"></i>
-          </div>
-          <div class="numbers" slot="content">
-            <p>Encima de la media</p>
-            <p>{{numberOfWomans}}</p>
-          </div>
-        </stats-card>
-      </div>
-  </div>
+</div>-->
     <div class="row justify-content-center">
-      <div class="col-sm-10 bg-white  border border-primary bg-white rounded-lg mb-2">
+      <div class="col-md-4 col-xl-4">
         <div class="row justify-content-center">
-          <h4>Seleccione los criterios para filtrar la informacion</h4>
-        </div>
-        <div class="row justify-content-md-center">
-          <div class="col-sm-4">
-            <div class="input-group input-group-lg">
-              <span class="input-group-text font-weight-bold">Intervalo (dias)</span>
-              <select class="form-control" v-model="selectedDays" v-on:change="processInformation">
-                <option value="3">3</option>
-                <option value="7">7</option>
-                <option value="30">30</option>
-              </select>
-            </div>
+          <div class="col-md-6 col-xl-6">
+            <stats-card class="bg-dark">
+              <div class="icon-big text-center" :class="`icon-info`" slot="header">
+                <i :class="'ti-user'"></i>
+              </div>
+              <div class="numbers" slot="content">
+                <p class="text-white">HOMBRE</p>
+                <p class="text-white">{{numberOfMens}}</p>
+              </div>
+            </stats-card>
+            <stats-card class="bg-dark">
+              <div class="icon-big text-center" :class="`icon-info`" slot="header">
+                <i :class="'ti-user'"></i>
+              </div>
+              <div class="numbers" slot="content">
+                <p class="text-white">MUJERES</p>
+                <p class="text-white">{{numberOfWomans}}</p>
+              </div>
+            </stats-card>
           </div>
-          <div class="col-sm-4">
-            <div class="input-group input-group-lg">
-              <span class="input-group-text font-weight-bold">Genero</span>
-              <select class="form-control" v-model="selectedGender" v-on:change="processInformation">
-                <option value="male">Hombre</option>
-                <option value="female">Mujer</option>
-                <option value="both">Hombre y Mujer</option>
-              </select>
-            </div>
-          </div>
-          <div class="col-sm-4">
-            <div class="input-group input-group-lg ">
-              <span class="input-group-text font-weight-bold">Edad</span>
-              <select class="form-control" v-model="selectedAge" v-on:change="processInformation">
-                <option value="six">60-69</option>
-                <option value="seven">70-79</option>
-                <option value="eight">80-89</option>
-                <option value="nine">90-99</option>
-                <option value="ten">100 +</option>
-                <option value="all">Todas las edades</option>
-              </select>
-            </div>
+          <div class="col-md-6 col-xl-6  bg-white  border border-primary bg-white rounded-lg mb-2">
+            <Chart type="pie" :data="residentsNumberData" :options="residentsNumberData" />
           </div>
         </div>
       </div>
 
+      <div class="col-md-4 col-xl-4">
+        <div class="row justify-content-center">
+          <div class="col-md-6 col-xl-6">
+            <stats-card class="bg-dark">
+              <div class="icon-big text-center" :class="`icon-success`" slot="header">
+                <i :class="'ti-angle-double-up'"></i>
+              </div>
+              <div class="numbers" slot="content">
+                <p class="text-white">ENCIMA</p>
+                <p class="text-white">{{moreThanAverageSteps}}</p>
+              </div>
+            </stats-card>
+            <stats-card class="bg-dark">
+              <div class="icon-big text-center" :class="`icon-danger`" slot="header">
+                <i :class="'ti-angle-double-down'"></i>
+              </div>
+              <div class="numbers" slot="content">
+                <p class="text-white">DEBAJO</p>
+                <p class="text-white">{{underAverageSteps}}</p>
+              </div>
+            </stats-card>
+          </div>
+          <div class="col-md-6 col-xl-6  bg-white  border border-primary bg-white rounded-lg mb-2">
+            <Chart type="pie" :data="residentsEstimatedData" :options="residentsEstimatedData" />
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-xl-4">
 
 
+        <div class="row justify-content-center ">
+          <div class="col-sm-10 bg-white  border border-primary bg-white rounded-lg">
+            <div class="row justify-content-center">
+              <h5 class="text-dark font-weight-bold">CRITERIOS</h5>
+            </div>
 
+            <div class="row justify-content-md-center">
+              <div class="col-sm-12">
+                <div class="input-group input-group">
+                  <span class="input-group-text font-weight-bold">Intervalo (días)</span>
+                  <select class="form-control" v-model="selectedDays" v-on:change="processInformation">
+                    <option value="3">3</option>
+                    <option value="7">7</option>
+                    <option value="30">30</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row justify-content-md-center">
+              <div class="col-sm-12">
+                <div class="input-group input-group">
+                  <span class="input-group-text font-weight-bold">Género</span>
+                  <select class="form-control" v-model="selectedGender" v-on:change="processInformation">
+                    <option value="male">Hombre</option>
+                    <option value="female">Mujer</option>
+                    <option value="both">Hombre y Mujer</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row justify-content-md-center">
+              <div class="col-sm-12">
+                <div class="input-group input-group">
+                  <span class="input-group-text font-weight-bold">Edad</span>
+                  <select class="form-control" v-model="selectedAge" v-on:change="processInformation">
+                    <option value="six">60-69</option>
+                    <option value="seven">70-79</option>
+                    <option value="eight">80-89</option>
+                    <option value="nine">90-99</option>
+                    <option value="ten">100 +</option>
+                    <option value="all">Todas las edades</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="row justify-content-center">
-      <div class="col-sm-10 text-center border border-primary bg-white rounded-lg">
-        <h3 class="text-info font-weight-bold" >Pasos medios en los ultimos {{selectedDays}} dias</h3>
-        <Chart type="line" :data="basicData" />
-      </div>
 
+    <div class="row justify-content-center">
+      <div class="col-sm-7 text-center border border-primary bg-white rounded-lg">
+        <div class="row justify-content-center h-50 d-inline-block">
+          <div class="col-sm-12 text-center bg-white">
+            <h3 class="text-dark font-weight-bold" >Pasos medios en los últimos {{selectedDays}} dias</h3>
+            <Chart type="line" :data="basicData" />
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4 text-center border border-primary bg-white rounded-lg ml-3">
+        <div class="row justify-content-center h-50 d-inline-block">
+          <div class="col-sm-12 text-center bg-white">
+            <Chart type="pie" :data="residentsAgeData" :options="residentsAgeDataOptions" />
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="row mt-3 justify-content-center">
       <div class="col-sm-5 text-center border border-success m-1 bg-white rounded-lg">
-        <h3 class="text-success font-weight-bold" :class="`ti-arrow-up`">Top 3 de dias con mayor actividad en los ultimos {{selectedDays}}</h3>
+        <h3 class="text-dark font-weight-bold font-weight-bold" :class="`ti-arrow-up`"> Días de mayor actividad {{selectedDays}}</h3>
         <Chart type="bar" :data="dataHighestSteps" :options="horizontalOptions" />
       </div>
       <div class="col-sm-5 text-center border border-danger m-1 bg-white rounded-lg">
-        <h3 class="text-danger font-weight-bold" :class="`ti-arrow-down`">Dias de menor actividad</h3>
+        <h3 class="text-dark font-weight-bold" :class="`ti-arrow-down`"> Días de menor actividad</h3>
         <Chart type="bar" :data="dataLowerSteps" :options="horizontalOptions" />
       </div>
     </div>
 
     <div class="row justify-content-center">
       <div class="col-sm-5 text-center border border-success m-1 bg-white rounded-lg">
-        <h3 class="text-success font-weight-bold" :class="`ti-bar-chart-alt`" >Usuarios mas activos en los ultimos {{selectedDays}} dias</h3>
+        <h3 class="text-dark font-weight-bold" >Usuarios más activos en los ultimos {{selectedDays}} dias</h3>
 
         <Chart type="bar" :data="moreActiveUsers" :options="horizontalOptions" />
       </div>
       <div class="col-sm-5 text-center border border-danger m-1 bg-white rounded-lg">
-      <h3 class="text-danger font-weight-bold" :class="`ti-bar-chart`">Usuarios menos activos en los ultimos {{selectedDays}} dias</h3>
+      <h3 class="text-dark font-weight-bold">Usuarios menos activos en los últimos {{selectedDays}} días</h3>
       <Chart type="bar" :data="lessActiveUsers" :options="horizontalOptions" />
     </div>
     </div>
     <div class="row">
       <div class="col-12 text-center">
-        <h3 class="font-weight-bold text-info">Informacion mostrada para los ultimos {{selectedDays}} dias</h3>
+        <h3 class="font-weight-bold text-dark">Información mostrada para los últimos {{selectedDays}} días</h3>
       </div>
     </div>
     <div class="row mt-4 bg-white rounded-lg">
       <div class="col-12 text-center border border-primary">
         <vue-good-table
           :columns="columns"
-          :rows="rows">
+          :rows="rows"
+        @>
           <template slot="table-row" slot-scope="props">
     <span v-if="props.column.field == 'medios' && (props.row.estimados > props.row.medios)">
       <span style="font-weight: bold; color: red;">{{props.row.medios}}</span>
@@ -208,11 +236,11 @@ export default {
           field: 'medios',
         },
         {
-          label: 'Mensuales',
+          label: 'Pasos totales',
           field: 'mensuales',
         },
         {
-          label: 'Estimados',
+          label: 'Pasos diarios estimádos',
           field: 'estimados',
         },
       ],
@@ -241,6 +269,13 @@ export default {
       numberOfMens:0,
       numberOfWomans:0,
       allUsers:[],
+      sixRange:0,
+      sevenRange:0,
+      eightRange:0,
+      nineRange:0,
+      tenRange:0,
+      underAverageSteps:0,
+      moreThanAverageSteps:0,
 
       statsCards: [
         {
@@ -254,7 +289,7 @@ export default {
         labels: [],
         datasets: [
           {
-            label: 'Pasos',
+            label: 'Pasos medios',
             data: [],
             fill: false,
             borderColor: '#42A5F5',
@@ -270,6 +305,7 @@ export default {
             data: [],
             fill: false,
             borderColor: '#42A5F5',
+            backgroundColor: '#850428',
             tension: .4
           }
         ]
@@ -282,6 +318,7 @@ export default {
             data: [],
             fill: false,
             borderColor: '#42A5F5',
+            backgroundColor: '#0c7511',
             tension: .4
           }
         ]
@@ -294,6 +331,7 @@ export default {
             data: [],
             fill: false,
             borderColor: '#42A5F5',
+            backgroundColor: '#850428',
             tension: .4
           }
         ]
@@ -304,8 +342,10 @@ export default {
           {
             label: 'Pasos',
             data: [],
-            fill: false,
-            borderColor: '#42A5F5',
+            fill: true,
+            borderColor: '#850428',
+            borderWidth: 2,
+            backgroundColor: '#0c7511',
             tension: .4
           }
         ]
@@ -346,6 +386,67 @@ export default {
         data: this.list,
       },
 
+      residentsNumberData: {
+        labels: ['HOMBRES','MUJERES'],
+        datasets: [
+          {
+            data: [],
+            backgroundColor: ["#42A5F5","#C78189FF"],
+            hoverBackgroundColor: ["#64B5F6","#C78189FF"]
+          }
+        ]
+      },
+      residentsNumberDataOptions: {
+        plugins: {
+          legend: {
+            labels: {
+              color: '#495057'
+            }
+          }
+        }
+      },
+
+      residentsEstimatedData: {
+        labels: ['Mayor media','Menor media'],
+        datasets: [
+          {
+            data: [],
+            backgroundColor: ["#42A5F5","#C78189FF"],
+            hoverBackgroundColor: ["#64B5F6","#C78189FF"]
+          }
+        ]
+      },
+      residentsEstimatedDataOptions: {
+        plugins: {
+          legend: {
+            labels: {
+              color: '#495057'
+            }
+          }
+        }
+      },
+
+      //variable for number of residents on each age
+      residentsAgeData: {
+        labels: ['60-69','70-79',"80-89","90-99","100 +"],
+        datasets: [
+          {
+            data: [],
+            backgroundColor: ["#42A5F5","rgba(61,25,29,0.39)","#81C79DFF","#bec781","#BE81C7FF"],
+            hoverBackgroundColor: ["#64B5F6","rgba(61,25,29,0.39)","#81C79DFF","#bec781","#BE81C7FF"]
+          }
+        ]
+      },
+      residentsAgeDataOptions: {
+        plugins: {
+          legend: {
+            labels: {
+              color: '#495057'
+            }
+          }
+        }
+      }
+
     }
   },
   mounted() {
@@ -364,6 +465,7 @@ export default {
         console.log(error)
       })
     },
+
     //Para todos los usuarios cojo los pasos con sus respectivas fechas
     getAllUsersInfo() {
       let self = this;
@@ -378,6 +480,7 @@ export default {
         console.log(error)
       })
     },
+
     //Metodo para procesar toda la informacion
     processInformation() {
       this.genderCounter();
@@ -395,6 +498,8 @@ export default {
           self.numberOfWomans++;
         }
       }
+      self.numbers = [self.numberOfMens,self.numberOfWomans]
+      self.residentsNumberData.datasets[0].data = self.numbers;
     },
     //Metodo para recopilar todos los pasos en un solo map con el total de pasos
     transformInformationToMaps() {
@@ -405,9 +510,10 @@ export default {
       self.names= [];
       let s = [];
       let mapWIthTotalSteps = new Map();
+      self.sixRange= 0; self.sevenRange= 0; self.eightRange= 0; self.eightRange= 0; self.tenRange = 0;
       //Creo una lista de maps con los maps de todos los usuarion.
       for (let userInfo of self.$store.state.allUsersInformation) {
-        console.log(userInfo)
+       self.createAgeRangeGraphic(userInfo);
        let list = self.selectGender(userInfo)
         if(list !== null && list !== undefined){
           let map1 = new Map(Object.entries(list));
@@ -415,21 +521,22 @@ export default {
           self.names.push(userInfo.name)
           self.estimatedStepsArray.push(userInfo.estimatedSteps)
         }
-
       }
+      self.agesRanges = [self.sixRange,self.sevenRange,self.eightRange,self.nineRange,self.tenRange]
+      self.residentsAgeData.datasets[0].data = self.agesRanges;
+
       self.list = []
-      //crear tabla con informacion
+      //crear tabla con información
       self.list = self.createMoreActiveUsers(s);
       for (let usr in self.list){
         self.list[usr].nombre = (self.names[usr])
         self.list[usr].estimados = (self.estimatedStepsArray[usr])
       }
 
-      console.log('my list',self.list)
       self.rows = self.list;
       self.showMoreActiveUsers(self.list);
+      self.createUnderAverageGraphic(self.list);
       self.table1.data = self.list;
-
 
       //Recorro la lista y creo map con el total
       for (let map of s){
@@ -443,7 +550,7 @@ export default {
         }
       }
 
-      //REcorro map para crear los array para la primera grafica
+      //Recorro map para crear los array para la primera gráfica
       mapWIthTotalSteps.forEach (function(value, key) {
         self.datess.push(key)
         if(value !== 0){
@@ -461,7 +568,7 @@ export default {
       }
 
       //Creo listas para poder coger los ultimos dias antes de ordenar el map por fechas
-      console.log('SELECTED DAYS',self.selectedDays)
+      //console.log('SELECTED DAYS',self.selectedDays)
       if(self.selectedDays == 3){
         self.sortedMapWIthTotalSteps.clear();
         let values = Array.from(mapWIthTotalSteps);
@@ -532,6 +639,40 @@ export default {
       self.basicData.datasets[0].data = self.averageSteps;
     },
 
+    createUnderAverageGraphic(list){
+      this.underAverageSteps=0;
+      this.moreThanAverageSteps=0;
+
+      for( let user of list ){
+        if( user.medios <= user.estimados ){
+          this.underAverageSteps++;
+        } else {
+          this.moreThanAverageSteps++;
+        }
+      }
+      console.log('UNDER',this.underAverageSteps)
+      let residents = [  this.moreThanAverageSteps,this.underAverageSteps]
+      this.residentsEstimatedData.datasets[0].data = residents;
+    },
+
+    createAgeRangeGraphic(userInfo){
+      if(userInfo.age >= 60 && userInfo.age < 69){
+        this.sixRange++;
+      }
+      if(userInfo.age >= 70 && userInfo.age < 79){
+        this.sevenRange++;
+      }
+      if(userInfo.age >= 80 && userInfo.age < 89){
+        this.eightRange++;
+      }
+      if(userInfo.age >= 90 && userInfo.age < 99){
+        this.nineRange++;
+      }
+      if(userInfo.age > 100){
+        this.tenRange++;
+      }
+    },
+
     showMoreActiveUsers(list){
       this.moreActiveUsers.labels = [];
       this.moreActiveUsers.datasets[0].data =  [];
@@ -573,7 +714,7 @@ export default {
         }
         arrayWithTotalAndAvergueSteps.push({
             mensuales : totalStepsCounter,
-            medios:totalStepsCounter/this.selectedDays
+            medios:Math.trunc(totalStepsCounter/this.selectedDays)
         }
         );
       }
@@ -582,14 +723,17 @@ export default {
 
   selectGender(userInfo) {
     if (this.selectedGender === 'male' && userInfo.gender === 'male') {
+      console.log('en el male')
       let a =this.selectAgeRange(userInfo);
       return a
     }
       if (this.selectedGender === 'female' && userInfo.gender === 'female') {
+        console.log('en el female')
         let a =this.selectAgeRange(userInfo);
         return a
       }
       if (this.selectedGender === 'both') {
+        console.log('en el both')
         let a =this.selectAgeRange(userInfo);
         return a
       }

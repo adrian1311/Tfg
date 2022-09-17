@@ -26,46 +26,50 @@
 
   <div class="row justify-content-center">
     <div class="col-md-4 col-xl-3 center" >
-      <label>Primer residente</label>
+      <label class="text-dark">Primer residente</label>
       <Dropdown v-model="firstResident" :options="usersForDropdown" placeholder="Elija un residente" />
     </div>
     <div class="col-md-4 col-xl-3" >
-      <label>Segundo residente</label>
+      <label class="text-dark">Segundo residente</label>
       <Dropdown v-model="secondResident" :options="usersForDropdown" placeholder="Elija un residente" />
     </div>
     <div class="col-md-4 col-xl-3" >
-      <label>Intervalo</label>
+      <label class="text-dark">Intervalo</label>
       <Dropdown v-model="selectedDays" :options="daysForSearchOprions" optionLabel="name" optionValue="value" placeholder="Intervalo" />
     </div>
   </div>
+
   <div class="text-center mt-3">
     <p-button type="success"
               round
               @click.native.prevent="transformInformation">
-      MOSTRAR INFORMACION
+      MOSTRAR INFORMACIÓN
     </p-button>
   </div>
+
   <div class="row justify-content-center border border-info mt-5 " v-if="showShortWindow">
     <div class="col-sm-12 text-center bg-white">
       <h3 class="text-info font-weight-bold">INFORMACION DE RESIDENTES</h3>
       <h3 class="text-info font-weight-bold">Por favor seleccione los residentes y el intervalo</h3>
     </div>
   </div>
-  <div class="row justify-content-center border border-info mt-5" v-if="showInformationWindow">
+
+  <div class="row justify-content-center border border-info mt-2" v-if="showInformationWindow">
+
     <div class="col-sm-12">
       <div class="row justify-content-center">
-        <h3>Informacion mostrada para los ultimos {{selectedDays}} dias</h3>
+        <h4 class="text-dark">Información mostrada para los últimos {{selectedDays}} dias</h4>
       </div>
       <div class="row justify-content-center">
         <div class="col-sm-5 text-center m-1">
-          <h4>Primer residente: {{firstUserName}}</h4>
+          <h4 class="text-dark">Primer residente: {{firstUserName}}</h4>
         </div>
         <div class="col-sm-5 text-center m-1">
-          <h4>Segundo residente: {{secondUserName}}</h4>
+          <h4 class="text-dark">Segundo residente: {{secondUserName}}</h4>
         </div>
       </div>
       <div class="row justify-content-center">
-        <div class="col-sm-5 text-center border border-info rounded-lg m-1">
+        <div class="col-sm-5 text-center border border-info rounded-lg m-1 bg-dark">
           <div class="row justify-content-center m-2">
             <div class="col-sm-5 text-center border border-info rounded-lg m-1">
               <h5 class="text-info font-weight-bold">Edad (años) : {{firstUserAge}} </h5>
@@ -88,7 +92,7 @@
             </div>
           </div>
         </div>
-        <div class="col-sm-5 text-center border border-danger rounded-lg m-1">
+        <div class="col-sm-5 text-center border border-danger rounded-lg m-1 bg-dark">
           <div class="row justify-content-center m-2">
             <div class="col-sm-5 text-center border border-danger  rounded-lg m-1">
               <h5 class="text-danger font-weight-bold">Edad (años): {{secondUserAge}}</h5>
@@ -115,25 +119,24 @@
     </div>
 
     <div class="col-sm-12 mt-2">
-
       <div class="row justify-content-center">
         <div class="col-sm-2 mt-5 text-center">
-        <stats-card>
+        <stats-card class="bg-dark">
           <div class="icon-big text-center" :class="`icon-info`" slot="header">
             <i :class="'ti-user'"></i>
           </div>
           <div class="numbers" slot="content">
-            <p>Pasos totales</p>
-            <p>{{firstUserTotalSteps}}</p>
+            <p class="text-white">Pasos totales</p>
+            <p class="text-white">{{firstUserTotalSteps}}</p>
           </div>
         </stats-card>
-          <stats-card>
+          <stats-card class="bg-dark">
             <div class="icon-big text-center" :class="`icon-info`" slot="header">
               <i :class="'ti-user'"></i>
             </div>
             <div class="numbers" slot="content">
-              <p>Pasos medios</p>
-              <p>{{firstUserAveragueSteps}}</p>
+              <p class="text-white">Pasos medios</p>
+              <p class="text-white">{{firstUserAveragueSteps}}</p>
             </div>
           </stats-card>
           <h5 class="mt-3">Objetivo cumplido (dias)</h5>
@@ -143,22 +146,22 @@
           <Chart type="bar" :data="chartData" :options="chartOptions" />
         </div>
         <div class="col-sm-2 mt-5 text-center">
-          <stats-card>
+          <stats-card class="bg-dark">
             <div class="icon-big text-center" :class="`icon-danger`" slot="header">
               <i :class="'ti-user'"></i>
             </div>
             <div class="numbers" slot="content">
-              <p>Pasos totales</p>
-              <p>{{secondUserTotalSteps}}</p>
+              <p class="text-white">Pasos totales</p>
+              <p class="text-white">{{secondUserTotalSteps}}</p>
             </div>
           </stats-card>
-          <stats-card>
+          <stats-card class="bg-dark">
             <div class="icon-big text-center" :class="`icon-danger`" slot="header">
               <i :class="'ti-user'"></i>
             </div>
             <div class="numbers" slot="content">
-              <p>Pasos medios</p>
-              <p>{{secondUserAveragueSteps}}</p>
+              <p class="text-white">Pasos medios</p>
+              <p class="text-white">{{secondUserAveragueSteps}}</p>
             </div>
           </stats-card>
           <h5 class="mt-3">Objetivo cumplido (dias)</h5>
@@ -171,24 +174,27 @@
 
     <div class="col-sm-12 mt-2">
       <div class="row justify-content-center">
-        <div class="col-sm-5 mt-2 text-center border border-info m-1 rounded-lg">
-          <h3 class="text-success font-weight-bold" :class="`ti-arrow-up`">Top 3 de dias con mayor actividad en los ultimos {{selectedDays}}</h3>
+        <h3 class="text-dark font-weight-bold" :class="`ti-arrow-up`">  3 DÍAS CON MAYOR ACTIVIDAD EN LOS ÚLTIMOS {{selectedDays}}</h3>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-sm-5 mt-2 text-center border border-info m-1 rounded-lg bg-white">
           <Chart type="bar" :data="dataHighestStepsFirstUser" :options="horizontalOptions" />
         </div>
-        <div class="col-sm-5 mt-2 text-center border border-info m-1 rounded-lg">
-          <h3 class="text-success font-weight-bold" :class="`ti-arrow-up`">Top 3 de dias con mayor actividad en los ultimos {{selectedDays}}</h3>
+        <div class="col-sm-5 mt-2 text-center border border-info m-1 rounded-lg bg-white">
           <Chart type="bar" :data="dataHighestStepsSecondUser" :options="horizontalOptions" />
         </div>
       </div>
     </div>
+
     <div class="col-sm-12 mt-2">
       <div class="row justify-content-center">
-        <div class="col-sm-5 mt-2 text-center border border-info m-1 rounded-lg">
-          <h3 class="text-danger font-weight-bold" :class="`ti-arrow-down`">Dias de menor actividad</h3>
+        <h3 class="text-dark font-weight-bold" :class="`ti-arrow-down`">  3 DÍAS CON MENOR ACTIVIDAD EN LOS ÚLTIMOS {{selectedDays}}</h3>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-sm-5 mt-2 text-center border border-info m-1 rounded-lg bg-white">
           <Chart type="bar" :data="dataLowerStepsFirstUser" :options="horizontalOptions" />
         </div>
-        <div class="col-sm-5 mt-2 text-center border border-info m-1 rounded-lg">
-          <h3 class="text-danger font-weight-bold" :class="`ti-arrow-down`">Dias de menor actividad</h3>
+        <div class="col-sm-5 mt-2 text-center border border-info m-1 rounded-lg bg-white">
           <Chart type="bar" :data="dataLowerStepsSecondUser" :options="horizontalOptions" />
         </div>
       </div>
@@ -196,8 +202,8 @@
 
     <div class="col-sm-12 mt-2">
       <div class="row justify-content-center">
-        <div class="col-sm-5 mt-2 text-center border border-info m-1 rounded-lg">
-          <h4 class="text-info">Informacion por horas de los ultimos {{selectedDays}} de {{ firstUserName }}</h4>
+        <div class="col-sm-5 mt-2 text-center border border-info m-1 rounded-lg bg-white">
+          <h4 class="text-info">Información por horas de los últimos {{selectedDays}} de : {{ firstUserName }}</h4>
           <vue-good-table
             :columns="columns"
             :rows="rowsFirstUser"
@@ -206,8 +212,8 @@
           </vue-good-table>
         </div>
         <div class="col-sm-1"> </div>
-        <div class="col-sm-5 mt-2 text-center border border-info m-1 rounded-lg">
-          <h4 class="text-danger">Informacion por horas de los ultimos {{selectedDays}} de {{secondUserName}} </h4>
+        <div class="col-sm-5 mt-2 text-center border border-info m-1 rounded-lg bg-white">
+          <h4 class="text-danger">Información por horas de los últimos {{selectedDays}} de : {{secondUserName}} </h4>
           <vue-good-table
             :columns="columns"
             :rows="rowsSecondUser"
@@ -217,9 +223,6 @@
         </div>
       </div>
     </div>
-
-
-
 
   </div>
 </div>
@@ -403,6 +406,7 @@ export default {
             data: [],
             fill: false,
             borderColor: '#42A5F5',
+            backgroundColor: '#0c7511',
             tension: .4
           }
         ]
@@ -415,6 +419,7 @@ export default {
             data: [],
             fill: false,
             borderColor: '#42A5F5',
+            backgroundColor: '#0c7511',
             tension: .4
           }
         ]
@@ -707,9 +712,9 @@ export default {
         }
     },
     putInformationWithTotalSteps(){
-      this.firstUserAveragueSteps = this.list[0].medios;
-      this.firstUserTotalSteps = this.list[0].mensuales;
-      this.secondUserAveragueSteps = this.list[1].medios;
+      this.firstUserAveragueSteps = Math.trunc(this.list[0].medios);
+      this.firstUserTotalSteps =  this.list[0].mensuales;
+      this.secondUserAveragueSteps = Math.trunc(this.list[1].medios);
       this.secondUserTotalSteps = this.list[1].mensuales;
     },
     putInformationInFirstBoxInfo(userInfo){
