@@ -156,7 +156,7 @@
 
     <div class="row mt-3 justify-content-center">
       <div class="col-sm-5 text-center border border-success m-1 bg-white rounded-lg">
-        <h3 class="text-dark font-weight-bold font-weight-bold" :class="`ti-arrow-up`"> Días de mayor actividad {{selectedDays}}</h3>
+        <h3 class="text-dark font-weight-bold font-weight-bold" :class="`ti-arrow-up`"> Días de mayor actividad</h3>
         <Chart type="bar" :data="dataHighestSteps" :options="horizontalOptions" />
       </div>
       <div class="col-sm-5 text-center border border-danger m-1 bg-white rounded-lg">
@@ -213,6 +213,7 @@ import Chart from 'primevue/chart';
 import 'vue-good-table/dist/vue-good-table.css'
 import { VueGoodTable } from 'vue-good-table';
 import Button from 'primevue/button';
+import moment from "moment";
 
 
 export default {
@@ -276,6 +277,9 @@ export default {
       tenRange:0,
       underAverageSteps:0,
       moreThanAverageSteps:0,
+
+      threeLessActiveUsersSteps:  [],
+      threeLessActiveUsersNames: [],
 
       statsCards: [
         {
@@ -473,13 +477,25 @@ export default {
         users: self.allUsers,
         days: 30
       }).then(function (response) {
-        self.$store.state.allUsersInformation = response.data;
+        self.$store.state.allUsersInformation = self.convertDateToAge(response.data);
         self.isLoading = false;
         self.processInformation();
       }).catch(error => {
         console.log(error)
       })
     },
+    convertDateToAge(data){
+      for (let user of data){
+        let date = moment(user.age).format('YYYY MM DD');
+        let age =new Date(date)
+        let month_diff = Date.now() - age.getTime();
+        let age_dt = new Date(month_diff);
+        let year = age_dt.getUTCFullYear();
+        user.age = Math.abs(year - 1970);
+      }
+      return data;
+    },
+
 
     //Metodo para procesar toda la informacion
     processInformation() {
@@ -535,6 +551,7 @@ export default {
 
       self.rows = self.list;
       self.showMoreActiveUsers(self.list);
+      //self.showLessActiveUsers(self.list)
       self.createUnderAverageGraphic(self.list);
       self.table1.data = self.list;
 
@@ -650,28 +667,57 @@ export default {
           this.moreThanAverageSteps++;
         }
       }
-      console.log('UNDER',this.underAverageSteps)
       let residents = [  this.moreThanAverageSteps,this.underAverageSteps]
       this.residentsEstimatedData.datasets[0].data = residents;
     },
 
     createAgeRangeGraphic(userInfo){
-      if(userInfo.age >= 60 && userInfo.age < 69){
+      if(userInfo.age >= 60 && userInfo.age <= 69){
         this.sixRange++;
       }
-      if(userInfo.age >= 70 && userInfo.age < 79){
+      if(userInfo.age >= 70 && userInfo.age <= 79){
         this.sevenRange++;
       }
-      if(userInfo.age >= 80 && userInfo.age < 89){
+      if(userInfo.age >= 80 && userInfo.age <= 89){
         this.eightRange++;
       }
-      if(userInfo.age >= 90 && userInfo.age < 99){
+      if(userInfo.age >= 90 && userInfo.age <= 99){
         this.nineRange++;
       }
       if(userInfo.age > 100){
         this.tenRange++;
       }
     },
+
+    // showLessActiveUsers(list){
+    //   this.lessActiveUsers.labels = [];
+    //   this.lessActiveUsers.datasets[0].data =  [];
+    //   this.threeLessActiveUsersSteps=  [];
+    //   this.threeLessActiveUsersNames=  [];
+    //   let orderedUsersByAvergeSteps = list.sort((a, b) => {
+    //     return a.age - b.age;
+    //   });
+    //
+    //   console.log('pencho',orderedUsersByAvergeSteps)
+    //
+    //   if(orderedUsersByAvergeSteps.length > 0){
+    //     if(orderedUsersByAvergeSteps.length >= 1){
+    //       this.threeLessActiveUsersSteps.push(orderedUsersByAvergeSteps[orderedUsersByAvergeSteps.length-1].medios)
+    //       this.threeLessActiveUsersNames.push(orderedUsersByAvergeSteps[orderedUsersByAvergeSteps.length-1].nombre)
+    //     }
+    //     if(orderedUsersByAvergeSteps.length >= 2){
+    //       this.threeLessActiveUsersSteps.push(orderedUsersByAvergeSteps[orderedUsersByAvergeSteps.length-2].medios)
+    //       this.threeLessActiveUsersNames.push(orderedUsersByAvergeSteps[orderedUsersByAvergeSteps.length-2].nombre)
+    //     }
+    //     if(orderedUsersByAvergeSteps.length >= 3){
+    //       this.threeLessActiveUsersSteps.push(orderedUsersByAvergeSteps[orderedUsersByAvergeSteps.length-3].medios)
+    //       this.threeLessActiveUsersNames.push(orderedUsersByAvergeSteps[orderedUsersByAvergeSteps.length-3].nombre)
+    //     }
+    //
+    //     this.lessActiveUsers.labels =  this.threeLessActiveUsersNames;
+    //     this.lessActiveUsers.datasets[0].data =  this.threeLessActiveUsersSteps;
+    //   }
+    // },
 
     showMoreActiveUsers(list){
       this.moreActiveUsers.labels = [];
@@ -681,6 +727,8 @@ export default {
       let orderedUsersByAvergeSteps = list.sort((a, b) => {
         return a.age - b.age;
       });
+
+      console.log('pencho2',orderedUsersByAvergeSteps)
 
       if(orderedUsersByAvergeSteps.length > 0){
         if(orderedUsersByAvergeSteps.length >= 1){
@@ -746,25 +794,25 @@ export default {
             return obj;
           break;
         case 'six':
-          if (userInfo.age >= 60 && userInfo.age < 69) {
+          if (userInfo.age >= 60 && userInfo.age <= 69) {
             let obj = JSON.parse(JSON.stringify(userInfo.stepsWithDatesMap));
             return obj;
           }
           break;
         case 'seven':
-          if (userInfo.age >= 70 && userInfo.age < 79) {
+          if (userInfo.age >= 70 && userInfo.age <= 79) {
             let obj = JSON.parse(JSON.stringify(userInfo.stepsWithDatesMap));
             return obj;
           }
           break;
         case 'eight':
-          if (userInfo.age >= 80 && userInfo.age < 89) {
+          if (userInfo.age >= 80 && userInfo.age <= 89) {
             let obj = JSON.parse(JSON.stringify(userInfo.stepsWithDatesMap));
             return obj;
           }
           break;
         case 'nine':
-          if (userInfo.age >= 90 && userInfo.age < 99) {
+          if (userInfo.age >= 90 && userInfo.age <= 99) {
             let obj = JSON.parse(JSON.stringify(userInfo.stepsWithDatesMap));
             return obj;
           }

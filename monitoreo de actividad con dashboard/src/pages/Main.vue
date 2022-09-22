@@ -57,7 +57,7 @@ export default {
       axios.get("http://localhost:5998/pasos/getUsers")
         .then(function (response) {
           self.allUsers= response.data;
-          console.log(self.allUsers)
+          console.log('aaaaaaaaaaaaaa',self.allUsers)
         }).catch(error => {
         console.log(error)
       })
@@ -70,6 +70,9 @@ export default {
       this.$router.push({name: 'registerUser', params: { calledFrom: 'register' }});
     },
     putInformationInGLobalVariable(user){
+      this.$store.state.userInformation.name = user.name;
+      this.$store.state.userInformation.refresh_token = user.refresh_token;
+      this.$store.state.userInformation.id = user.id;
       this.$store.state.userInformation.firstName = user.firstName;
       this.$store.state.userInformation.lastName = user.lastName;
       this.$store.state.userInformation.weight = user.weight;

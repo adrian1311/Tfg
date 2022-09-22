@@ -49,7 +49,7 @@
 
   <div class="row justify-content-center border border-info mt-5 " v-if="showShortWindow">
     <div class="col-sm-12 text-center bg-white">
-      <h3 class="text-info font-weight-bold">INFORMACION DE RESIDENTES</h3>
+      <h3 class="text-info font-weight-bold">INFORMACIÓN DE RESIDENTES</h3>
       <h3 class="text-info font-weight-bold">Por favor seleccione los residentes y el intervalo</h3>
     </div>
   </div>
@@ -91,6 +91,15 @@
               <h5 class="text-info font-weight-bold">Notas sobre el usuario: </h5>
             </div>
           </div>
+          <div class="row justify-content-center m-2">
+            <div class="col-sm-10 text-center">
+              <p-button type="warning"
+                        round
+                        @click.native.prevent="changeToEditUser(firstUser)">
+                MODIFICAR RESIDENTE
+              </p-button>
+            </div>
+          </div>
         </div>
         <div class="col-sm-5 text-center border border-danger rounded-lg m-1 bg-dark">
           <div class="row justify-content-center m-2">
@@ -114,6 +123,15 @@
               <h5 class="text-danger font-weight-bold">Notas sobre el usuario: </h5>
             </div>
           </div>
+          <div class="row justify-content-center m-2">
+            <div class="col-sm-10 text-center">
+              <p-button type="warning"
+                        round
+                        @click.native.prevent="changeToEditUser(secondUser)">
+                MODIFICAR RESIDENTE
+              </p-button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -135,12 +153,12 @@
               <i :class="'ti-user'"></i>
             </div>
             <div class="numbers" slot="content">
-              <p class="text-white">Pasos medios</p>
+              <p class="text-white">Pasos médios</p>
               <p class="text-white">{{firstUserAveragueSteps}}</p>
             </div>
           </stats-card>
-          <h5 class="mt-3">Objetivo cumplido (dias)</h5>
-          <Knob v-model="value"  readonly />
+          <h5 class="mt-3">Pasos diarios cumplidos en {{selectedDays}} días</h5>
+          <Knob v-model="valueGoalFirstUser"  readonly :max="selectedDays"/>
         </div>
         <div class="col-sm-7 text-center border border-danger m-1 bg-white rounded-lg">
           <Chart type="bar" :data="chartData" :options="chartOptions" />
@@ -160,12 +178,12 @@
               <i :class="'ti-user'"></i>
             </div>
             <div class="numbers" slot="content">
-              <p class="text-white">Pasos medios</p>
+              <p class="text-white">Pasos médios</p>
               <p class="text-white">{{secondUserAveragueSteps}}</p>
             </div>
           </stats-card>
-          <h5 class="mt-3">Objetivo cumplido (dias)</h5>
-          <Knob v-model="value" readonly  />
+          <h5 class="mt-3">Pasos diarios cumplidos en {{selectedDays}} días</h5>
+          <Knob v-model="valueGoalSecondUser" readonly :max="selectedDays" />
         </div>
       </div>
       <div class="row justify-content-center">
@@ -266,7 +284,8 @@ export default {
       showShortWindow : true,
       showInformationWindow : false,
       isLoading : false,
-      value: 0,
+      valueGoalSecondUser: 0,
+      valueGoalFirstUser:0,
       stepsCompareGraphicFirstUser : [],
       stepsCompareGraphicSecondUser : [],
       datesForCompareGraphic : [],
@@ -276,6 +295,8 @@ export default {
       firstUserTotalSteps: '',
       secondUserTotalSteps: '',
       list :[],
+      firstUser:{},
+      secondUser:{},
       firstUserName:'',
       secondUserName:'',
       firstUserAge:'',
@@ -432,6 +453,7 @@ export default {
             data: [],
             fill: false,
             borderColor: '#42A5F5',
+            backgroundColor: '#750c1c',
             tension: .4
           }
         ]
@@ -444,6 +466,7 @@ export default {
             data: [],
             fill: false,
             borderColor: '#42A5F5',
+            backgroundColor: '#750c1c',
             tension: .4
           }
         ]
@@ -455,6 +478,8 @@ export default {
     this.getAllUsers();
   },
   methods:{
+
+    //Cojo todos los usuarios de la base de datos
     getAllUsers() {
       let self = this;
       self.isLoading = true;
@@ -472,56 +497,101 @@ export default {
         this.usersForDropdown.push(user.firstName)
       }
     },
+    //Cojo toda la informacion de los pasos de todos los usuarios
     getAllUsersInfo() {
       let self = this;
       axios.post('http://localhost:5998/pasos/getAllUsersSteps', {
         users: self.allUsers,
         days: 30
       }).then(function (response) {
-        self.$store.state.allUsersInformation = response.data;
+        self.$store.state.allUsersInformation =[]
+        self.$store.state.allUsersInformation = self.convertDateToAge(response.data);
         self.isLoading = false;
         self.pushUsersInDropDown();
-
       }).catch(error => {
         console.log(error)
       })
     },
 
+    changeToEditUser: function(user) {
+      this.putInformationInGLobalVariable(user)
+      this.$router.push({name: 'registerUser', params: { calledFrom: 'edit' }});
+    },
+    putInformationInGLobalVariable(user){
+      this.$store.state.userInformation.name = user.name;
+      this.$store.state.userInformation.refresh_token = user.refresh_token;
+      this.$store.state.userInformation.id = user.id;
+      this.$store.state.userInformation.firstName = user.firstName;
+      this.$store.state.userInformation.lastName = user.lastName;
+      this.$store.state.userInformation.weight = user.weight;
+      this.$store.state.userInformation.height = user.height;
+      this.$store.state.userInformation.refreshToken = user.refresh_token;
+      this.$store.state.userInformation.age = user.age;
+      this.$store.state.userInformation.estimatedSteps = user.estimatedSteps;
+      this.$store.state.userInformation.gender = user.gender;
+      this.$store.state.userInformation.notes = user.notes;
+    },
+
+    // Convierto todas las fechas de nacimiento en edades
+    convertDateToAge(data){
+      for (let user of data){
+        let date = moment(user.age).format('YYYY MM DD');
+        let age =new Date(date)
+        let month_diff = Date.now() - age.getTime();
+        let age_dt = new Date(month_diff);
+        let year = age_dt.getUTCFullYear();
+        user.age = Math.abs(year - 1970);
+      }
+      return data;
+    },
+
      transformInformation() {
+      this.firstUser = {}
+       this.secondUser = {}
       this.showInformationWindow = true;
       this.showShortWindow = false;
        let s = [];
        let listWithHours = [];
        for (let userInfo of this.$store.state.allUsersInformation) {
+         //Cojo solo los usuarios que he elejido el el dropdown
+         //Creo 2 map: Primero con los 2 usuarios y pasos, Segundo con los 2 usuarios y pasos con horas. Los meto en una lista
           if(userInfo.firstName === this.firstResident){
+            this.firstUser = userInfo;
             let map = new Map(Object.entries(userInfo.stepsWithDatesMap));
             let mapWithHours = new Map(Object.entries(userInfo.stepsWithDatesMapWithTime));
             s.push(map)
             listWithHours.push(mapWithHours)
+            //Coloco informacion en los cuadros
             this.putInformationInFirstBoxInfo(userInfo)
           }
          if(userInfo.firstName === this.secondResident){
+           this.secondUser = userInfo;
            let map = new Map(Object.entries(userInfo.stepsWithDatesMap));
            let mapWithHours = new Map(Object.entries(userInfo.stepsWithDatesMapWithTime));
            listWithHours.push(mapWithHours)
            s.push(map)
+           //Coloco informacion en los cuadros
            this.putInformationInSecondBoxInfo(userInfo)
          }
        }
+       //Creo unformacion para las tablas finales de fecha, hora y pasos de cada usuario
        this.createInfoForTables(listWithHours);
+
        this.list = this.createTotalSteps(s);
+       //Creo graficas de mas y menos pasos de ambos usuarios y retorno un map con los 3,7 o 30 valores
        this.convertMapsToGraphicsMoreAndLessDays(s)
+       //Coloco la informacion en las variables para que se muestren en los cuadros de pasos totales
        this.putInformationWithTotalSteps();
 
        this.datesForCompareGraphic = [];
        this.stepsCompareGraphicFirstUser = [];
        this.stepsCompareGraphicSecondUser = [];
 
+       //Creo la grafica principal de ambos usuarios y sus pasos
        for (const [i, value] of s.entries()) {
          let eachMapCOnvertedToList = Array.from(value);
          for (let datesWithSteps in eachMapCOnvertedToList){
            for(let paramsInArray in eachMapCOnvertedToList[datesWithSteps]){
-
              if(i === 0 && paramsInArray == 0 ){
                this.datesForCompareGraphic.push(eachMapCOnvertedToList[datesWithSteps][0]);
                this.stepsCompareGraphicFirstUser.push(eachMapCOnvertedToList[datesWithSteps][1])
@@ -536,21 +606,38 @@ export default {
        this.chartData.labels = [];
        this.chartData.datasets[0].data = [];
        this.chartData.datasets[1].data = [];
+
+
        if(this.selectedDays != 30){
-         this.chartData.labels = this.datesForCompareGraphic.splice(30 - this.selectedDays,30)
-         this.chartData.datasets[0].data =  this.stepsCompareGraphicFirstUser.splice(30 - this.selectedDays,30)
-         this.chartData.datasets[1].data =  this.stepsCompareGraphicSecondUser.splice(30 - this.selectedDays,30)
-       }   if(this.selectedDays == 30){
+         this.chartData.labels = this.datesForCompareGraphic.reverse()
+         this.chartData.datasets[0].data =  this.stepsCompareGraphicFirstUser.reverse()
+         this.chartData.datasets[1].data =  this.stepsCompareGraphicSecondUser.reverse()
+       }else{
          this.chartData.labels = this.datesForCompareGraphic
          this.chartData.datasets[0].data =  this.stepsCompareGraphicFirstUser
          this.chartData.datasets[1].data =  this.stepsCompareGraphicSecondUser
        }
-
-
+       this.calculateCompletedGoalGraphics();
      },
+
+    calculateCompletedGoalGraphics(){
+      this.valueGoalFirstUser= 0;
+      this.valueGoalSecondUser= 0;
+      for( let stepsFirstUser of this.stepsCompareGraphicFirstUser){
+        if(stepsFirstUser >= this.firstUserEstimatedSteps){
+          this.valueGoalFirstUser++;
+        }
+      }
+      for( let stepsSecondUser of this.stepsCompareGraphicSecondUser){
+        if(stepsSecondUser >= this.secondUserEstimatedSteps){
+          this.valueGoalSecondUser++;
+        }
+      }
+    },
     convertMapsToGraphicsMoreAndLessDays(s){
-      var self = this;
+      let self = this;
       for (const [i, value] of s.entries()) {
+        // Para 3 dias
         if(self.selectedDays == 3){
           if( i == 0){
             self.sortedMapWIthTotalStepsFirstUser.clear();
@@ -561,9 +648,11 @@ export default {
           let values = Array.from(value);
           if(values.length > 0){
             value.clear();
+            console.log('values',values)
             value.set(values[29][0],values[29][1]);
             value.set(values[28][0],values[28][1]);
             value.set(values[27][0],values[27][1]);
+            console.log('final value',value)
             if( i == 0){
               self.sortedMapWIthTotalStepsFirstUser = new Map([...value.entries()].sort((a, b) => b[1] - a[1]));
             }
@@ -571,6 +660,7 @@ export default {
               self.sortedMapWIthTotalStepsSecondUser = new Map([...value.entries()].sort((a, b) => b[1] - a[1]));
             }
           }
+          // Para 7 dias
         }else if(self.selectedDays == 7){
           if( i == 0){
             self.sortedMapWIthTotalStepsFirstUser.clear();
@@ -596,7 +686,7 @@ export default {
             }
           }
         }else{
-          // console.log('in other')
+          // Para 30 dias
           if( i == 0){
             self.sortedMapWIthTotalStepsFirstUser.clear();
             self.sortedMapWIthTotalStepsFirstUser = new Map([...value.entries()].sort((a, b) => b[1] - a[1]));
@@ -607,8 +697,6 @@ export default {
           }
         }
       }
-      console.log( self.sortedMapWIthTotalStepsFirstUser)
-      console.log( self.sortedMapWIthTotalStepsSecondUser)
 
       self.highestStepsFirstUser=[];
       self.highestDatesFirstUser=[];
@@ -627,6 +715,7 @@ export default {
         self.highestDatesSecondUser.push(key);
       })
 
+      //Primer residente
       self.highestFirstThreeDatesFirstUser=[];
       self.highestFirstThreeStepsFirstUser=[];
       self.highestFirstThreeDatesFirstUser.push(self.highestStepsFirstUser[0]);
@@ -638,12 +727,12 @@ export default {
 
       self.lowerFinallyThreeDatesFirstUser=[];
       self.lowerFinallyThreeStepsFirstUser=[];
+      self.lowerFinallyThreeDatesFirstUser.push(self.highestDatesFirstUser[self.highestDatesFirstUser.length-1]);
       self.lowerFinallyThreeDatesFirstUser.push(self.highestDatesFirstUser[self.highestDatesFirstUser.length-2]);
       self.lowerFinallyThreeDatesFirstUser.push(self.highestDatesFirstUser[self.highestDatesFirstUser.length-3]);
-      self.lowerFinallyThreeDatesFirstUser.push(self.highestDatesFirstUser[self.highestDatesFirstUser.length-4]);
+      self.lowerFinallyThreeStepsFirstUser.push(self.highestStepsFirstUser[self.highestStepsFirstUser.length-1]);
       self.lowerFinallyThreeStepsFirstUser.push(self.highestStepsFirstUser[self.highestStepsFirstUser.length-2]);
       self.lowerFinallyThreeStepsFirstUser.push(self.highestStepsFirstUser[self.highestStepsFirstUser.length-3]);
-      self.lowerFinallyThreeStepsFirstUser.push(self.highestStepsFirstUser[self.highestStepsFirstUser.length-4]);
 
       self.dataLowerStepsFirstUser.labels = [];
       self.dataLowerStepsFirstUser.datasets[0].data =[];
@@ -669,12 +758,12 @@ export default {
 
       self.lowerFinallyThreeDatesSecondUser=[];
       self.lowerFinallyThreeStepsSecondUser=[];
+      self.lowerFinallyThreeDatesSecondUser.push(self.highestDatesSecondUser[self.highestDatesSecondUser.length-1]);
       self.lowerFinallyThreeDatesSecondUser.push(self.highestDatesSecondUser[self.highestDatesSecondUser.length-2]);
       self.lowerFinallyThreeDatesSecondUser.push(self.highestDatesSecondUser[self.highestDatesSecondUser.length-3]);
-      self.lowerFinallyThreeDatesSecondUser.push(self.highestDatesSecondUser[self.highestDatesSecondUser.length-4]);
+      self.lowerFinallyThreeStepsSecondUser.push(self.highestStepsSecondUser[self.highestStepsSecondUser.length-1]);
       self.lowerFinallyThreeStepsSecondUser.push(self.highestStepsSecondUser[self.highestStepsSecondUser.length-2]);
       self.lowerFinallyThreeStepsSecondUser.push(self.highestStepsSecondUser[self.highestStepsSecondUser.length-3]);
-      self.lowerFinallyThreeStepsSecondUser.push(self.highestStepsSecondUser[self.highestStepsSecondUser.length-4]);
 
       self.dataLowerStepsSecondUser.labels = [];
       self.dataLowerStepsSecondUser.datasets[0].data =[];

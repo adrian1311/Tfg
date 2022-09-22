@@ -6,6 +6,7 @@ import com.tfg.pasos.Dtos.Users;
 import com.tfg.pasos.Repository.UsersRepository;
 import com.tfg.pasos.Service.UserStepsService;
 import com.tfg.pasos.Utils.StepsAndDatesConverter;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,14 @@ public class PasosManager {
 
     public List<Users> getUsers(){
         return usersRepository.findAll();
+    }
+
+    public void modifyUser(Users user){
+        usersRepository.save(user);
+    }
+
+    public void deleteUser(Users user){
+        usersRepository.deleteById(user.getId());
     }
 
     public List <Users> getStepsForUsers(List<Users> users, Integer days){

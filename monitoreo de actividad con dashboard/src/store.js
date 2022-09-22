@@ -8,6 +8,9 @@ export const store = new Vuex.Store({
     userStepsWithDates: [],
     exampleArray:[],
     userInformation :{
+      id:'',
+      name:'',
+      refresh_token:'',
       firstName:'',
       lastName:'',
       height:'',

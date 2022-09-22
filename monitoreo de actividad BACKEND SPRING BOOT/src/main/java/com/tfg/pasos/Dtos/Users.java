@@ -6,6 +6,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -43,7 +44,7 @@ public class Users {
     private String gender;
 
     @Column(name = "age")
-    private Integer age;
+    private Date age;
 
     @Column(name = "estimated_steps")
     private Integer estimatedSteps;

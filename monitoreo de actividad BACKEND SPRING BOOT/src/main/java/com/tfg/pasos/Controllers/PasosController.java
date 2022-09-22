@@ -1,6 +1,5 @@
 package com.tfg.pasos.Controllers;
 
-import com.tfg.pasos.Dtos.GenericInformation;
 import com.tfg.pasos.Dtos.GetAllUsersStepsBody;
 import com.tfg.pasos.Dtos.Users;
 import com.tfg.pasos.Manager.PasosManager;
@@ -29,5 +28,17 @@ public class PasosController {
     @PostMapping(value = "/getAllUsersSteps")
     public List<Users> getAllUsersSteps(@RequestBody GetAllUsersStepsBody getAllUsersStepsBody) {
         return pasosManager.getStepsForUsers(getAllUsersStepsBody.getUsers(), getAllUsersStepsBody.getDays());
+    }
+
+    @PostMapping (value = "/modifyInfo")
+    public void modifyInfo(@RequestBody Users user) {
+        System.out.println(user.getAge());
+        pasosManager.modifyUser(user);
+    }
+
+    @PostMapping (value = "/deleteUser")
+    public void deleteUser(@RequestBody Users user) {
+        System.out.println("FELETE");
+        pasosManager.deleteUser(user);
     }
 }
