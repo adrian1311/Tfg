@@ -24,9 +24,11 @@
       </div>
     </div>
 
-<!--<div class="row justify-content-center mb-3">
-    <label class="font-weight-bold font-weight-bold h4 text-success">Número total de residentes : {{allUsers.length}}</label>
-</div>-->
+<div class="row justify-content-center mb-2 bg-dark text-center border border-primary rounded-lg">
+  <div class="col-md-10 col-xl-10 ">
+    <img class="mr-2 text-warning" src="@/assets/img/people.png" width="50" /><label class="font-weight-bold font-weight-bold h4 text-white">Número total de residentes : {{allUsers.length}}</label>
+  </div>
+</div>
     <div class="row justify-content-center">
       <div class="col-md-4 col-xl-4">
         <div class="row justify-content-center">
@@ -50,8 +52,9 @@
               </div>
             </stats-card>
           </div>
-          <div class="col-md-6 col-xl-6  bg-white  border border-primary bg-white rounded-lg mb-2">
-            <Chart type="pie" :data="residentsNumberData" :options="residentsNumberData" />
+          <div class="col-md-6 col-xl-6  bg-white text-center border border-primary bg-white rounded-lg mb-2">
+            <Chart type="pie"  @click.native.prevent="showResidentsList" :data="residentsNumberData" :options="residentsNumberData" />
+            <label>Click en la grafica para ver la lista</label>
           </div>
         </div>
       </div>
@@ -212,7 +215,6 @@ const tableColumns = ["nombre", "medios", "mensuales", "estimados", "ayuda"];
 import Chart from 'primevue/chart';
 import 'vue-good-table/dist/vue-good-table.css'
 import { VueGoodTable } from 'vue-good-table';
-import Button from 'primevue/button';
 import moment from "moment";
 
 
@@ -223,7 +225,7 @@ export default {
     Chart,
     PaperTable,
     VueGoodTable,
-    Button
+
   },
   data() {
     return {
@@ -457,6 +459,10 @@ export default {
     this.getAllUsers();
   },
   methods: {
+    showResidentsList(){
+      console.log('test')
+    },
+
     //metodo para recuperar todos los usuarios de la BD
     getAllUsers() {
       let self = this;

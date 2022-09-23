@@ -24,9 +24,12 @@ import 'primevue/resources/themes/bootstrap4-light-blue/theme.css'
 import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css'
 import PrimeVue from 'primevue/config';
+import ConfirmationService from 'primevue/confirmationservice';
+
 
 Vue.use(PaperDashboard);
 Vue.use(PrimeVue);
+Vue.use(ConfirmationService);
 /* eslint-disable no-new */
 new Vue({
   store,

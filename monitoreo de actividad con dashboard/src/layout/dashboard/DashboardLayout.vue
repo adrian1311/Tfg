@@ -5,10 +5,8 @@
         <!--sidebar-link to="/frontPage"><img class="mr-2 text-warning" src="@/assets/img/home1.png" width="30" /><span class="text-white font-weight-bold small">HOME!</span></sidebar-link-->
         <sidebar-link to="/genericInfo"><img class="mr-2 text-warning" src="@/assets/img/gen_info.png" width="30" /><span class="text-white font-weight-bold small">INFORMACION GENERAL</span></sidebar-link>
         <sidebar-link to="/compareUsers"><img class="mr-2 text-warning" src="@/assets/img/compare.png" width="30" /><span class="text-white font-weight-bold small">COMPARAR RESIDENTES</span></sidebar-link>
+        <sidebar-link to="/showUser"><img class="mr-2 text-warning" src="@/assets/img/compare.png" width="30" /><span class="text-white font-weight-bold small">UN RESIDENTE</span></sidebar-link>
         <sidebar-link to="/main"><img class="mr-2 text-warning" src="@/assets/img/people.png" width="30" /><span class="text-white font-weight-bold small">VER RESIDENTES</span></sidebar-link>
-        <!--sidebar-link to="/dashboard" name="Dashboard" icon="ti-panel"/-->
-        <!--sidebar-link to="/stats" name="User Profile" icon="ti-user"/>
-        <sidebar-link to="/table-list" name="Steps by hours" icon="ti-view-list-alt"/-->
       </template>
       <mobile-menu>
         <li class="nav-item">
@@ -17,16 +15,6 @@
             <p>Stats</p>
           </a>
         </li>
-<!--        <drop-down class="nav-item"-->
-<!--                   title="5 Notifications"-->
-<!--                   title-classes="nav-link"-->
-<!--                   icon="ti-bell">-->
-<!--          <a class="dropdown-item">Notification 1</a>-->
-<!--          <a class="dropdown-item">Notification 2</a>-->
-<!--          <a class="dropdown-item">Notification 3</a>-->
-<!--          <a class="dropdown-item">Notification 4</a>-->
-<!--          <a class="dropdown-item">Another notification</a>-->
-<!--        </drop-down>-->
         <li class="nav-item">
           <a class="nav-link">
             <i class="ti-settings"></i>

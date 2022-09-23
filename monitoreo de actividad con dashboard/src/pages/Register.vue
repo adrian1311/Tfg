@@ -53,7 +53,7 @@
       <div class="row justify-content-center">
         <div class="col-sm-4">
           <div class="input-group input-group-lg">
-            <span class="input-group-text">Pasos diarios estimados</span>
+            <span class="input-group-text">Pasos diários estimados</span>
             <input type="text"  v-model="estimetedSteps"  class="form-control">
           </div>
         </div>
@@ -80,11 +80,12 @@
       <div class="row justify-content-center">
         <div class="col-sm-10 text-center">
           <div class="form-group">
-            <span class="input-group-text" style="text-align: center">Informacion adicional sobre el residente</span>
+            <span class="input-group-text" style="text-align: center">Información adicional sobre el residente</span>
             <textarea class="form-control" v-model="notes"  rows="3"></textarea>
           </div>
         </div>
       </div>
+
       <div class="text-center mb-2">
         <p-button type="success" v-if="showAddButton"
                   round
@@ -93,16 +94,27 @@
         </p-button>
         <p-button type="warning" v-if="showEditButton"
                   round
-                  @click.native.prevent="modifyBand">
+                  @click.native.prevent="modifyConfirmation">
           MODIFICAR RESIDENTE
         </p-button>
         <p-button type="danger" v-if="showEditButton"
                   round
-                  @click.native.prevent="deleteBand">
+                  @click.native.prevent="deleteConfirmation">
           BORRAR RESIDENTE
         </p-button>
       </div>
     </div>
+
+    <ConfirmDialog></ConfirmDialog>
+    <ConfirmDialog group="templating">
+      <template #message="slotProps">
+        <div class="flex p-4">
+          <i :class="slotProps.message.icon" style="font-size: 1.5rem"></i>
+          <p class="pl-2">{{slotProps.message.message}}</p>
+        </div>
+      </template>
+    </ConfirmDialog>
+    <ConfirmDialog group="positionDialog"></ConfirmDialog>
     <!--div class="col-sm-2 px-0">
       <img src="@/assets/img/imagen2.png" class="img-fluid">
     </div-->
@@ -115,11 +127,13 @@
 import {default as axios} from "axios";
 import moment from "moment";
 import Calendar from 'primevue/calendar';
+import ConfirmDialog from 'primevue/confirmdialog';
 
 export default {
   name: "Register",
   components: {
     Calendar,
+    ConfirmDialog
   },
   data() {
     return {
@@ -223,16 +237,57 @@ export default {
       axios.post("http://localhost:5998/pasos/deleteUser",{
         id: self.id
       }).then(function (response) {
-        console.log(response)
-
-      }).catch(error => {
-        if (!error.response) {
-          this.errorStatus = 'Error: Network Error';
-        } else {
-          this.errorStatus = error.response.data.message;
+        console.log('myresponse',response)
+        if(response.status == 200){
+          console.log('llamando a la pestaña de usuarios')
+          self.moveToMainPage();
         }
+
+
       })
     },
+
+    deleteConfirmation() {
+      let self=this;
+      self.$confirm.require({
+        message: '¿ Seguro que desea borrar este residente ?',
+        header: 'Borrar residente',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+         self.deleteBand()
+        },
+        reject: () => {
+          //callback to execute when user rejects the action
+        },
+        onHide: () => {
+          //Callback to execute when dialog is hidden
+        }
+      });
+    },
+
+    modifyConfirmation() {
+      let self=this;
+      self.$confirm.require({
+        message: '¿ Seguro que desea modificar la información personal de este residente ?',
+        header: 'Modificar residente',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+          self.modifyBand()
+        },
+        reject: () => {
+          //callback to execute when user rejects the action
+        },
+        onHide: () => {
+          //Callback to execute when dialog is hidden
+        }
+      });
+    },
+
+
+    moveToMainPage(){
+      console.log('moviendo a la pestaña de usuarios')
+      this.$router.push({name: 'main'});
+    }
 
 
   },

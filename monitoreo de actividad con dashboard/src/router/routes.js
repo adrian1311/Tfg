@@ -17,7 +17,7 @@ import ExternLogin from "../pages/ExternLogin";
 import GenericInfo from "../pages/GenericInfo";
 import CompareUsers from "../pages/CompareUsers";
 import FrontPage from "../pages/FrontPage";
-
+import ShowUser from "../pages/ShowUser";
 const routes = [
   // {
   //   path: "/externLogin",
@@ -78,7 +78,7 @@ const routes = [
       },
       {
         path: "main",
-        //name: "All users bands",
+        name: "main",
         component: Main
       }
       ,
@@ -96,6 +96,11 @@ const routes = [
         path: "compareUsers",
         name: "COMPARAR RESIDENTES",
         component: CompareUsers
+      },
+      {
+        path: "showUser",
+        name: "UN RESIDENTE",
+        component: ShowUser
       }
     ]
   },

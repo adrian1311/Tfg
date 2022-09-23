@@ -43,7 +43,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: "Activity platform"
+      default: "Control de actividad"
     },
     backgroundColor: {
       type: String,
