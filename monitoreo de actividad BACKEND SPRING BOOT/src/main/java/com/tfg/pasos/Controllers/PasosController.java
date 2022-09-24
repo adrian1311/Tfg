@@ -32,7 +32,6 @@ public class PasosController {
 
     @PostMapping (value = "/modifyInfo")
     public void modifyInfo(@RequestBody Users user) {
-        System.out.println(user.getAge());
         pasosManager.modifyUser(user);
     }
 

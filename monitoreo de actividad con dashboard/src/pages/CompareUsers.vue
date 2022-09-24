@@ -138,7 +138,7 @@
 
     <div class="col-sm-12 mt-2">
       <div class="row justify-content-center">
-        <div class="col-sm-2 mt-5 text-center">
+        <div class="col-sm-2 mt-5 text-center ">
         <stats-card class="bg-dark">
           <div class="icon-big text-center" :class="`icon-info`" slot="header">
             <i :class="'ti-user'"></i>

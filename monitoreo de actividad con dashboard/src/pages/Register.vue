@@ -2,26 +2,26 @@
 <div>
   <div class="row">
     <div class="col-sm-11 border border-success m-4 rounded-lg bg-dark">
-      <div class="row justify-content-center mt-3 mb-3">
-        <span style="font-size: large ;color: orange">Todos los campos son obligatorios para registrar nuevo residente !</span>
+      <div class="row justify-content-center mt-2">
+        <label class="font-weight-bold text-white">INFORMACIÓN BÁSICA DEL RESIDENTE</label>
       </div>
-      <div class="row justify-content-center ">
+      <div class="row justify-content-center mt-2">
         <div class="col-sm-4">
           <div class="input-group input-group-lg">
             <span class="input-group-text">Nombre</span>
-            <input type="text" v-model="firstName"  class="form-control">
+            <input type="text" v-model="firstName"  class="form-control text-dark">
           </div>
         </div>
         <div class="col-sm-4">
           <div class="input-group input-group-lg">
             <span class="input-group-text">Apellido</span>
-            <input type="text" v-model="lastName"  class="form-control">
+            <input type="text" v-model="lastName"  class="form-control text-dark">
           </div>
         </div>
         <div class="col-sm-4">
           <div class="input-group input-group-lg">
             <span class="input-group-text">Genero</span>
-            <select class="form-control" v-model="gender" >
+            <select class="form-control text-dark" v-model="gender" >
               <option value="male">Hombre</option>
               <option value="female">Mujer</option>
             </select>
@@ -33,19 +33,19 @@
         <div class="col-sm-4">
           <div class="input-group input-group-lg">
             <span class="input-group-text">Altura (cm)</span>
-            <input type="text" v-model="height"   class="form-control">
+            <input type="text" v-model="height"   class="form-control text-dark">
           </div>
         </div>
         <div class="col-sm-4">
           <div class="input-group input-group-lg">
             <span class="input-group-text">Peso (kg)</span>
-            <input type="text" v-model="weight"  class="form-control">
+            <input type="text" v-model="weight"  class="form-control text-dark">
           </div>
         </div>
         <div class="col-sm-4">
           <div class="input-group input-group-lg">
             <span class="input-group-text">Fecha de nacimiento</span>
-            <input type="date" v-model="age"  class="form-control">
+            <input type="date" v-model="age"  class="form-control text-dark">
           </div>
         </div>
 
@@ -54,26 +54,26 @@
         <div class="col-sm-4">
           <div class="input-group input-group-lg">
             <span class="input-group-text">Pasos diários estimados</span>
-            <input type="text"  v-model="estimetedSteps"  class="form-control">
+            <input type="text"  v-model="estimetedSteps"  class="form-control text-dark">
           </div>
         </div>
         <div class="col-sm-4">
           <div class="input-group input-group-lg">
             <span class="input-group-text">Necesita ayuda ?</span>
-            <select class="form-control" v-model="needHelp" >
+            <select class="form-control text-dark" v-model="needHelp" >
               <option value="no">No</option>
               <option value="yes">Si</option>
             </select>
           </div>
         </div>
         <div class="col-sm-4">
-          <div class="input-group input-group-lg">
-            <span class="input-group-text">Toma medicamentos ?</span>
-            <select class="form-control" v-model="medicines" >
-              <option value="no">No</option>
-              <option value="yes">Si</option>
-            </select>
-          </div>
+<!--          <div class="input-group input-group-lg">-->
+<!--            <span class="input-group-text">Toma medicamentos ?</span>-->
+<!--            <select class="form-control text-dark" v-model="medicines" >-->
+<!--              <option value="no">No</option>-->
+<!--              <option value="yes">Si</option>-->
+<!--            </select>-->
+<!--          </div>-->
         </div>
       </div>
 
@@ -81,7 +81,68 @@
         <div class="col-sm-10 text-center">
           <div class="form-group">
             <span class="input-group-text" style="text-align: center">Información adicional sobre el residente</span>
-            <textarea class="form-control" v-model="notes"  rows="3"></textarea>
+            <textarea class="form-control text-dark" v-model="notes"  rows="3"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-11 border border-success m-4 rounded-lg bg-dark">
+      <div class="row justify-content-center mt-2">
+        <label class="font-weight-bold text-white">APTITUD FÍSICA DEL RESIDENTE</label>
+      </div>
+      <div class="row justify-content-center mt-2">
+        <div class="col-sm-6">
+          <div class="input-group input-group-lg">
+            <span class="input-group-text">Sentarse/levantarse (segundos)</span>
+            <input type="text" v-model="sitUp"  class="form-control">
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="input-group input-group-lg">
+            <span class="input-group-text">Flexiones codos (nº de repeticiones)</span>
+            <input type="text" v-model="elbowFlexion"  class="form-control">
+          </div>
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-sm-6">
+          <div class="input-group input-group-lg">
+            <span class="input-group-text">Caminata (metros recorridos)</span>
+            <input type="text" v-model="walks"   class="form-control">
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="input-group input-group-lg">
+            <span class="input-group-text">Marcha estacionaria (nº de pasos</span>
+            <input type="text" v-model="march"  class="form-control">
+          </div>
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-sm-6">
+          <div class="input-group input-group-lg">
+            <span class="input-group-text">Flexión del tronco (cm, +/–)</span>
+            <input type="text"  v-model="trunkFlexion"  class="form-control">
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="input-group input-group-lg">
+            <span class="input-group-text">Flexibilidad hombros (cm, +/–)</span>
+            <input type="text"  v-model="shouldersFlexion"  class="form-control">
+          </div>
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-sm-6">
+          <div class="input-group input-group-lg">
+            <span class="input-group-text">Levantarse, caminar y sentarse (segundos)</span>
+            <input type="text"  v-model="upWalkSit"  class="form-control">
           </div>
         </div>
       </div>
@@ -104,21 +165,18 @@
         </p-button>
       </div>
     </div>
-
-    <ConfirmDialog></ConfirmDialog>
-    <ConfirmDialog group="templating">
-      <template #message="slotProps">
-        <div class="flex p-4">
-          <i :class="slotProps.message.icon" style="font-size: 1.5rem"></i>
-          <p class="pl-2">{{slotProps.message.message}}</p>
-        </div>
-      </template>
-    </ConfirmDialog>
-    <ConfirmDialog group="positionDialog"></ConfirmDialog>
-    <!--div class="col-sm-2 px-0">
-      <img src="@/assets/img/imagen2.png" class="img-fluid">
-    </div-->
   </div>
+
+  <ConfirmDialog></ConfirmDialog>
+  <ConfirmDialog group="templating">
+    <template #message="slotProps">
+      <div class="flex p-4">
+        <i :class="slotProps.message.icon" style="font-size: 1.5rem"></i>
+        <p class="pl-2">{{slotProps.message.message}}</p>
+      </div>
+    </template>
+  </ConfirmDialog>
+  <ConfirmDialog group="positionDialog"></ConfirmDialog>
 
 </div>
 </template>
@@ -153,7 +211,13 @@ export default {
       estimetedSteps:'',
       notes:'',
       needHelp:'no',
-      medicines:'no'
+      sitUp:0,
+      elbowFlexion:0,
+      walks:0,
+      march:0,
+      trunkFlexion:0,
+      shouldersFlexion:0,
+      upWalkSit:0.0
     }
   },
   mounted() {
@@ -178,6 +242,13 @@ export default {
       this.estimetedSteps = this.$store.state.userInformation.estimatedSteps;
       this.gender = this.$store.state.userInformation.gender;
       this.notes =this.$store.state.userInformation.notes;
+      this.sitUp =this.$store.state.userInformation.sitUp;
+      this.elbowFlexion =this.$store.state.userInformation.elbowFlexion;
+      this.walks =this.$store.state.userInformation.walks;
+      this.march =this.$store.state.userInformation.march;
+      this.trunkFlexion =this.$store.state.userInformation.trunkFlexion;
+      this.shouldersFlexion =this.$store.state.userInformation.shouldersFlexion;
+      this.upWalkSit =this.$store.state.userInformation.upWalkSit;
     },
     addBand(){
       let self=this;
@@ -190,7 +261,14 @@ export default {
           age:self.age,
           gender:self.gender,
           estimetedSteps:self.estimetedSteps,
-          notes:self.notes
+          notes:self.notes,
+          sitUp:self.sitUp,
+          elbowFlexion:self.elbowFlexion,
+          walks:self.walks,
+          march:self.march,
+          trunkFlexion:self.trunkFlexion,
+          shouldersFlexion:self.shouldersFlexion,
+          upWalkSit:self.upWalkSit
         }
       }).then(function (response) {
           self.urlForSteps= response.data
@@ -207,7 +285,6 @@ export default {
     modifyBand(){
       let self=this;
       axios.post("http://localhost:5998/pasos/modifyInfo",{
-
           id: self.id,
         refresh_token:self.refresh_token,
         name:self.name,
@@ -218,7 +295,14 @@ export default {
         age:self.age,
         gender:self.gender,
         estimatedSteps:self.estimetedSteps,
-        notes:self.notes
+        notes:self.notes,
+        sitUp:self.sitUp,
+        elbowFlexion:self.elbowFlexion,
+        walks:self.walks,
+        march:self.march,
+        trunkFlexion:self.trunkFlexion,
+        shouldersFlexion:self.shouldersFlexion,
+        upWalkSit:self.upWalkSit
       }).then(function (response) {
      console.log(response)
 

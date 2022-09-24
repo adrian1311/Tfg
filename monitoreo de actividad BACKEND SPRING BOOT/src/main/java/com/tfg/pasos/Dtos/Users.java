@@ -52,6 +52,27 @@ public class Users {
     @Column(name = "notes")
     private String notes;
 
+    @Column(name = "sit_up")
+    private Integer sitUp;
+
+    @Column(name = "elbow_flexion")
+    private Integer elbowFlexion;
+
+    @Column(name = "walks")
+    private Integer walks;
+
+    @Column(name = "march")
+    private Integer march;
+
+    @Column(name = "trunk_flexion")
+    private Integer trunkFlexion;
+
+    @Column(name = "shoulders_flexion")
+    private Integer shouldersFlexion;
+
+    @Column(name = "up_walk_sit")
+    private Double upWalkSit;
+
     @Transient
     private List<UserStepsAndDates> stepsWithDates;
 

@@ -82,7 +82,13 @@ export default {
       this.$store.state.userInformation.estimatedSteps = user.estimatedSteps;
       this.$store.state.userInformation.gender = user.gender;
       this.$store.state.userInformation.notes = user.notes;
-
+      this.$store.state.userInformation.sitUp = user.sitUp;
+      this.$store.state.userInformation.elbowFlexion = user.elbowFlexion;
+      this.$store.state.userInformation.walks = user.walks;
+      this.$store.state.userInformation.trunkFlexion = user.trunkFlexion;
+      this.$store.state.userInformation.shouldersFlexion = user.shouldersFlexion;
+      this.$store.state.userInformation.upWalkSit = user.upWalkSit;
+      this.$store.state.userInformation.march = user.march;
     }
 
   }

@@ -54,7 +54,7 @@
           </div>
           <div class="col-md-6 col-xl-6  bg-white text-center border border-primary bg-white rounded-lg mb-2">
             <Chart type="pie"  @click.native.prevent="showResidentsList" :data="residentsNumberData" :options="residentsNumberData" />
-            <label>Click en la grafica para ver la lista</label>
+            <!--label>Click en la grafica para ver la lista</label-->
           </div>
         </div>
       </div>
@@ -179,6 +179,7 @@
       <Chart type="bar" :data="lessActiveUsers" :options="horizontalOptions" />
     </div>
     </div>
+
     <div class="row">
       <div class="col-12 text-center">
         <h3 class="font-weight-bold text-dark">Información mostrada para los últimos {{selectedDays}} días</h3>
@@ -189,6 +190,9 @@
         <vue-good-table
           :columns="columns"
           :rows="rows"
+          :search-options="{
+    enabled: true
+  }"
         @>
           <template slot="table-row" slot-scope="props">
     <span v-if="props.column.field == 'medios' && (props.row.estimados > props.row.medios)">
@@ -833,11 +837,9 @@ export default {
       }
 
   }
-
-
   },
-
 };
+
 </script>
 
 <style scoped>
@@ -850,5 +852,7 @@ export default {
   background: rgba(245, 245, 245, 0.5);
   z-index: 99999;
 }
+
+
 
 </style>

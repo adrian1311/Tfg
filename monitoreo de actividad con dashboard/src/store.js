@@ -20,6 +20,13 @@ export const store = new Vuex.Store({
       notes:'',
       estimatedSteps:'',
       gender:'',
+      sitUp:'',
+      elbowFlexion:'',
+      walks:'',
+      march:'',
+      trunkFlexion:'',
+      shouldersFlexion:'',
+      upWalkSit:''
     },
     daysForSearch:7,
     mapWithDatesAndSteps : new Map(),

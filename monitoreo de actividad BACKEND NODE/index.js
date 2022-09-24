@@ -30,6 +30,15 @@ let personGender = '';
 let personestimatedSteps = '';
 let personNotes = '';
 
+let sitUp = 0;
+let elbowFlexion = 0;
+let walks = 0;
+let march = 0;
+let trunkFlexion = 0;
+let shouldersFlexion = 0;
+let upWalkSit = 0.0;
+
+
 const cors = require('cors');
 app.use(cors());
 
@@ -104,10 +113,6 @@ app.get('/getInformation', async (req, res, next) => {
             google.options({ auth: oauth2Client });
 
             const last7Days = await getAggregatedFitnessDataFromToInMillis(daysAgo, todayAtMidnight);
-            //last7Days.reverse();
-            //console.log('Steps last 7 days: ', last7Days);
-            //const today = await getStepsForToday();
-            //console.log('Today: ', today);
             res.send(last7Days)
         } catch (err) {
             next(err);
@@ -124,11 +129,18 @@ function getVariablesFromRequest(req){
     personGender = req.query.gender
     personestimatedSteps = req.query.estimetedSteps
     personNotes = req.query.notes;
+    sitUp = req.query.sitUp;
+    elbowFlexion = req.query.elbowFlexion;
+    walks = req.query.walks;
+    march = req.query.march;
+    trunkFlexion = req.query.trunkFlexion;
+    shouldersFlexion = req.query.shouldersFlexion;
+    upWalkSit = req.query.upWalkSit;
 }
 
 function updateUserInDB(name,token){
         //Update the address field:
-        var sql = "UPDATE users SET refresh_token = '" + token + "', first_name = '" + personName + "',last_name = '" + personLastName + "',height = '" + personHeight + "',weight = '" + personWeight + "',age = '" + personAge + "',gender = '" + personGender + "',estimated_steps = '" + personestimatedSteps + "',notes = '" + personNotes + "' WHERE name = '" + name + "'";
+        var sql = "UPDATE users SET refresh_token = '" + token + "', first_name = '" + personName + "',last_name = '" + personLastName + "',height = '" + personHeight + "',weight = '" + personWeight + "',age = '" + personAge + "',gender = '" + personGender + "',estimated_steps = '" + personestimatedSteps + "',notes = '" + personNotes + "',sit_up = '" + sitUp +"',elbow_flexion = '" + elbowFlexion +"',walks = '" + walks +"',march = '" + march +"',trunk_flexion = '" + trunkFlexion +"',shoulders_flexion = '" + shouldersFlexion +"',up_walk_sit = '" + upWalkSit +"' WHERE name = '" + name + "'";
         con.query(sql, function (err, result) {
           if (err) throw err;
           console.log(result.affectedRows + " record(s) updated");
@@ -136,7 +148,7 @@ function updateUserInDB(name,token){
 }
 
 function saveInDB(name, token) {
-    var sql = "INSERT INTO users (name,refresh_token,first_name,last_name,height,weight,age,gender,estimated_steps,notes) VALUES ('" + name + "','" + token + "','" + personName + "','" + personLastName + "','" + personHeight + "','" + personWeight + "','" + personAge + "','" + personGender + "','" + personestimatedSteps + "','" + personNotes + "')";
+    var sql = "INSERT INTO users (name,refresh_token,first_name,last_name,height,weight,age,gender,estimated_steps,notes,sit_up,elbow_flexion,walks,march,trunk_flexion,shoulders_flexion,up_walk_sit) VALUES ('" + name + "','" + token + "','" + personName + "','" + personLastName + "','" + personHeight + "','" + personWeight + "','" + personAge + "','" + personGender + "','" + personestimatedSteps + "','" + personNotes + "','" + sitUp + "','" + elbowFlexion + "','" + walks + "','" + march + "','" + trunkFlexion + "','" + shouldersFlexion + "','" + upWalkSit + "')";
     con.query(sql, function (err, result) {
         if (err) throw err;
         console.log("1 record inserted");
@@ -171,7 +183,6 @@ async function getAggregatedFitnessDataFromToInMillis(startTimeMillis, endTimeMi
                 },
             ],
             bucketByTime: {
-                //durationMillis: 86400000 // Aggregate by 1 day
                 durationMillis: 3600000
             },
             startTimeMillis,
@@ -181,13 +192,6 @@ async function getAggregatedFitnessDataFromToInMillis(startTimeMillis, endTimeMi
     console.log('debug',fitnessRes.data.bucket)
     const stepsDataPointBucketArray = fitnessRes.data.bucket;
     const stepsArray = stepsDataPointBucketArray.map((day) => {
-        //console.log(day);
-        // if (day.dataset[0].point[0] != null) {
-        //     //console.log('value',day.dataset[0].point[0].value[0].intVal)
-        //     return day.dataset[0].point[0];
-        // } else {
-        //     return 0;
-        // }
         console.log('day', day)
         return day;
     });

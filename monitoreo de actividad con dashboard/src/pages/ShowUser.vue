@@ -104,7 +104,7 @@
         </div>
       </stats-card>
     </div>
-        <div class="col-sm-3 mt-5 text-center">
+        <div class="col-sm-3 mt-5 text-center ">
         <h5 class="mt-3">Pasos diarios cumplidos en {{selectedDays}} días</h5>
         <Knob v-model="valueGoalFirstUser"  readonly :max="selectedDays"/>
         </div>
@@ -124,12 +124,99 @@
           <Chart type="bar" :data="dataLowerStepsFirstUser" :options="horizontalOptions" />
         </div>
       </div>
-      <div class="row justify-content-center border border-info mt-2">
-        <div class="col-sm-5 mt-2 text-center border border-info m-1 rounded-lg bg-white">
+      <div class="row justify-content-center mt-2">
+        <div class="col-sm-10 mt-2 text-center bg-white">
           <h4 class="text-info">Información por horas de los últimos {{selectedDays}} de : {{ firstUserName }}</h4>
           <vue-good-table
             :columns="columns"
             :rows="rowsFirstUser"
+            max-height="400px"
+            :fixed-header="true">
+          </vue-good-table>
+        </div>
+      </div>
+
+      <div class="row justify-content-center mt-3">
+        <div class="col-sm-11 text-center border border-info rounded-lg m-1 bg-dark">
+          <div class="row justify-content-center mt-2">
+            <label class="font-weight-bold text-white">APTITUD FÍSICA DEL RESIDENTE : {{firstUser.firstName}} de {{firstUser.age}} </label>
+          </div>
+      <div class="row justify-content-center mt-2">
+        <div class="col-sm-6">
+          <div class="input-group input-group-lg">
+            <span class="input-group-text">Sentarse/levantarse (segundos)</span>
+            <input type="text" disabled v-model="firstUser.sitUp"  class="form-control">
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="input-group input-group-lg">
+            <span class="input-group-text">Flexiones codos (nº de repeticiones)</span>
+            <input type="text" disabled v-model="firstUser.elbowFlexion"  class="form-control">
+          </div>
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-sm-6">
+          <div class="input-group input-group-lg">
+            <span class="input-group-text">Caminata (metros recorridos)</span>
+            <input type="text" disabled v-model="firstUser.walks"   class="form-control">
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="input-group input-group-lg">
+            <span class="input-group-text">Marcha estacionaria (nº de pasos</span>
+            <input type="text" disabled v-model="firstUser.march"  class="form-control">
+          </div>
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-sm-6">
+          <div class="input-group input-group-lg">
+            <span class="input-group-text">Flexión del tronco (cm, +/–)</span>
+            <input type="text" disabled v-model="firstUser.trunkFlexion"  class="form-control">
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="input-group input-group-lg">
+            <span class="input-group-text">Flexibilidad hombros (cm, +/–)</span>
+            <input type="text" disabled v-model="firstUser.shouldersFlexion"  class="form-control">
+          </div>
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-sm-6">
+          <div class="input-group input-group-lg">
+            <span class="input-group-text">Levantarse, caminar y sentarse (segundos)</span>
+            <input type="text" disabled v-model="firstUser.upWalkSit"  class="form-control">
+          </div>
+        </div>
+      </div>
+
+
+        </div>
+      </div>
+
+
+      <div class="row justify-content-center mt-2" v-if="firstUser.gender === 'male'">
+        <div class="col-sm-11 mt-2 text-center bg-white mb-3">
+          <h4 class="text-info"></h4>
+          <vue-good-table
+            :columns="columnsMeasure"
+            :rows="rowsMeasureMens"
+            max-height="400px"
+            :fixed-header="true">
+          </vue-good-table>
+        </div>
+      </div>
+      <div class="row justify-content-center mt-2 " v-if="firstUser.gender === 'female'">
+        <div class="col-sm-11 mt-2 text-center bg-white mb-3">
+          <h4 class="text-info"></h4>
+          <vue-good-table
+            :columns="columnsMeasure"
+            :rows="rowsMeasureWomans"
             max-height="400px"
             :fixed-header="true">
           </vue-good-table>
@@ -167,6 +254,58 @@ export default {
   },
   data() {
     return {
+      columnsMeasure: [
+        {
+          label: 'Pruebas',
+          field: 'test',
+        },
+        {
+          label: '60-64',
+          field: 'firstMiddleSix',
+        },
+        {
+          label: '65-69',
+          field: 'secondMiddleSix',
+        },
+        {
+          label: '70-74',
+          field: 'firstMiddleSeven',
+        },
+        {
+          label: '75-79',
+          field: 'secondMiddleSeven',
+        },
+        {
+          label: '80-84',
+          field: 'firstMiddleEight',
+        },
+        {
+          label: '85-89',
+          field: 'secondMiddleEight',
+        },
+        {
+          label: '90-94',
+          field: 'firstMiddleNine',
+        }
+      ],
+      rowsMeasureMens: [
+        { test:"Sentarse/levantarse (segundos) ", firstMiddleSix:"14-19", secondMiddleSix: "12-18", firstMiddleSeven: "12-17",secondMiddleSeven: "11-17", firstMiddleEight:"10-15", secondMiddleEight: "8-14", firstMiddleNine: "7-12" },
+        { test:"Flexiones codos (nº de repeticiones)", firstMiddleSix:" 16-22", secondMiddleSix:"15-21", firstMiddleSeven: "14-21", secondMiddleSeven: "13-19", firstMiddleEight: "13-19", secondMiddleEight: "11-17", firstMiddleNine: "10-14"},
+        { test:"Caminata (metros recorridos) ", firstMiddleSix:"560-672", secondMiddleSix: " 512-640", firstMiddleSeven: "498-622", secondMiddleSeven: "430-585", firstMiddleEight: "407-553", secondMiddleEight: "347-521", firstMiddleNine: "279-457" },
+        { test:"Marcha estacionaria (nº de pasos)", firstMiddleSix:"87-115", secondMiddleSix: "86-116", firstMiddleSeven: "80-110", secondMiddleSeven: "73-109", firstMiddleEight: "71-103", secondMiddleEight: "59-91", firstMiddleNine: "52-86" },
+        { test:"Flexión del tronco (cm, +/–)", firstMiddleSix:"–7/+10", secondMiddleSix: "–8 /+7", firstMiddleSeven: "–9 /+6", secondMiddleSeven: "–10/+5", firstMiddleEight: "–14/+4", secondMiddleEight: "–14/+2", firstMiddleNine: "–17/+2" },
+        { test:"Flexibilidad hombros (cm, +/–)", firstMiddleSix:"–17/0", secondMiddleSix: "–19/–3", firstMiddleSeven: "–20/–3", secondMiddleSeven: "–23/–5", firstMiddleEight: "–24/–5", secondMiddleEight: "–26/–8", firstMiddleNine: "–26/–10" },
+        { test:"Levantarse, caminar y sentarse (segundos)", firstMiddleSix:"5,6-3,8", secondMiddleSix: "5,7-4,3", firstMiddleSeven: "6,0-4,2", secondMiddleSeven: "7,2-4,6", firstMiddleEight: "7,6-5,2", secondMiddleEight: "8,9-5,3", firstMiddleNine: " 10,0-6,2" },
+      ],
+      rowsMeasureWomans: [
+        { test:"Sentarse/levantarse (segundos) ", firstMiddleSix:"12-17", secondMiddleSix: "11-16", firstMiddleSeven: "10-15",secondMiddleSeven: "10-15", firstMiddleEight:"9-14", secondMiddleEight: "8-13", firstMiddleNine: "4-11" },
+        { test:"Flexiones codos (nº de repeticiones)", firstMiddleSix:" 13-19", secondMiddleSix:"12-18", firstMiddleSeven: "12-17", secondMiddleSeven: "11-17", firstMiddleEight: "10-16", secondMiddleEight: "10-15", firstMiddleNine: "8-13"},
+        { test:"Caminata (metros recorridos) ", firstMiddleSix:"498-603", secondMiddleSix: " 457-580", firstMiddleSeven: "439-662", secondMiddleSeven: "393-535", firstMiddleEight: "352-494", secondMiddleEight: "311-466", firstMiddleNine: "251-402" },
+        { test:"Marcha estacionaria (nº de pasos)", firstMiddleSix:"75-107", secondMiddleSix: "73-107", firstMiddleSeven: "68-110", secondMiddleSeven: "68-100", firstMiddleEight: "60-91", secondMiddleEight: "55-85", firstMiddleNine: "44-72" },
+        { test:"Flexión del tronco (cm, +/–)", firstMiddleSix:"–2/+12", secondMiddleSix: "–2/+11", firstMiddleSeven: "–3/+10", secondMiddleSeven: "–4/+9", firstMiddleEight: "–5/+7", secondMiddleEight: "–7/+6", firstMiddleNine: "–12/+3" },
+        { test:"Flexibilidad hombros (cm, +/–)", firstMiddleSix:"–8/+4", secondMiddleSix: "–9/+4", firstMiddleSeven: "–10/+3", secondMiddleSeven: "–12/+12", firstMiddleEight: "–14/0", secondMiddleEight: "–18/–3", firstMiddleNine: "–20/–3" },
+        { test:"Levantarse, caminar y sentarse (segundos)", firstMiddleSix:"6,0-4,4", secondMiddleSix: "6,4-4,8", firstMiddleSeven: "7,1-4,9", secondMiddleSeven: "7,4-4,6", firstMiddleEight: "8,7-5,7", secondMiddleEight: "9,6-6,2", firstMiddleNine: " 11,5-7,3" },
+      ],
       columns: [
         {
           label: 'Fecha y hora',
@@ -215,7 +354,7 @@ export default {
       highestDatesFirstUser:[],
       datesss:[],
       averageSteps:[],
-
+      firstUser : {},
 
 
       dataHighestStepsFirstUser: {
@@ -376,6 +515,13 @@ export default {
       this.$store.state.userInformation.estimatedSteps = user.estimatedSteps;
       this.$store.state.userInformation.gender = user.gender;
       this.$store.state.userInformation.notes = user.notes;
+      this.$store.state.userInformation.sitUp = user.sitUp;
+      this.$store.state.userInformation.elbowFlexion = user.elbowFlexion;
+      this.$store.state.userInformation.walks = user.walks;
+      this.$store.state.userInformation.trunkFlexion = user.trunkFlexion;
+      this.$store.state.userInformation.shouldersFlexion = user.shouldersFlexion;
+      this.$store.state.userInformation.upWalkSit = user.upWalkSit;
+      this.$store.state.userInformation.march = user.march;
     },
 
     convertDateToAge(data){
@@ -408,6 +554,7 @@ export default {
         //Cojo solo el usuario que he elejido el el dropdown
         if(userInfo.firstName === self.firstResident){
           self.firstUser = userInfo;
+          console.log('my firstUser',self.firstUser)
           let map = new Map(Object.entries(userInfo.stepsWithDatesMap));
           let mapWithHours = new Map(Object.entries(userInfo.stepsWithDatesMapWithTime));
           s.push(map)
@@ -416,7 +563,7 @@ export default {
           self.putInformationInFirstBoxInfo(userInfo)
         }
       }
-      console.log('listWithTotalSteps',listWithTotalSteps)
+
       for (let map of listWithTotalSteps){
         for (const [key, value] of map) {
           if(mapWIthTotalSteps.has(key)){
@@ -428,7 +575,6 @@ export default {
         }
       }
 
-      console.log('mapWIthTotalSteps',mapWIthTotalSteps)
       //Recorro map para crear los array para la primera gráfica
       mapWIthTotalSteps.forEach (function(value, key) {
           self.datess.push(key)
@@ -439,8 +585,6 @@ export default {
         }
       })
 
-      console.log('dates and',self.datess)
-      console.log(' self.averageSteps', self.averageSteps)
 
       //Si los dias seleccionados son 30, se coge el array entero, si son 3 o 7 me quedo solo con los ultimos x elementos
       if(self.selectedDays !== 30){
