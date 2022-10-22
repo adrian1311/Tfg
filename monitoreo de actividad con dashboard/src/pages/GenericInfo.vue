@@ -65,7 +65,7 @@
                 <i :class="'ti-angle-double-up'"></i>
               </div>
               <div class="numbers" slot="content">
-                <p class="text-white">ENCIMA</p>
+                <h6 class="text-white">ENCIMA DE SU MÉDIA</h6>
                 <p class="text-white">{{moreThanAverageSteps}}</p>
               </div>
             </stats-card>
@@ -74,7 +74,7 @@
                 <i :class="'ti-angle-double-down'"></i>
               </div>
               <div class="numbers" slot="content">
-                <p class="text-white">DEBAJO</p>
+                <h6 class="text-white">DEBAJO DE SU MÉDIA</h6>
                 <p class="text-white">{{underAverageSteps}}</p>
               </div>
             </stats-card>
@@ -234,7 +234,7 @@ export default {
           field: 'mensuales',
         },
         {
-          label: 'Pasos diarios estimádos',
+          label: 'Objetívo de pasos diários',
           field: 'estimados',
         },
       ],

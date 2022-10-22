@@ -34,8 +34,8 @@
       <Dropdown v-model="secondResident" :options="usersForDropdown" placeholder="Elija un residente" />
     </div>
     <div class="col-md-4 col-xl-3" >
-      <label class="text-dark">Intervalo</label>
-      <Dropdown v-model="selectedDays" :options="daysForSearchOprions" optionLabel="name" optionValue="value" placeholder="Intervalo" />
+      <label class="text-dark">Intervalo (días)</label>
+      <Dropdown v-model="selectedDays" :options="daysForSearchOprions" optionLabel="name" optionValue="value" placeholder="Intervalo (días)" />
     </div>
   </div>
 
@@ -88,7 +88,7 @@
                   <h5 class="text-info font-weight-bold mt-3">Altura (cm) : {{firstUserHight}} </h5>
                 </div>
                 <div class="col-sm-5 text-center border border-info rounded-lg m-1">
-                  <h5 class="text-info font-weight-bold">Pasos diarios estimados : {{firstUserEstimatedSteps}}</h5>
+                  <h5 class="text-info font-weight-bold">Objetívo de pasos diários : {{firstUserEstimatedSteps}}</h5>
                 </div>
               </div>
               <div class="row justify-content-center m-2">
@@ -129,7 +129,7 @@
                   <h5 class="text-info font-weight-bold mt-3">Altura (cm) : {{secondUserHight}} </h5>
                 </div>
                 <div class="col-sm-5 text-center border border-info rounded-lg m-1">
-                  <h5 class="text-info font-weight-bold">Pasos diarios estimados : {{secondUserEstimatedSteps}}</h5>
+                  <h5 class="text-info font-weight-bold">Objetívo de pasos diários : {{secondUserEstimatedSteps}}</h5>
                 </div>
               </div>
               <div class="row justify-content-center m-2">

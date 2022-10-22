@@ -30,8 +30,8 @@
       <Dropdown v-model="firstResident" :options="usersForDropdown" placeholder="Elija un residente" />
     </div>
     <div class="col-md-4 col-xl-3" >
-      <label class="text-dark">Intervalo</label>
-      <Dropdown v-model="selectedDays" :options="daysForSearchOprions" optionLabel="name" optionValue="value" placeholder="Intervalo" />
+      <label class="text-dark">Intervalo (días)</label>
+      <Dropdown v-model="selectedDays" :options="daysForSearchOprions" optionLabel="name" optionValue="value" placeholder="Intervalo (días)" />
     </div>
     <div class="col-md-4 col-xl-3 mt-4" >
       <p-button type="success"
@@ -53,27 +53,38 @@
     <div class="col-sm-12 text-center bg-white">
       <div class="row justify-content-center">
     <div class="col-sm-6 text-center border border-info rounded-lg m-1 bg-dark">
-      <div class="row justify-content-center m-2">
-        <div class="col-sm-5 text-center border border-info rounded-lg m-1">
-          <h5 class="text-info font-weight-bold">Edad (años) : {{firstUserAge}} </h5>
+      <div class="row justify-content-center">
+        <div class="col-sm-2 mt-5">
+          <img v-bind:src="'data:image/jpg;base64,'+firstUserPhoto"  class="rounded-circle" style="height: 10rem; width: 8rem">
         </div>
-        <div class="col-sm-5 text-center border border-info rounded-lg m-1">
-          <h5 class="text-info font-weight-bold">Peso (kg) : {{firstUserWeight}}</h5>
+        <div class="col-sm-10">
+          <div class="row justify-content-center m-2">
+            <div class="col-sm-5 text-center border border-info rounded-lg m-1">
+              <h5 class="text-info font-weight-bold">Edad (años) : {{firstUserAge}} </h5>
+            </div>
+            <div class="col-sm-5 text-center border border-info rounded-lg m-1">
+              <h5 class="text-info font-weight-bold">Peso (kg) : {{firstUserWeight}}</h5>
+            </div>
+          </div>
+          <div class="row justify-content-center m-2">
+            <div class="col-sm-5 text-center border border-info m-1">
+              <h5 class="text-info font-weight-bold">Altura (cm) : {{firstUserHight}} </h5>
+            </div>
+            <div class="col-sm-5 text-center border border-info rounded-lg m-1">
+              <h5 class="text-info font-weight-bold">Objetívo de pasos diários : {{firstUserEstimatedSteps}}</h5>
+            </div>
+          </div>
+          <div class="row justify-content-center m-2">
+            <div class="col-sm-10 text-center border border-info  rounded-lg m-1">
+              <h5 class="text-info font-weight-bold">Notas sobre el usuario: </h5>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="row justify-content-center m-2">
-        <div class="col-sm-5 text-center border border-info m-1">
-          <h5 class="text-info font-weight-bold">Altura (cm) : {{firstUserHight}} </h5>
-        </div>
-        <div class="col-sm-5 text-center border border-info rounded-lg m-1">
-          <h5 class="text-info font-weight-bold">Pasos diarios estimados : {{firstUserEstimatedSteps}}</h5>
-        </div>
-      </div>
-      <div class="row justify-content-center m-2">
-        <div class="col-sm-10 text-center border border-info  rounded-lg m-1">
-          <h5 class="text-info font-weight-bold">Notas sobre el usuario: </h5>
-        </div>
-      </div>
+
+
+
+
       <div class="row justify-content-center m-2">
         <div class="col-sm-10 text-center">
           <p-button type="warning"
@@ -198,9 +209,10 @@
 
         </div>
       </div>
-
-
-      <div class="row justify-content-center mt-2" v-if="firstUser.gender === 'male'">
+      <div class="row justify-content-center ">
+        <h4 class="text-info">Valores recomendados</h4>
+      </div>
+      <div class="row justify-content-center" v-if="firstUser.gender === 'male'">
         <div class="col-sm-11 mt-2 text-center bg-white mb-3">
           <h4 class="text-info"></h4>
           <vue-good-table
@@ -211,7 +223,7 @@
           </vue-good-table>
         </div>
       </div>
-      <div class="row justify-content-center mt-2 " v-if="firstUser.gender === 'female'">
+      <div class="row justify-content-center " v-if="firstUser.gender === 'female'">
         <div class="col-sm-11 mt-2 text-center bg-white mb-3">
           <h4 class="text-info"></h4>
           <vue-good-table
@@ -341,6 +353,7 @@ export default {
       firstUserHight :'',
       firstUserEstimatedSteps :'',
       firstUserWeight :'',
+      firstUserPhoto :'',
       rowsFirstUser : [],
       rowsSecondUser : [],
       firstUserTotalSteps:'',
@@ -660,6 +673,7 @@ export default {
       this.firstUserHight = userInfo.height;
       this.firstUserEstimatedSteps = userInfo.estimatedSteps;
       this.firstUserWeight = userInfo.weight
+      this.firstUserPhoto = userInfo.base64encodedImage
     },
     createInfoForTables(listWithHours){
       this.rowsFirstUser = []
