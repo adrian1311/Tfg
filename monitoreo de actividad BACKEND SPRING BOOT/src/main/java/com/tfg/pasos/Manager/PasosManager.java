@@ -10,6 +10,7 @@ import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -39,7 +40,7 @@ public class PasosManager {
         usersRepository.deleteById(user.getId());
     }
 
-    public List <Users> getStepsForUsers(List<Users> users, Integer days){
+    public List <Users> getStepsForUsers(List<Users> users, Integer days) throws IOException {
         totalStepsWithDates.clear();
         //GenericInformation genericInformation = new GenericInformation();
        for(Users user:users){

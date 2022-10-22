@@ -1,8 +1,11 @@
 package com.tfg.pasos.Dtos;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.List;
+@JsonIgnoreProperties
 public class DataSet {
+
 
     private String dataSourceId;
     private List<Points> point;

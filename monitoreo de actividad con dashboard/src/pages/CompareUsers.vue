@@ -54,45 +54,53 @@
     </div>
   </div>
 
-  <div class="row justify-content-center border border-info mt-2" v-if="showInformationWindow">
+  <div class="row justify-content-center mt-2" v-if="showInformationWindow">
 
     <div class="col-sm-12">
       <div class="row justify-content-center">
         <h4 class="text-dark">Información mostrada para los últimos {{selectedDays}} dias</h4>
       </div>
       <div class="row justify-content-center">
-        <div class="col-sm-5 text-center m-1">
+        <div class="col-sm-5 text-center">
           <h4 class="text-dark">Primer residente: {{firstUserName}}</h4>
         </div>
-        <div class="col-sm-5 text-center m-1">
+        <div class="col-sm-5 text-center">
           <h4 class="text-dark">Segundo residente: {{secondUserName}}</h4>
         </div>
       </div>
       <div class="row justify-content-center">
-        <div class="col-sm-5 text-center border border-info rounded-lg m-1 bg-dark">
-          <div class="row justify-content-center m-2">
-            <div class="col-sm-5 text-center border border-info rounded-lg m-1">
-              <h5 class="text-info font-weight-bold">Edad (años) : {{firstUserAge}} </h5>
+        <div class="col-sm-6 text-center border border-info rounded-lg bg-dark">
+          <div class="row">
+            <div class="col-sm-2 mt-4">
+              <img v-bind:src="'data:image/jpg;base64,'+firstUserPhoto"  class="rounded-circle" style="height: 10rem; width: 8rem">
             </div>
-            <div class="col-sm-5 text-center border border-info rounded-lg m-1">
-              <h5 class="text-info font-weight-bold">Peso (kg) : {{firstUserWeight}}</h5>
+            <div class="col-sm-10">
+              <div class="row justify-content-center m-2">
+                <div class="col-sm-5 text-center border border-info rounded-lg m-1">
+                  <h5 class="text-info font-weight-bold mt-2">Edad (años) : {{firstUserAge}} </h5>
+                </div>
+                <div class="col-sm-5 text-center border border-info rounded-lg m-1">
+                  <h5 class="text-info font-weight-bold mt-2">Peso (kg) : {{firstUserWeight}}</h5>
+                </div>
+              </div>
+              <div class="row justify-content-center m-2">
+                <div class="col-sm-5 text-center border border-info m-1">
+                  <h5 class="text-info font-weight-bold mt-3">Altura (cm) : {{firstUserHight}} </h5>
+                </div>
+                <div class="col-sm-5 text-center border border-info rounded-lg m-1">
+                  <h5 class="text-info font-weight-bold">Pasos diarios estimados : {{firstUserEstimatedSteps}}</h5>
+                </div>
+              </div>
+              <div class="row justify-content-center m-2">
+                <div class="col-sm-10 text-center border border-info  rounded-lg m-1">
+                  <h5 class="text-info font-weight-bold mt-2">Notas sobre el usuario: </h5>
+                </div>
+              </div>
+
             </div>
           </div>
           <div class="row justify-content-center m-2">
-            <div class="col-sm-5 text-center border border-info m-1">
-              <h5 class="text-info font-weight-bold">Altura (cm) : {{firstUserHight}} </h5>
-            </div>
-            <div class="col-sm-5 text-center border border-info rounded-lg m-1">
-              <h5 class="text-info font-weight-bold">Pasos diarios estimados : {{firstUserEstimatedSteps}}</h5>
-            </div>
-          </div>
-          <div class="row justify-content-center m-2">
-            <div class="col-sm-10 text-center border border-info  rounded-lg m-1">
-              <h5 class="text-info font-weight-bold">Notas sobre el usuario: </h5>
-            </div>
-          </div>
-          <div class="row justify-content-center m-2">
-            <div class="col-sm-10 text-center">
+            <div class="col-sm-12 text-center">
               <p-button type="warning"
                         round
                         @click.native.prevent="changeToEditUser(firstUser)">
@@ -100,31 +108,40 @@
               </p-button>
             </div>
           </div>
+
         </div>
-        <div class="col-sm-5 text-center border border-danger rounded-lg m-1 bg-dark">
-          <div class="row justify-content-center m-2">
-            <div class="col-sm-5 text-center border border-danger  rounded-lg m-1">
-              <h5 class="text-danger font-weight-bold">Edad (años): {{secondUserAge}}</h5>
+        <div class="col-sm-6 text-center border border-info rounded-lg bg-dark">
+          <div class="row">
+            <div class="col-sm-2 mt-4">
+              <img v-bind:src="'data:image/jpg;base64,'+secondUserPhoto"  class="rounded-circle" style="height: 10rem; width: 8rem">
             </div>
-            <div class="col-sm-5 text-center border border-danger rounded-lg m-1">
-              <h5 class="text-danger font-weight-bold">Peso (kg): {{secondUserWeight}}</h5>
+            <div class="col-sm-10">
+              <div class="row justify-content-center m-2">
+                <div class="col-sm-5 text-center border border-info rounded-lg m-1">
+                  <h5 class="text-info font-weight-bold mt-2">Edad (años) : {{secondUserAge}} </h5>
+                </div>
+                <div class="col-sm-5 text-center border border-info rounded-lg m-1">
+                  <h5 class="text-info font-weight-bold mt-2">Peso (kg) : {{secondUserWeight}}</h5>
+                </div>
+              </div>
+              <div class="row justify-content-center m-2">
+                <div class="col-sm-5 text-center border border-info m-1">
+                  <h5 class="text-info font-weight-bold mt-3">Altura (cm) : {{secondUserHight}} </h5>
+                </div>
+                <div class="col-sm-5 text-center border border-info rounded-lg m-1">
+                  <h5 class="text-info font-weight-bold">Pasos diarios estimados : {{secondUserEstimatedSteps}}</h5>
+                </div>
+              </div>
+              <div class="row justify-content-center m-2">
+                <div class="col-sm-10 text-center border border-info  rounded-lg m-1">
+                  <h5 class="text-info font-weight-bold mt-2">Notas sobre el usuario: </h5>
+                </div>
+              </div>
             </div>
+
           </div>
           <div class="row justify-content-center m-2">
-            <div class="col-sm-5 text-center border border-danger  rounded-lg m-1">
-              <h5 class="text-danger font-weight-bold">Altura (cm): {{secondUserHight}} </h5>
-            </div>
-            <div class="col-sm-5 text-center border border-danger  rounded-lg m-1">
-              <h5 class="text-danger font-weight-bold">Pasos diarios estimados : {{secondUserEstimatedSteps}}</h5>
-            </div>
-          </div>
-          <div class="row justify-content-center m-2">
-            <div class="col-sm-10 text-center border border-danger  rounded-lg m-1">
-              <h5 class="text-danger font-weight-bold">Notas sobre el usuario: </h5>
-            </div>
-          </div>
-          <div class="row justify-content-center m-2">
-            <div class="col-sm-10 text-center">
+            <div class="col-sm-12 text-center">
               <p-button type="warning"
                         round
                         @click.native.prevent="changeToEditUser(secondUser)">
@@ -132,6 +149,7 @@
               </p-button>
             </div>
           </div>
+
         </div>
       </div>
     </div>
@@ -299,6 +317,8 @@ export default {
       secondUser:{},
       firstUserName:'',
       secondUserName:'',
+      firstUserPhoto:'',
+      secondUserPhoto:'',
       firstUserAge:'',
       secondUserAge:'',
       firstUserHight:'',
@@ -427,7 +447,7 @@ export default {
             data: [],
             fill: false,
             borderColor: '#42A5F5',
-            backgroundColor: '#0c7511',
+            backgroundColor: '#6c9f6e',
             tension: .4
           }
         ]
@@ -440,7 +460,7 @@ export default {
             data: [],
             fill: false,
             borderColor: '#42A5F5',
-            backgroundColor: '#0c7511',
+            backgroundColor: '#6c9f6e',
             tension: .4
           }
         ]
@@ -453,7 +473,7 @@ export default {
             data: [],
             fill: false,
             borderColor: '#42A5F5',
-            backgroundColor: '#750c1c',
+            backgroundColor: '#cb446c',
             tension: .4
           }
         ]
@@ -466,7 +486,7 @@ export default {
             data: [],
             fill: false,
             borderColor: '#42A5F5',
-            backgroundColor: '#750c1c',
+            backgroundColor: '#cb446c',
             tension: .4
           }
         ]
@@ -546,6 +566,8 @@ export default {
     },
 
      transformInformation() {
+       this.chartData.datasets[0].label = [];
+       this.chartData.datasets[1].label = [];
       this.firstUser = {}
        this.secondUser = {}
       this.showInformationWindow = true;
@@ -557,6 +579,7 @@ export default {
          //Creo 2 map: Primero con los 2 usuarios y pasos, Segundo con los 2 usuarios y pasos con horas. Los meto en una lista
           if(userInfo.firstName === this.firstResident){
             this.firstUser = userInfo;
+            this.chartData.datasets[0].label = userInfo.firstName;
             let map = new Map(Object.entries(userInfo.stepsWithDatesMap));
             let mapWithHours = new Map(Object.entries(userInfo.stepsWithDatesMapWithTime));
             s.push(map)
@@ -566,6 +589,7 @@ export default {
           }
          if(userInfo.firstName === this.secondResident){
            this.secondUser = userInfo;
+           this.chartData.datasets[1].label = userInfo.firstName;
            let map = new Map(Object.entries(userInfo.stepsWithDatesMap));
            let mapWithHours = new Map(Object.entries(userInfo.stepsWithDatesMapWithTime));
            listWithHours.push(mapWithHours)
@@ -812,6 +836,7 @@ export default {
         this.firstUserHight = userInfo.height;
         this.firstUserEstimatedSteps = userInfo.estimatedSteps;
         this.firstUserWeight = userInfo.weight
+        this.firstUserPhoto = userInfo.base64encodedImage
 
     },
     putInformationInSecondBoxInfo(userInfo){
@@ -820,6 +845,7 @@ export default {
         this.secondUserHight = userInfo.height;
         this.secondUserEstimatedSteps = userInfo.estimatedSteps;
         this.secondUserWeight = userInfo.weight
+      this.secondUserPhoto = userInfo.base64encodedImage
     },
     createTotalSteps(s){
       let arrayWithTotalAndAvergueSteps = [];

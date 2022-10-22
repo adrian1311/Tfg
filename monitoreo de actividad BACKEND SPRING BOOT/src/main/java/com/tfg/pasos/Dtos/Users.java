@@ -73,6 +73,12 @@ public class Users {
     @Column(name = "up_walk_sit")
     private Double upWalkSit;
 
+    @Column(name = "image_name")
+    private String imageName;
+
+    @Column(name = "base_encoded_image")
+    private String base64encodedImage;
+
     @Transient
     private List<UserStepsAndDates> stepsWithDates;
 

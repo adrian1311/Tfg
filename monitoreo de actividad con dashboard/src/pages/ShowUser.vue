@@ -52,7 +52,7 @@
   <div class="row justify-content-center border border-info mt-2" v-if="showInformationWindow">
     <div class="col-sm-12 text-center bg-white">
       <div class="row justify-content-center">
-    <div class="col-sm-5 text-center border border-info rounded-lg m-1 bg-dark">
+    <div class="col-sm-6 text-center border border-info rounded-lg m-1 bg-dark">
       <div class="row justify-content-center m-2">
         <div class="col-sm-5 text-center border border-info rounded-lg m-1">
           <h5 class="text-info font-weight-bold">Edad (años) : {{firstUserAge}} </h5>
@@ -84,7 +84,7 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-3 mt-5 text-center">
+    <div class="col-sm-2 mt-5 text-center">
       <stats-card class="bg-dark">
         <div class="icon-big text-center" :class="`icon-info`" slot="header">
           <i :class="'ti-user'"></i>
@@ -365,7 +365,7 @@ export default {
             data: [],
             fill: false,
             borderColor: '#42A5F5',
-            backgroundColor: '#0c7511',
+            backgroundColor: '#6c9f6e',
             tension: .4
           }
         ]
@@ -378,7 +378,7 @@ export default {
             data: [],
             fill: false,
             borderColor: '#42A5F5',
-            backgroundColor: '#750c1c',
+            backgroundColor: '#cb446c',
             tension: .4
           }
         ]

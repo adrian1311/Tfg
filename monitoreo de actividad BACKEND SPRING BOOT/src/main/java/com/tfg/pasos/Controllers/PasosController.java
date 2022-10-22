@@ -3,10 +3,12 @@ package com.tfg.pasos.Controllers;
 import com.tfg.pasos.Dtos.GetAllUsersStepsBody;
 import com.tfg.pasos.Dtos.Users;
 import com.tfg.pasos.Manager.PasosManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @CrossOrigin
@@ -26,7 +28,7 @@ public class PasosController {
     }
 
     @PostMapping(value = "/getAllUsersSteps")
-    public List<Users> getAllUsersSteps(@RequestBody GetAllUsersStepsBody getAllUsersStepsBody) {
+    public List<Users> getAllUsersSteps(@RequestBody GetAllUsersStepsBody getAllUsersStepsBody) throws IOException {
         return pasosManager.getStepsForUsers(getAllUsersStepsBody.getUsers(), getAllUsersStepsBody.getDays());
     }
 
@@ -37,7 +39,6 @@ public class PasosController {
 
     @PostMapping (value = "/deleteUser")
     public void deleteUser(@RequestBody Users user) {
-        System.out.println("FELETE");
         pasosManager.deleteUser(user);
     }
 }

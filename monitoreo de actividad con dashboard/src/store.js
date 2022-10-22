@@ -26,7 +26,9 @@ export const store = new Vuex.Store({
       march:'',
       trunkFlexion:'',
       shouldersFlexion:'',
-      upWalkSit:''
+      upWalkSit:'',
+      base64encodedImage:'',
+      imageName:'',
     },
     daysForSearch:7,
     mapWithDatesAndSteps : new Map(),

@@ -1,7 +1,8 @@
 package com.tfg.pasos.Dtos;
 
-import javax.persistence.criteria.CriteriaBuilder;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties
 public class IntValues {
 
     private Integer intVal;
@@ -14,3 +15,4 @@ public class IntValues {
         this.intVal = intVal;
     }
 }
+

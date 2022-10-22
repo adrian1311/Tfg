@@ -6,79 +6,86 @@
         <label class="font-weight-bold text-white">INFORMACIÓN BÁSICA DEL RESIDENTE</label>
       </div>
       <div class="row justify-content-center mt-2">
-        <div class="col-sm-4">
-          <div class="input-group input-group-lg">
-            <span class="input-group-text">Nombre</span>
-            <input type="text" v-model="firstName"  class="form-control text-dark">
-          </div>
+        <div class="col-sm-2 text-center">
+          <img v-bind:src="'data:image/jpg;base64,'+base64encodedImage" class="mt-3 ml-2" style="height: 12rem; width: 10rem">
         </div>
-        <div class="col-sm-4">
-          <div class="input-group input-group-lg">
-            <span class="input-group-text">Apellido</span>
-            <input type="text" v-model="lastName"  class="form-control text-dark">
+        <div class="col-sm-10">
+          <div class="row justify-content-center mt-2">
+            <div class="col-sm-6">
+              <div class="input-group input-group">
+                <span class="input-group-text">Nombre</span>
+                <input type="text" v-model="firstName"  class="form-control text-dark">
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="input-group input-group">
+                <span class="input-group-text">Apellido</span>
+                <input type="text" v-model="lastName"  class="form-control text-dark">
+              </div>
+            </div>
+
           </div>
-        </div>
-        <div class="col-sm-4">
-          <div class="input-group input-group-lg">
-            <span class="input-group-text">Genero</span>
-            <select class="form-control text-dark" v-model="gender" >
-              <option value="male">Hombre</option>
-              <option value="female">Mujer</option>
-            </select>
+          <div class="row justify-content-center mt-2">
+            <div class="col-sm-6">
+              <div class="input-group input-group">
+                <span class="input-group-text">Género</span>
+                <select class="form-control text-dark" v-model="gender" >
+                  <option value="male">Hombre</option>
+                  <option value="female">Mujer</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="input-group input-group">
+                <span class="input-group-text">Altura (cm)</span>
+                <input type="text" v-model="height"   class="form-control text-dark">
+              </div>
+            </div>
           </div>
+          <div class="row justify-content-center">
+            <div class="col-sm-6">
+              <div class="input-group input-group-">
+                <span class="input-group-text">Peso (kg)</span>
+                <input type="text" v-model="weight"  class="form-control text-dark">
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="input-group input-group">
+                <span class="input-group-text">Fecha de nacimiento</span>
+                <input type="date" v-model="age"  class="form-control text-dark">
+              </div>
+            </div>
+          </div>
+
+          <div class="row justify-content-center">
+            <div class="col-sm-6">
+              <div class="input-group input-group">
+                <span class="input-group-text">Pasos diários estimados</span>
+                <input type="text"  v-model="estimetedSteps"  class="form-control text-dark">
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="input-group input-group">
+                <span class="input-group-text">Necesita ayuda ?</span>
+                <select class="form-control text-dark" v-model="needHelp" >
+                  <option value="no">No</option>
+                  <option value="yes">Si</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
 
-      <div class="row justify-content-center">
-        <div class="col-sm-4">
-          <div class="input-group input-group-lg">
-            <span class="input-group-text">Altura (cm)</span>
-            <input type="text" v-model="height"   class="form-control text-dark">
-          </div>
-        </div>
-        <div class="col-sm-4">
-          <div class="input-group input-group-lg">
-            <span class="input-group-text">Peso (kg)</span>
-            <input type="text" v-model="weight"  class="form-control text-dark">
-          </div>
-        </div>
-        <div class="col-sm-4">
-          <div class="input-group input-group-lg">
-            <span class="input-group-text">Fecha de nacimiento</span>
-            <input type="date" v-model="age"  class="form-control text-dark">
-          </div>
-        </div>
-
-      </div>
-      <div class="row justify-content-center">
-        <div class="col-sm-4">
-          <div class="input-group input-group-lg">
-            <span class="input-group-text">Pasos diários estimados</span>
-            <input type="text"  v-model="estimetedSteps"  class="form-control text-dark">
-          </div>
-        </div>
-        <div class="col-sm-4">
-          <div class="input-group input-group-lg">
-            <span class="input-group-text">Necesita ayuda ?</span>
-            <select class="form-control text-dark" v-model="needHelp" >
-              <option value="no">No</option>
-              <option value="yes">Si</option>
-            </select>
-          </div>
-        </div>
-        <div class="col-sm-4">
-<!--          <div class="input-group input-group-lg">-->
-<!--            <span class="input-group-text">Toma medicamentos ?</span>-->
-<!--            <select class="form-control text-dark" v-model="medicines" >-->
-<!--              <option value="no">No</option>-->
-<!--              <option value="yes">Si</option>-->
-<!--            </select>-->
-<!--          </div>-->
-        </div>
-      </div>
 
       <div class="row justify-content-center">
-        <div class="col-sm-10 text-center">
+        <img style="" :src="image" alt="">
+        <input @change="handleImage" class="custom-input" type="file" accept="image/*">
+      </div>
+
+      <div class="row justify-content-center mt-2">
+        <div class="col-sm-12 text-center">
           <div class="form-group">
             <span class="input-group-text" style="text-align: center">Información adicional sobre el residente</span>
             <textarea class="form-control text-dark" v-model="notes"  rows="3"></textarea>
@@ -195,6 +202,8 @@ export default {
   },
   data() {
     return {
+      image:'',
+      remoteUrl: '',
       calendarDate:'',
       id:'',
       refresh_token:'',
@@ -217,7 +226,9 @@ export default {
       march:0,
       trunkFlexion:0,
       shouldersFlexion:0,
-      upWalkSit:0.0
+      upWalkSit:0.0,
+      base64encodedImage:'',
+      imageName:'',
     }
   },
   mounted() {
@@ -230,7 +241,23 @@ export default {
     }
   },
   methods:{
+    handleImage(e){
+      let self = this;
+      const selectedImage = e.target.files[0];
+      const reader = new FileReader();
+      let rawImg;
+      reader.onloadend = () => {
+
+        rawImg = reader.result;
+        const words = rawImg.split(',');
+        self.base64encodedImage = words[1]
+      }
+      self.imageName = selectedImage.name
+      reader.readAsDataURL(selectedImage);
+    },
+
     completeFieldsWithExistingInfo(){
+      console.log(this.$store.state.userInformation)
       this.id = this.$store.state.userInformation.id;
       this.name = this.$store.state.userInformation.name;
         this.refresh_token =this.$store.state.userInformation.refresh_token;
@@ -249,11 +276,13 @@ export default {
       this.trunkFlexion =this.$store.state.userInformation.trunkFlexion;
       this.shouldersFlexion =this.$store.state.userInformation.shouldersFlexion;
       this.upWalkSit =this.$store.state.userInformation.upWalkSit;
+      this.base64encodedImage=this.$store.state.userInformation.base64encodedImage;
+      this.imageName=this.$store.state.userInformation.imageName;
+
     },
     addBand(){
       let self=this;
-      axios.get("http://localhost:5999/",{
-        params:{
+      axios.post("http://localhost:5999/initial",{
           personName: self.firstName,
           personLastName: self.lastName,
           personHeight: self.height,
@@ -268,10 +297,13 @@ export default {
           march:self.march,
           trunkFlexion:self.trunkFlexion,
           shouldersFlexion:self.shouldersFlexion,
-          upWalkSit:self.upWalkSit
-        }
+          upWalkSit:self.upWalkSit,
+          base64encodedImage:self.base64encodedImage,
+          imageName:self.imageName
       }).then(function (response) {
+        console.log(response.data)
           self.urlForSteps= response.data
+        console.log(self.urlForSteps)
           window.open(self.urlForSteps, "_blank");
         }).catch(error => {
         if (!error.response) {
@@ -302,7 +334,9 @@ export default {
         march:self.march,
         trunkFlexion:self.trunkFlexion,
         shouldersFlexion:self.shouldersFlexion,
-        upWalkSit:self.upWalkSit
+        upWalkSit:self.upWalkSit,
+        base64encodedImage:self.base64encodedImage,
+        imageName:self.imageName
       }).then(function (response) {
      console.log(response)
 

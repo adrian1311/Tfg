@@ -22,5 +22,6 @@
     "query-string": "^7.0.1",
     "request": "^2.88.2",
     "url-parse": "^1.5.3"
-  }
+  },
+  "start": "node --max-http-header-size=32768 index.js"
 }

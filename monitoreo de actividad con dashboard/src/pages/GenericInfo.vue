@@ -54,11 +54,9 @@
           </div>
           <div class="col-md-6 col-xl-6  bg-white text-center border border-primary bg-white rounded-lg mb-2">
             <Chart type="pie"  @click.native.prevent="showResidentsList" :data="residentsNumberData" :options="residentsNumberData" />
-            <!--label>Click en la grafica para ver la lista</label-->
           </div>
         </div>
       </div>
-
       <div class="col-md-4 col-xl-4">
         <div class="row justify-content-center">
           <div class="col-md-6 col-xl-6">
@@ -87,71 +85,60 @@
         </div>
       </div>
       <div class="col-md-4 col-xl-4">
-
-
-        <div class="row justify-content-center ">
-          <div class="col-sm-10 bg-white  border border-primary bg-white rounded-lg">
-            <div class="row justify-content-center">
-              <h5 class="text-dark font-weight-bold">CRITERIOS</h5>
-            </div>
-
-            <div class="row justify-content-md-center">
-              <div class="col-sm-12">
-                <div class="input-group input-group">
-                  <span class="input-group-text font-weight-bold">Intervalo (días)</span>
-                  <select class="form-control" v-model="selectedDays" v-on:change="processInformation">
-                    <option value="3">3</option>
-                    <option value="7">7</option>
-                    <option value="30">30</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="row justify-content-md-center">
-              <div class="col-sm-12">
-                <div class="input-group input-group">
-                  <span class="input-group-text font-weight-bold">Género</span>
-                  <select class="form-control" v-model="selectedGender" v-on:change="processInformation">
-                    <option value="male">Hombre</option>
-                    <option value="female">Mujer</option>
-                    <option value="both">Hombre y Mujer</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="row justify-content-md-center">
-              <div class="col-sm-12">
-                <div class="input-group input-group">
-                  <span class="input-group-text font-weight-bold">Edad</span>
-                  <select class="form-control" v-model="selectedAge" v-on:change="processInformation">
-                    <option value="six">60-69</option>
-                    <option value="seven">70-79</option>
-                    <option value="eight">80-89</option>
-                    <option value="nine">90-99</option>
-                    <option value="ten">100 +</option>
-                    <option value="all">Todas las edades</option>
-                  </select>
-                </div>
-              </div>
-            </div>
+        <div class="row justify-content-center">
+          <div class="col-md-7  bg-white  border border-primary bg-white rounded-lg mb-2">
+            <Chart class="w-100 h-75 d-inline-block" type="pie" :data="residentsAgeData" :options="residentsAgeDataOptions" />
           </div>
         </div>
       </div>
     </div>
-
-    <div class="row justify-content-center">
-      <div class="col-sm-7 text-center border border-primary bg-white rounded-lg">
-        <div class="row justify-content-center h-50 d-inline-block">
-          <div class="col-sm-12 text-center bg-white">
-            <h3 class="text-dark font-weight-bold" >Pasos medios en los últimos {{selectedDays}} dias</h3>
-            <Chart type="line" :data="basicData" />
+    <div class="row justify-content-center  mt-2">
+      <h5 class="text-dark font-weight-bold">CRITERIOS</h5>
+    </div>
+      <div class="row justify-content-center ">
+        <div class="col-sm-4 mt-2">
+          <div class="input-group input-group">
+            <span class="input-group-text font-weight-bold">Intervalo (días)</span>
+            <select class="form-control-lg" v-model="selectedDays" v-on:change="processInformation">
+              <option value="3">3</option>
+              <option value="7">7</option>
+              <option value="30">30</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-4 mt-2">
+          <div class="input-group input-group">
+            <span class="input-group-text font-weight-bold">Género</span>
+            <select class="form-control-lg " v-model="selectedGender" v-on:change="processInformation">
+              <option value="male">Hombre</option>
+              <option value="female">Mujer</option>
+              <option value="both">Ambos</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-4 mt-2">
+          <div class="input-group input-group">
+            <span class="input-group-text font-weight-bold">Edad</span>
+            <select class="form-control-lg" v-model="selectedAge" v-on:change="processInformation">
+              <option value="six">60-69</option>
+              <option value="seven">70-79</option>
+              <option value="eight">80-89</option>
+              <option value="nine">90-99</option>
+              <option value="ten">100 +</option>
+              <option value="all">Todas las edades</option>
+            </select>
           </div>
         </div>
       </div>
-      <div class="col-sm-4 text-center border border-primary bg-white rounded-lg ml-3">
-        <div class="row justify-content-center h-50 d-inline-block">
+
+
+
+    <div class="row justify-content-center">
+      <div class="col-sm-12 text-center border border-primary bg-white rounded-lg">
+        <div class="row justify-content-center">
           <div class="col-sm-12 text-center bg-white">
-            <Chart type="pie" :data="residentsAgeData" :options="residentsAgeDataOptions" />
+            <h3 class="text-dark font-weight-bold" >Promedio de pasos en los últimos {{selectedDays}} dias</h3>
+            <Chart type="line" :data="basicData" />
           </div>
         </div>
       </div>
@@ -299,7 +286,7 @@ export default {
         labels: [],
         datasets: [
           {
-            label: 'Pasos medios',
+            label: 'Promedio de pasos',
             data: [],
             fill: false,
             borderColor: '#42A5F5',
@@ -315,7 +302,7 @@ export default {
             data: [],
             fill: false,
             borderColor: '#42A5F5',
-            backgroundColor: '#850428',
+            backgroundColor: '#cb446c',
             tension: .4
           }
         ]
@@ -328,7 +315,7 @@ export default {
             data: [],
             fill: false,
             borderColor: '#42A5F5',
-            backgroundColor: '#0c7511',
+            backgroundColor: '#6c9f6e',
             tension: .4
           }
         ]
@@ -341,7 +328,7 @@ export default {
             data: [],
             fill: false,
             borderColor: '#42A5F5',
-            backgroundColor: '#850428',
+            backgroundColor: '#cb446c',
             tension: .4
           }
         ]
@@ -353,9 +340,9 @@ export default {
             label: 'Pasos',
             data: [],
             fill: true,
-            borderColor: '#850428',
+            //borderColor: '#850428',
             borderWidth: 2,
-            backgroundColor: '#0c7511',
+            backgroundColor: '#6c9f6e',
             tension: .4
           }
         ]
@@ -561,7 +548,6 @@ export default {
 
       self.rows = self.list;
       self.showMoreActiveUsers(self.list);
-      //self.showLessActiveUsers(self.list)
       self.createUnderAverageGraphic(self.list);
       self.table1.data = self.list;
 
@@ -595,7 +581,6 @@ export default {
       }
 
       //Creo listas para poder coger los ultimos dias antes de ordenar el map por fechas
-      //console.log('SELECTED DAYS',self.selectedDays)
       if(self.selectedDays == 3){
         self.sortedMapWIthTotalSteps.clear();
         let values = Array.from(mapWIthTotalSteps);
@@ -621,14 +606,12 @@ export default {
           self.sortedMapWIthTotalSteps = new Map([...mapWIthTotalSteps.entries()].sort((a, b) => b[1] - a[1]));
         }
       }else{
-       // console.log('in other')
         self.sortedMapWIthTotalSteps.clear();
         self.sortedMapWIthTotalSteps = new Map([...mapWIthTotalSteps.entries()].sort((a, b) => b[1] - a[1]));
       }
 
       self.highestSteps=[];
       self.highestDates=[];
-      //console.log('sortedMap',self.sortedMapWIthTotalSteps)
       self.sortedMapWIthTotalSteps.forEach (function(value, key) {
         self.highestSteps.push(value/s.length);
         self.highestDates.push(key);
@@ -699,36 +682,6 @@ export default {
       }
     },
 
-    // showLessActiveUsers(list){
-    //   this.lessActiveUsers.labels = [];
-    //   this.lessActiveUsers.datasets[0].data =  [];
-    //   this.threeLessActiveUsersSteps=  [];
-    //   this.threeLessActiveUsersNames=  [];
-    //   let orderedUsersByAvergeSteps = list.sort((a, b) => {
-    //     return a.age - b.age;
-    //   });
-    //
-    //   console.log('pencho',orderedUsersByAvergeSteps)
-    //
-    //   if(orderedUsersByAvergeSteps.length > 0){
-    //     if(orderedUsersByAvergeSteps.length >= 1){
-    //       this.threeLessActiveUsersSteps.push(orderedUsersByAvergeSteps[orderedUsersByAvergeSteps.length-1].medios)
-    //       this.threeLessActiveUsersNames.push(orderedUsersByAvergeSteps[orderedUsersByAvergeSteps.length-1].nombre)
-    //     }
-    //     if(orderedUsersByAvergeSteps.length >= 2){
-    //       this.threeLessActiveUsersSteps.push(orderedUsersByAvergeSteps[orderedUsersByAvergeSteps.length-2].medios)
-    //       this.threeLessActiveUsersNames.push(orderedUsersByAvergeSteps[orderedUsersByAvergeSteps.length-2].nombre)
-    //     }
-    //     if(orderedUsersByAvergeSteps.length >= 3){
-    //       this.threeLessActiveUsersSteps.push(orderedUsersByAvergeSteps[orderedUsersByAvergeSteps.length-3].medios)
-    //       this.threeLessActiveUsersNames.push(orderedUsersByAvergeSteps[orderedUsersByAvergeSteps.length-3].nombre)
-    //     }
-    //
-    //     this.lessActiveUsers.labels =  this.threeLessActiveUsersNames;
-    //     this.lessActiveUsers.datasets[0].data =  this.threeLessActiveUsersSteps;
-    //   }
-    // },
-
     showMoreActiveUsers(list){
       this.moreActiveUsers.labels = [];
       this.moreActiveUsers.datasets[0].data =  [];
@@ -737,8 +690,6 @@ export default {
       let orderedUsersByAvergeSteps = list.sort((a, b) => {
         return a.age - b.age;
       });
-
-      console.log('pencho2',orderedUsersByAvergeSteps)
 
       if(orderedUsersByAvergeSteps.length > 0){
         if(orderedUsersByAvergeSteps.length >= 1){
