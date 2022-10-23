@@ -34,6 +34,7 @@ public class PasosController {
 
     @PostMapping (value = "/modifyInfo")
     public void modifyInfo(@RequestBody Users user) {
+
         pasosManager.modifyUser(user);
     }
 

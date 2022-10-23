@@ -115,9 +115,10 @@
         </div>
       </stats-card>
     </div>
-        <div class="col-sm-3 mt-5 text-center ">
-        <h5 class="mt-3">Pasos diarios cumplidos en {{selectedDays}} días</h5>
+        <div class="col-sm-3 mt-1 text-center bg-dark">
+        <h5 class="mt-3 text-white mt-5">Objetivo cumplido en los ultimos {{selectedDays}} días</h5>
         <Knob v-model="valueGoalFirstUser"  readonly :max="selectedDays"/>
+          <h5 class="mt-3 text-white mt-1">días</h5>
         </div>
       </div>
 
@@ -150,18 +151,23 @@
       <div class="row justify-content-center mt-3">
         <div class="col-sm-11 text-center border border-info rounded-lg m-1 bg-dark">
           <div class="row justify-content-center mt-2">
-            <label class="font-weight-bold text-white">APTITUD FÍSICA DEL RESIDENTE : {{firstUser.firstName}} de {{firstUser.age}} </label>
+            <label class="font-weight-bold text-white">APTITUD FÍSICA DEL RESIDENTE : {{firstUser.firstName}} de {{firstUser.age}} años </label>
           </div>
       <div class="row justify-content-center mt-2">
         <div class="col-sm-6">
           <div class="input-group input-group-lg">
-            <span class="input-group-text">Sentarse/levantarse (segundos)</span>
+            <span class="input-group-text">Sentarse/levantarse (segundos)
+                         <img class="ml-1" src="@/assets/img/info-removebg-preview.png" data-toggle="tooltip" data-placement="top" title="Sentarse y levantarse de una silla durante 30 s. Propósito: valorar la fuerza-resistencia de los músculos extensores de las rodillas y las caderas, responsables de fallos al andar y de las caídas. Valoración: número de levantadas completas que pueden realizar con los brazos cruzados por delante del pecho durante 30 s. El sujeto parte desde la posición de sentado. Zona de riesgo: menos de 8 levantadas completas (varones y mujeres)" style="height: 2rem; width: 2rem">
+            </span>
             <input type="text" disabled v-model="firstUser.sitUp"  class="form-control">
           </div>
         </div>
         <div class="col-sm-6">
           <div class="input-group input-group-lg">
-            <span class="input-group-text">Flexiones codos (nº de repeticiones)</span>
+            <span class="input-group-text">Flexiones codos (nº de repeticiones)
+            <img class="ml-1" src="@/assets/img/info-removebg-preview.png" data-toggle="tooltip" data-placement="top" title="
+Flexión y extensión de codos con mancuernas durante 30 s en posición de sentado en una silla. Propósito: valorar la fuerza-resistencia de la musculatura del brazo y el hombro, tan necesaria para desarrollar tareas cotidianas que involucran levantamientos, transportes,mantenimiento de pesos, etc. Valoración: número de flexiones y extensiones de codos que pueden ser completadas en 30 s, movilizando una mancuerna de 2,30 kg para mujeres y de 4 kg para varones.Se valoran los 2 miembros.– Zona de riesgo: menos de 11 flexiones/extensiones completas (varones y mujeres)." style="height: 2rem; width: 2rem">
+            </span>
             <input type="text" disabled v-model="firstUser.elbowFlexion"  class="form-control">
           </div>
         </div>
@@ -170,13 +176,17 @@
       <div class="row justify-content-center">
         <div class="col-sm-6">
           <div class="input-group input-group-lg">
-            <span class="input-group-text">Caminata (metros recorridos)</span>
+            <span class="input-group-text">Caminata (metros recorridos)
+            <img class="ml-1" src="@/assets/img/info-removebg-preview.png" data-toggle="tooltip" data-placement="top" title=" Marcha durante 6 min. Propósito: evaluar la capacidad aeróbica, que es un factor muy importante para caminar, subir escaleras, ir de compras, hacer turismo, etc. Valoración: número de metros que pueden ser realizados en 6 min alrededor de una pista. Zona de riesgo: menos de 320 m para varones y mujeres" style="height: 2rem; width: 2rem">
+            </span>
             <input type="text" disabled v-model="firstUser.walks"   class="form-control">
           </div>
         </div>
         <div class="col-sm-6">
           <div class="input-group input-group-lg">
-            <span class="input-group-text">Marcha estacionaria (nº de pasos</span>
+            <span class="input-group-text">Marcha estacionaria (nº de pasos)
+ <img class="ml-1" src="@/assets/img/info-removebg-preview.png" data-toggle="tooltip" data-placement="top" title="  Step-test durante 2 min. Propósito: evaluar la capacidad aeróbica. Alternativa al test aeróbico de marcha de 6 min, cuando limitaciones de espacio o tiempo impidan realizarlo. Valoración: número de pasos completos realizados durante 2 min, llegando cada rodilla a un punto intermedio entre la rótula y la espina ilíaca anterosuperior. Se puntúa el número de veces que la rodilla derecha alcanza la altura requerida. Zona de riesgo: menos de 60 pasos para varones y mujeres." style="height: 2rem; width: 2rem">
+            </span>
             <input type="text" disabled v-model="firstUser.march"  class="form-control">
           </div>
         </div>
@@ -185,13 +195,17 @@
       <div class="row justify-content-center">
         <div class="col-sm-6">
           <div class="input-group input-group-lg">
-            <span class="input-group-text">Flexión del tronco (cm, +/–)</span>
+            <span class="input-group-text">Flexión del tronco (cm, +/–)
+            <img class="ml-1" src="@/assets/img/info-removebg-preview.png" data-toggle="tooltip" data-placement="top" title="Flexibilidad de la cadera. Propósito: valorar la flexibilidad de la musculatura posterior de las piernas y del tronco, zonas muy importantes para un adecuado patrón de la deambulación y para diferentes tareas de movilidad, tales como entrar y salir de la bañera, de un coche, subir al autobús, etc. Valoración: desde la posición de sentado en la parte delantera de una silla y con una pierna extendida, tratar de alcanzar con los dedos de la mano los dedos del pie. Se evalúa la distancia alcanzada por el dedo medio en centímetros. Zona de riesgo: mujeres a partir de 5 cm y varones a partir de 10 cm." style="height: 2rem; width: 2rem">
+            </span>
             <input type="text" disabled v-model="firstUser.trunkFlexion"  class="form-control">
           </div>
         </div>
         <div class="col-sm-6">
           <div class="input-group input-group-lg">
-            <span class="input-group-text">Flexibilidad hombros (cm, +/–)</span>
+            <span class="input-group-text">Flexibilidad hombros (cm, +/–)
+            <img class="ml-1" src="@/assets/img/info-removebg-preview.png" data-toggle="tooltip" data-placement="top" title="Alcanzar las manos tras la espalda. Propósito: valorar la flexibilidad del hombro, tan importante en tareas como peinarse, vestirse, alcanzar objetos, asearse, etc. Valoración: pasando una mano por encima del hombro y la otra por la espalda, medir la distancia que hay entre los dedos medios extendidos. Valorar los dos miembros.Zona de riesgo: mujeres a partir de 5 cm y varones a partir de 10 cm" style="height: 2rem; width: 2rem">
+            </span>
             <input type="text" disabled v-model="firstUser.shouldersFlexion"  class="form-control">
           </div>
         </div>
@@ -200,7 +214,9 @@
       <div class="row justify-content-center">
         <div class="col-sm-6">
           <div class="input-group input-group-lg">
-            <span class="input-group-text">Levantarse, caminar y sentarse (segundos)</span>
+            <span class="input-group-text">Levantarse, caminar y sentarse (segundos)
+            <img class="ml-1" src="@/assets/img/info-removebg-preview.png" data-toggle="tooltip" data-placement="top" title="Levantarse, caminar y sentarse. Propósito: evaluar el equilibrio dinámico y la destreza, que son factores importantes en tareas que requieren maniobras rápidas tales como bajarse del autobús o levantarse para atender algo, etc. Valoración: número de segundos empleados para levantarse desde una posición de sentado, caminar 2,50 m, girar alrededor de una señal y regresar hasta sentarse de nuevo. Zona de riesgo: más de 9 s para varones y mujeres." style="height: 2rem; width: 2rem">
+            </span>
             <input type="text" disabled v-model="firstUser.upWalkSit"  class="form-control">
           </div>
         </div>
@@ -374,7 +390,7 @@ export default {
         labels: [],
         datasets: [
           {
-            label: 'Pasos',
+            label: 'Número de pasos',
             data: [],
             fill: false,
             borderColor: '#42A5F5',
@@ -387,7 +403,7 @@ export default {
         labels: [],
         datasets: [
           {
-            label: 'Pasos',
+            label: 'Número de pasos',
             data: [],
             fill: false,
             borderColor: '#42A5F5',

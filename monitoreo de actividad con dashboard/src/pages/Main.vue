@@ -1,8 +1,6 @@
 <template>
   <div>
-    <!--Stats cards-->
     <div class="row">
-
       <div class="card bg-dark ml-3" style="width: 18rem;">
         <div class="card-header display:inline display:block mx-auto">
           <img src="@/assets/img/add.png" class="rounded-circle" style="height: 10rem; width: 8rem">
@@ -21,46 +19,16 @@
           <img v-bind:src="'data:image/jpg;base64,'+user.base64encodedImage"  class="rounded-circle" style="height: 10rem; width: 8rem">
         </div>
         <div class="card-body text-white font-weight-bold text-center">
-          <p class="card-text">Nombre: {{user.firstName}}</p>
-          <p class="card-text">Edad: {{user.weight}}</p>
-          <p class="card-text">Pasos estimados: {{user.estimatedSteps}} </p>
+          <p class="card-text border">Nombre: {{user.firstName}}</p>
+          <p class="card-text border">Edad: {{convertDateToAge(user.age)}}</p>
+          <p class="card-text border">Pasos estimados: {{user.estimatedSteps}} </p>
           <p-button class="mt-2" type="warning"
                     round @click.native.prevent="changeToEditUser(user)">
             MODIFICAR RESIDENTE
           </p-button>
         </div>
       </div>
-
-
       </div>
-<!--    <div class="row">-->
-<!--      <div class="col-md-6 col-xl-3">-->
-
-<!--        <stats-card @click.native="changeToRegisterUser()">-->
-<!--          <div class="icon-big text-center" slot="header">-->
-<!--            <img src="@/assets/img/contact.png" width="60" />-->
-<!--          </div>-->
-<!--          <div class="numbers" slot="content">-->
-<!--            <p>АÑADIR NUEVO RESIDENTE</p>-->
-<!--          </div>-->
-<!--        </stats-card>-->
-<!--      </div>-->
-<!--    </div>-->
-
-<!--    &lt;!&ndash;Stats cards&ndash;&gt;-->
-<!--    <div class="row">-->
-<!--      <div class="col-md-6 col-xl-3" v-for="user in allUsers" :key="user.name">-->
-
-<!--        <stats-card @click.native="changeToEditUser(user)">-->
-<!--          <div class="icon-big text-center" slot="header">-->
-<!--            <img src="@/assets/img/user.png" width="60" />-->
-<!--          </div>-->
-<!--          <div class="numbers" slot="content">-->
-<!--            <p>{{user.firstName}} -> ( {{user.name}} )</p>-->
-<!--          </div>-->
-<!--        </stats-card>-->
-<!--      </div>-->
-<!--    </div>-->
 
 
   </div>
@@ -68,6 +36,7 @@
 <script>
 import { StatsCard } from "@/components/index";
 import Card from 'primevue/card';
+import moment from "moment";
 const axios = require('axios').default;
 export default {
   name:'Main',
@@ -125,7 +94,16 @@ export default {
       this.$store.state.userInformation.march = user.march;
       this.$store.state.userInformation.base64encodedImage = user.base64encodedImage;
       this.$store.state.userInformation.imageName = user.imageName;
-    }
+    },
+    convertDateToAge(data){
+        let date = moment(data).format('YYYY MM DD');
+        let age =new Date(date)
+        let month_diff = Date.now() - age.getTime();
+        let age_dt = new Date(month_diff);
+        let year = age_dt.getUTCFullYear();
+      data = Math.abs(year - 1970);
+        return data;
+    },
 
   }
 };

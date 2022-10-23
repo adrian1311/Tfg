@@ -123,7 +123,8 @@
         <div class="col-sm-6">
           <div class="input-group input-group-lg">
             <span class="input-group-text">Flexiones codos (nº de repeticiones)
-            <img class="ml-1" src="@/assets/img/info-removebg-preview.png" data-toggle="tooltip" data-placement="top" title="Tooltip on top" style="height: 2rem; width: 2rem">
+            <img class="ml-1" src="@/assets/img/info-removebg-preview.png" data-toggle="tooltip" data-placement="top" title="
+Flexión y extensión de codos con mancuernas durante 30 s en posición de sentado en una silla. Propósito: valorar la fuerza-resistencia de la musculatura del brazo y el hombro, tan necesaria para desarrollar tareas cotidianas que involucran levantamientos, transportes,mantenimiento de pesos, etc. Valoración: número de flexiones y extensiones de codos que pueden ser completadas en 30 s, movilizando una mancuerna de 2,30 kg para mujeres y de 4 kg para varones.Se valoran los 2 miembros.– Zona de riesgo: menos de 11 flexiones/extensiones completas (varones y mujeres)." style="height: 2rem; width: 2rem">
             </span>
             <input type="text" v-model="elbowFlexion"  class="form-control text-center">
           </div>
@@ -161,7 +162,7 @@
         <div class="col-sm-6">
           <div class="input-group input-group-lg">
             <span class="input-group-text">Flexibilidad hombros (cm, +/–)
-            <img class="ml-1" src="@/assets/img/info-removebg-preview.png" data-toggle="tooltip" data-placement="top" title="Tooltip on top" style="height: 2rem; width: 2rem">
+            <img class="ml-1" src="@/assets/img/info-removebg-preview.png" data-toggle="tooltip" data-placement="top" title="Alcanzar las manos tras la espalda. Propósito: valorar la flexibilidad del hombro, tan importante en tareas como peinarse, vestirse, alcanzar objetos, asearse, etc. Valoración: pasando una mano por encima del hombro y la otra por la espalda, medir la distancia que hay entre los dedos medios extendidos. Valorar los dos miembros.Zona de riesgo: mujeres a partir de 5 cm y varones a partir de 10 cm" style="height: 2rem; width: 2rem">
             </span>
             <input type="text"  v-model="shouldersFlexion"  class="form-control text-center">
           </div>
