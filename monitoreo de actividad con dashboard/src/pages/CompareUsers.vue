@@ -175,8 +175,9 @@
               <p class="text-white">{{firstUserAveragueSteps}}</p>
             </div>
           </stats-card>
-          <h5 class="mt-3">Pasos diarios cumplidos en {{selectedDays}} días</h5>
+          <h5 class="mt-3">Objetivo cumplido en los ultimos {{selectedDays}} días</h5>
           <Knob v-model="valueGoalFirstUser"  readonly :max="selectedDays"/>
+          <h5 class="mt-3 mt-1">días</h5>
         </div>
         <div class="col-sm-7 text-center border border-danger m-1 bg-white rounded-lg">
           <Chart type="bar" :data="chartData" :options="chartOptions" />
@@ -200,8 +201,9 @@
               <p class="text-white">{{secondUserAveragueSteps}}</p>
             </div>
           </stats-card>
-          <h5 class="mt-3">Pasos diarios cumplidos en {{selectedDays}} días</h5>
+          <h5 class="mt-3">Objetivo cumplido en los ultimos {{selectedDays}} días</h5>
           <Knob v-model="valueGoalSecondUser" readonly :max="selectedDays" />
+          <h5 class="mt-3 mt-1">días</h5>
         </div>
       </div>
       <div class="row justify-content-center">

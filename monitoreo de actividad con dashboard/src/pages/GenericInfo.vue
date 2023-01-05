@@ -158,7 +158,6 @@
     <div class="row justify-content-center">
       <div class="col-sm-5 text-center border border-success m-1 bg-white rounded-lg">
         <h3 class="text-dark font-weight-bold" >Usuarios más activos en los ultimos {{selectedDays}} dias</h3>
-
         <Chart type="bar" :data="moreActiveUsers" :options="horizontalOptions" />
       </div>
       <div class="col-sm-5 text-center border border-danger m-1 bg-white rounded-lg">
@@ -548,6 +547,7 @@ export default {
 
       self.rows = self.list;
       self.showMoreActiveUsers(self.list);
+      self.showLessActiveUsers(self.list);
       self.createUnderAverageGraphic(self.list);
       self.table1.data = self.list;
 
@@ -683,14 +683,15 @@ export default {
     },
 
     showMoreActiveUsers(list){
+      console.log('this is my list before',list)
       this.moreActiveUsers.labels = [];
       this.moreActiveUsers.datasets[0].data =  [];
       this.threeMoreActiveUsersSteps=  [];
       this.threeMoreActiveUsersNames=  [];
       let orderedUsersByAvergeSteps = list.sort((a, b) => {
-        return a.age - b.age;
+        return b.medios - a.medios;
       });
-
+      console.log('this is my list before222',orderedUsersByAvergeSteps)
       if(orderedUsersByAvergeSteps.length > 0){
         if(orderedUsersByAvergeSteps.length >= 1){
           this.threeMoreActiveUsersSteps.push(orderedUsersByAvergeSteps[0].medios)
@@ -707,6 +708,35 @@ export default {
 
         this.moreActiveUsers.labels =  this.threeMoreActiveUsersNames;
         this.moreActiveUsers.datasets[0].data =  this.threeMoreActiveUsersSteps;
+      }
+    },
+
+    showLessActiveUsers(list){
+      console.log('in Less',list)
+      this.lessActiveUsers.labels = [];
+      this.lessActiveUsers.datasets[0].data =  [];
+      this.threeLessActiveUsersSteps=  [];
+      this.threeLessActiveUsersNames=  [];
+      let orderedUsersByAvergeSteps = list.sort((a, b) => {
+        return a.medios - b.medios;
+      });
+      console.log('this is my list before222',orderedUsersByAvergeSteps)
+      if(orderedUsersByAvergeSteps.length > 0){
+        if(orderedUsersByAvergeSteps.length >= 1){
+          this.threeLessActiveUsersSteps.push(orderedUsersByAvergeSteps[0].medios)
+          this.threeLessActiveUsersNames.push(orderedUsersByAvergeSteps[0].nombre)
+        }
+        if(orderedUsersByAvergeSteps.length >= 2){
+          this.threeLessActiveUsersSteps.push(orderedUsersByAvergeSteps[1].medios)
+          this.threeLessActiveUsersNames.push(orderedUsersByAvergeSteps[1].nombre)
+        }
+        if(orderedUsersByAvergeSteps.length >= 3){
+          this.threeLessActiveUsersSteps.push(orderedUsersByAvergeSteps[2].medios)
+          this.threeLessActiveUsersNames.push(orderedUsersByAvergeSteps[2].nombre)
+        }
+
+        this.lessActiveUsers.labels =  this.threeLessActiveUsersNames;
+        this.lessActiveUsers.datasets[0].data =  this.threeLessActiveUsersSteps;
       }
     },
 

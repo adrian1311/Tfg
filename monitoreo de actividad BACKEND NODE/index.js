@@ -57,7 +57,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 app.post('/initial', (req, res) => {
-	console.log(req.body)
     getVariablesFromRequest(req);
     const url = oauth2Client.generateAuthUrl({
         access_type: 'offline',
@@ -73,13 +72,14 @@ app.post('/initial', (req, res) => {
 
 app.get('/steps', async (req, res, next) => {
     loadInfoFromDB();
+	
     let code3 = '';
     let refreshForDB = '';
-        code3 = req.query.code;
-        oauthResponse = await oauth2Client.getToken(code3);
-        refreshForDB = oauthResponse.tokens.refresh_token;
+    code3 = req.query.code;
+    oauthResponse = await oauth2Client.getToken(code3);
+    refreshForDB = oauthResponse.tokens.refresh_token;
+		
     try {
-        refreshTok = oauthResponse.tokens.refresh_token;
         oauth2Client.setCredentials(oauthResponse.tokens);
         var oauth2 = google.oauth2({
             auth: oauth2Client,
@@ -99,6 +99,7 @@ app.get('/steps', async (req, res, next) => {
             });
         google.options({ auth: oauth2Client });
         res.send('USUARIO ACTUALIZADO')
+		
     } catch (err) {
         console.log(err)
     }
@@ -108,7 +109,6 @@ app.get('/steps', async (req, res, next) => {
 app.get('/getInformation', async (req, res, next) => {
     if(req.query.daysForSearch != undefined){
         daysAgo = todayAtMidnight - req.query.daysForSearch * 24 * 60 * 60 * 1000;
-        console.log(typeof daysAgo, daysAgo)
     }
         try {
             oauth2Client.setCredentials({
@@ -197,17 +197,14 @@ async function getAggregatedFitnessDataFromToInMillis(startTimeMillis, endTimeMi
             endTimeMillis: endTimeMillis || now,
         },
     });
-    console.log('debug',fitnessRes.data.bucket)
     const stepsDataPointBucketArray = fitnessRes.data.bucket;
     const stepsArray = stepsDataPointBucketArray.map((day) => {
-        console.log('day', day)
         return day;
     });
+	console.log('AAAA',stepsArray)
     return stepsArray;
 }
 
 app.listen(PORT, () => {
     console.log('Google FIT Dev API is live');
-    //const open = require('open');
-    //open(`http://localhost:${PORT}`);
 });

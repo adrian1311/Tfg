@@ -25,4 +25,12 @@ public class DataSet {
     public void setPoint(List<Points> point) {
         this.point = point;
     }
+
+    @Override
+    public String toString() {
+        return "DataSet{" +
+                "dataSourceId='" + dataSourceId + '\'' +
+                ", point=" + point +
+                '}';
+    }
 }

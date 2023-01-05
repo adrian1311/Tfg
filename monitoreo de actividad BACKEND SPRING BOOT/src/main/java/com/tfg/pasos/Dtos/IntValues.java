@@ -14,5 +14,12 @@ public class IntValues {
     public void setIntVal(Integer intVal) {
         this.intVal = intVal;
     }
+
+    @Override
+    public String toString() {
+        return "IntValues{" +
+                "intVal=" + intVal +
+                '}';
+    }
 }
 

@@ -2,7 +2,7 @@ package com.tfg.pasos.Controllers;
 
 import com.tfg.pasos.Dtos.GetAllUsersStepsBody;
 import com.tfg.pasos.Dtos.Users;
-import com.tfg.pasos.Manager.PasosManager;
+import com.tfg.pasos.Manager.StepsManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -15,31 +15,31 @@ import java.util.List;
 @RestController
 @RequestMapping("pasos")
 
-public class PasosController {
+public class StepsController {
 
     @Autowired
-    PasosManager pasosManager;
+    StepsManager stepsManager;
 
 
 
     @GetMapping(value = "/getUsers", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Users> getUsers() {
-        return pasosManager.getUsers();
+        return stepsManager.getUsers();
     }
 
     @PostMapping(value = "/getAllUsersSteps")
     public List<Users> getAllUsersSteps(@RequestBody GetAllUsersStepsBody getAllUsersStepsBody) throws IOException {
-        return pasosManager.getStepsForUsers(getAllUsersStepsBody.getUsers(), getAllUsersStepsBody.getDays());
+        return stepsManager.getStepsForUsers(getAllUsersStepsBody.getUsers(), getAllUsersStepsBody.getDays());
     }
 
     @PostMapping (value = "/modifyInfo")
     public void modifyInfo(@RequestBody Users user) {
 
-        pasosManager.modifyUser(user);
+        stepsManager.modifyUser(user);
     }
 
     @PostMapping (value = "/deleteUser")
     public void deleteUser(@RequestBody Users user) {
-        pasosManager.deleteUser(user);
+        stepsManager.deleteUser(user);
     }
 }

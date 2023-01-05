@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.TreeMap;
 
 @Service
-public class PasosManager {
+public class StepsManager {
 
     private TreeMap<LocalDate,Integer> totalStepsWithDates = new TreeMap<>();
 
@@ -50,7 +50,6 @@ public class PasosManager {
            user.setStepsWithDatesMap(userStepsAndDates);
            user.setStepsWithDatesMapWithTime(userStepsAndDatesWithTime);
        }
-       System.out.println(users);
        return users;
     }
     private void createMapWithAllUsersSteps(TreeMap<LocalDate,Integer> userStepsAndDates){

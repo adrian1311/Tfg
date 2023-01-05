@@ -130,9 +130,11 @@
 
       <div class="row justify-content-center">
         <div class="col-sm-5 mt-2 text-center border border-info m-1 rounded-lg bg-white">
+          <h3 class="text-dark font-weight-bold font-weight-bold" :class="`ti-arrow-up`"> Días de mayor actividad</h3>
           <Chart type="bar" :data="dataHighestStepsFirstUser" :options="horizontalOptions" />
         </div>
         <div class="col-sm-5 mt-2 text-center border border-info m-1 rounded-lg bg-white">
+          <h3 class="text-dark font-weight-bold" :class="`ti-arrow-down`"> Días de menor actividad</h3>
           <Chart type="bar" :data="dataLowerStepsFirstUser" :options="horizontalOptions" />
         </div>
       </div>
@@ -499,7 +501,6 @@ export default {
       axios.get("http://localhost:5998/pasos/getUsers")
         .then(function (response) {
           self.allUsers = response.data;
-          console.log( self.allUsers)
           self.getAllUsersInfo()
         }).catch(error => {
         console.log(error)

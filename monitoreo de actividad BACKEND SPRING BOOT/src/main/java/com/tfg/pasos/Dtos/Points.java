@@ -16,4 +16,11 @@ public class Points {
     public void setValue(List<IntValues> value) {
         this.value = value;
     }
+
+    @Override
+    public String toString() {
+        return "Points{" +
+                "value=" + value +
+                '}';
+    }
 }
