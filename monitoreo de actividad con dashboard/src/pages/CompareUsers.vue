@@ -516,7 +516,7 @@ export default {
     pushUsersInDropDown(){
       this.usersForDropdown = [];
       for(let user of this.allUsers){
-        this.usersForDropdown.push(user.firstName)
+        this.usersForDropdown.push(user.firstName + ' ' +user.lastName)
       }
     },
     //Cojo toda la informacion de los pasos de todos los usuarios
@@ -579,7 +579,7 @@ export default {
        for (let userInfo of this.$store.state.allUsersInformation) {
          //Cojo solo los usuarios que he elejido el el dropdown
          //Creo 2 map: Primero con los 2 usuarios y pasos, Segundo con los 2 usuarios y pasos con horas. Los meto en una lista
-          if(userInfo.firstName === this.firstResident){
+          if(userInfo.firstName + ' ' +userInfo.lastName === this.firstResident){
             this.firstUser = userInfo;
             this.chartData.datasets[0].label = userInfo.firstName;
             let map = new Map(Object.entries(userInfo.stepsWithDatesMap));
@@ -589,7 +589,7 @@ export default {
             //Coloco informacion en los cuadros
             this.putInformationInFirstBoxInfo(userInfo)
           }
-         if(userInfo.firstName === this.secondResident){
+         if(userInfo.firstName + ' ' +userInfo.lastName  === this.secondResident){
            this.secondUser = userInfo;
            this.chartData.datasets[1].label = userInfo.firstName;
            let map = new Map(Object.entries(userInfo.stepsWithDatesMap));

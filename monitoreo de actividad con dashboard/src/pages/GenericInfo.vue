@@ -530,7 +530,7 @@ export default {
         if(list !== null && list !== undefined){
           let map1 = new Map(Object.entries(list));
           s.push(map1)
-          self.names.push(userInfo.name)
+          self.names.push(userInfo.firstName + ' ' +userInfo.lastName)
           self.estimatedStepsArray.push(userInfo.estimatedSteps)
         }
       }
@@ -691,7 +691,6 @@ export default {
       let orderedUsersByAvergeSteps = list.sort((a, b) => {
         return b.medios - a.medios;
       });
-      console.log('this is my list before222',orderedUsersByAvergeSteps)
       if(orderedUsersByAvergeSteps.length > 0){
         if(orderedUsersByAvergeSteps.length >= 1){
           this.threeMoreActiveUsersSteps.push(orderedUsersByAvergeSteps[0].medios)
@@ -712,7 +711,6 @@ export default {
     },
 
     showLessActiveUsers(list){
-      console.log('in Less',list)
       this.lessActiveUsers.labels = [];
       this.lessActiveUsers.datasets[0].data =  [];
       this.threeLessActiveUsersSteps=  [];
@@ -720,7 +718,6 @@ export default {
       let orderedUsersByAvergeSteps = list.sort((a, b) => {
         return a.medios - b.medios;
       });
-      console.log('this is my list before222',orderedUsersByAvergeSteps)
       if(orderedUsersByAvergeSteps.length > 0){
         if(orderedUsersByAvergeSteps.length >= 1){
           this.threeLessActiveUsersSteps.push(orderedUsersByAvergeSteps[0].medios)

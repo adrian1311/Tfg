@@ -523,7 +523,7 @@ export default {
     pushUsersInDropDown(){
       this.usersForDropdown = [];
       for(let user of this.allUsers){
-        this.usersForDropdown.push(user.firstName)
+        this.usersForDropdown.push(user.firstName + ' ' +user.lastName)
       }
     },
 
@@ -582,7 +582,7 @@ export default {
         let mapWithUserSteps = new Map(Object.entries(userInfo.stepsWithDatesMap));
         listWithTotalSteps.push(mapWithUserSteps)
         //Cojo solo el usuario que he elejido el el dropdown
-        if(userInfo.firstName === self.firstResident){
+        if(userInfo.firstName + ' ' +userInfo.lastName === self.firstResident){
           self.firstUser = userInfo;
           console.log('my firstUser',self.firstUser)
           let map = new Map(Object.entries(userInfo.stepsWithDatesMap));

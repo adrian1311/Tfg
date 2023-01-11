@@ -211,6 +211,7 @@ Flexión y extensión de codos con mancuernas durante 30 s en posición de senta
   </ConfirmDialog>
   <ConfirmDialog group="positionDialog"></ConfirmDialog>
 
+
 </div>
 </template>
 
@@ -273,7 +274,6 @@ export default {
       const reader = new FileReader();
       let rawImg;
       reader.onloadend = () => {
-
         rawImg = reader.result;
         const words = rawImg.split(',');
         self.base64encodedImage = words[1]
@@ -365,7 +365,7 @@ export default {
         imageName:self.imageName
       }).then(function (response) {
      console.log(response)
-
+        self.moveToMainPage();
       }).catch(error => {
         if (!error.response) {
           this.errorStatus = 'Error: Network Error';

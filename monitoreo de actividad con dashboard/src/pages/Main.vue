@@ -19,7 +19,7 @@
           <img v-bind:src="'data:image/jpg;base64,'+user.base64encodedImage"  class="rounded-circle" style="height: 10rem; width: 8rem">
         </div>
         <div class="card-body text-white font-weight-bold text-center">
-          <p class="card-text border">Nombre: {{user.firstName}}</p>
+          <p class="card-text border">Nombre: {{user.firstName + ' ' + user.lastName}}</p>
           <p class="card-text border">Edad: {{convertDateToAge(user.age)}}</p>
           <p class="card-text border">Pasos estimados: {{user.estimatedSteps}} </p>
           <p-button class="mt-2" type="warning"
@@ -60,7 +60,6 @@ export default {
       axios.get("http://localhost:5998/pasos/getUsers")
         .then(function (response) {
           self.allUsers= response.data;
-          console.log('aaaaaaaaaaaaaa',self.allUsers)
         }).catch(error => {
         console.log(error)
       })
