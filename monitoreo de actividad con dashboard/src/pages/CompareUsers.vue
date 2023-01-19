@@ -42,7 +42,7 @@
   <div class="text-center mt-3">
     <p-button type="success"
               round
-              @click.native.prevent="transformInformation">
+              @click.native.prevent="getAllUsersInfo">
       MOSTRAR INFORMACIÓN
     </p-button>
   </div>
@@ -348,6 +348,7 @@ export default {
       highestFirstThreeStepsSecondUser:[],
       sortedMapWIthTotalStepsFirstUser : new Map(),
       sortedMapWIthTotalStepsSecondUser : new Map(),
+      arrayWithSelectedUsers:[],
       daysForSearchOprions : [{
         name : '3',
         value : 3,
@@ -508,7 +509,8 @@ export default {
       axios.get("http://localhost:5998/pasos/getUsers")
         .then(function (response) {
           self.allUsers = response.data;
-          self.getAllUsersInfo()
+          self.pushUsersInDropDown();
+          self.isLoading = false;
         }).catch(error => {
         console.log(error)
       })
@@ -519,17 +521,27 @@ export default {
         this.usersForDropdown.push(user.firstName + ' ' +user.lastName)
       }
     },
+    getSelectedUsersInfo(){
+      for(let user of this.allUsers){
+        if(user.firstName + ' ' +user.lastName === this.firstResident || user.firstName + ' ' +user.lastName === this.secondResident){
+         this.arrayWithSelectedUsers.push(user);
+        }
+      }
+    },
     //Cojo toda la informacion de los pasos de todos los usuarios
     getAllUsersInfo() {
       let self = this;
+      self.isLoading = true;
+      self.getSelectedUsersInfo();
       axios.post('http://localhost:5998/pasos/getAllUsersSteps', {
-        users: self.allUsers,
+        users: self.arrayWithSelectedUsers,
         days: 30
       }).then(function (response) {
         self.$store.state.allUsersInformation =[]
         self.$store.state.allUsersInformation = self.convertDateToAge(response.data);
+        self.transformInformation();
         self.isLoading = false;
-        self.pushUsersInDropDown();
+
       }).catch(error => {
         console.log(error)
       })

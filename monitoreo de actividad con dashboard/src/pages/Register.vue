@@ -13,22 +13,21 @@
           <div class="row justify-content-center mt-2">
             <div class="col-sm-6">
               <div class="input-group input-group">
-                <span class="input-group-text text-center">Nombre</span>
+                <span class="input-group-text text-center" :class="{ 'btn-danger': !$v.firstName.required || !$v.firstName.alpha}">Nombre</span>
                 <input type="text" v-model="firstName"  class="form-control text-dark">
               </div>
             </div>
             <div class="col-sm-6">
               <div class="input-group input-group">
-                <span class="input-group-text text-center">Apellido</span>
+                <span class="input-group-text text-center" :class="{ 'btn-danger': !$v.lastName.required || !$v.lastName.alpha}">Apellido</span>
                 <input type="text" v-model="lastName"  class="form-control text-dark">
               </div>
             </div>
-
           </div>
-          <div class="row justify-content-center mt-2">
+          <div class="row justify-content-center">
             <div class="col-sm-6">
               <div class="input-group input-group">
-                <span class="input-group-text text-center">Género
+                <span class="input-group-text text-center"  :class="{ 'btn-danger': !$v.gender.required}">Género
                   <img class="ml-1" src="@/assets/img/genero-removebg-preview.png" style="height: 1rem; width: 1rem">
                 </span>
                 <select class="form-control text-dark text-center" v-model="gender" >
@@ -39,7 +38,7 @@
             </div>
             <div class="col-sm-6">
               <div class="input-group input-group">
-                <span class="input-group-text text-center">Altura (cm)
+                <span class="input-group-text text-center " :class="{ 'btn-danger': !$v.height.required || !$v.height.numeric}">Altura (cm)
                   <img class="ml-1" src="@/assets/img/altura-removebg-preview.png" style="height: 1rem; width: 1rem">
                 </span>
                 <input type="text" v-model="height"   class="form-control text-dark text-center">
@@ -49,7 +48,7 @@
           <div class="row justify-content-center">
             <div class="col-sm-6">
               <div class="input-group input-group-">
-                <span class="input-group-text text-center">Peso (kg)
+                <span class="input-group-text text-center" :class="{ 'btn-danger': !$v.weight.required || !$v.weight.numeric}">Peso (kg)
                   <img class="ml-1" src="@/assets/img/peso-removebg-preview.png" style="height: 1rem; width: 1rem">
                 </span>
                 <input type="text" v-model="weight"  class="form-control text-dark text-center">
@@ -57,7 +56,7 @@
             </div>
             <div class="col-sm-6">
               <div class="input-group input-group">
-                <span class="input-group-text text-center">Fecha de nacimiento   <img class="ml-1" src="@/assets/img/fecha-removebg-preview.png" style="height: 1rem; width: 1rem">
+                <span class="input-group-text text-center" :class="{ 'btn-danger': !$v.age.required}">Fecha de nacimiento   <img class="ml-1" src="@/assets/img/fecha-removebg-preview.png" style="height: 1rem; width: 1rem">
                 </span>
                 <input type="date" v-model="age"  class="form-control text-dark text-center">
               </div>
@@ -67,7 +66,7 @@
           <div class="row justify-content-center">
             <div class="col-sm-6">
               <div class="input-group input-group">
-                <span class="input-group-text text-center">Objetívo de pasos diários
+                <span class="input-group-text text-center " :class="{ 'btn-danger': !$v.estimetedSteps.required || !$v.estimetedSteps.numeric}">Objetívo de pasos diários
                   <img class="ml-1" src="@/assets/img/paos-removebg-preview.png" style="height: 1rem; width: 1rem">
                 </span>
                 <input type="text"  v-model="estimetedSteps"  class="form-control text-dark text-center">
@@ -103,6 +102,21 @@
           </div>
         </div>
       </div>
+      <div class="row justify-content-center">
+        <div class="col-sm-6">
+          <div class="input-group input-group">
+            <span v-if="!$v.firstName.required && $v.firstName.$dirty" class="text-danger font-weight-bold">El nombre es obligatorio !&emsp;</span>
+            <span v-if="!$v.firstName.alpha && $v.firstName.$dirty" class="text-danger font-weight-bold">El nombre tiene que ser solo letras !&emsp;</span>
+            <span v-if="!$v.lastName.required && $v.lastName.$dirty" class="text-danger font-weight-bold">El apellido es obligatorio !&emsp;</span>
+            <span v-if="!$v.weight.required && $v.weight.$dirty" class="text-danger font-weight-bold">El peso es obligatorio !&emsp;</span>
+            <span v-if="!$v.height.required && $v.height.$dirty" class="text-danger font-weight-bold">La altura es obligatoria !&emsp;</span>
+            <span v-if="!$v.age.required && $v.age.$dirty" class="text-danger font-weight-bold">La fecha de nacimiento es obligatoria !&emsp;</span>
+            <span v-if="!$v.estimetedSteps.required && $v.estimetedSteps.$dirty" class="text-danger font-weight-bold">Los pasos estimados son obligatorios !&emsp;</span>
+          </div>
+        </div>
+
+      </div>
+
     </div>
   </div>
 
@@ -183,7 +197,7 @@ Flexión y extensión de codos con mancuernas durante 30 s en posición de senta
       <div class="text-center mb-2">
         <p-button type="success" v-if="showAddButton"
                   round
-                  @click.native.prevent="addBand">
+                  @click.native.prevent="submitForm">
           AÑADIR RESIDENTE
         </p-button>
         <p-button type="warning" v-if="showEditButton"
@@ -220,12 +234,41 @@ import {default as axios} from "axios";
 import moment from "moment";
 import Calendar from 'primevue/calendar';
 import ConfirmDialog from 'primevue/confirmdialog';
+import {required, alpha, numeric} from 'vuelidate/lib/validators'
 
 export default {
   name: "Register",
   components: {
     Calendar,
     ConfirmDialog
+  },
+  validations:{
+    firstName:{
+      required,
+      alpha
+    },
+    lastName:{
+      required,
+      alpha
+    },
+    height:{
+      required,
+      numeric
+    },
+    weight:{
+      required,
+      numeric
+    },
+    gender:{
+      required,
+    },
+    estimetedSteps:{
+      required,
+      numeric
+    },
+    age:{
+      required
+    },
   },
   data() {
     return {
@@ -243,7 +286,7 @@ export default {
       height : '',
       weight : '',
       age: '',
-      gender:'female',
+      gender:'',
       estimetedSteps:'',
       notes:'',
       needHelp:'no',
@@ -304,8 +347,14 @@ export default {
       this.upWalkSit =this.$store.state.userInformation.upWalkSit;
       this.base64encodedImage=this.$store.state.userInformation.base64encodedImage;
       this.imageName=this.$store.state.userInformation.imageName;
-
     },
+    submitForm(){
+      this.$v.$touch();
+      if(!this.$v.$invalid){
+        this.addBand();
+      }
+    },
+
     addBand(){
       let self=this;
       axios.post("http://localhost:5999/initial",{
@@ -327,9 +376,7 @@ export default {
           base64encodedImage:self.base64encodedImage,
           imageName:self.imageName
       }).then(function (response) {
-        console.log(response.data)
           self.urlForSteps= response.data
-        console.log(self.urlForSteps)
           window.open(self.urlForSteps, "_blank");
         }).catch(error => {
         if (!error.response) {
@@ -377,7 +424,6 @@ export default {
 
     deleteBand(){
       let self=this;
-      console.log('SEND DELETE')
       axios.post("http://localhost:5998/pasos/deleteUser",{
         id: self.id
       }).then(function (response) {

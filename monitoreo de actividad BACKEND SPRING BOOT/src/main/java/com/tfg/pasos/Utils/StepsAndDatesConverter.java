@@ -66,7 +66,6 @@ public class StepsAndDatesConverter {
                 }
             }
         }
-        System.out.println(dateWithStepsMap);
         return dateWithStepsMap;
     }
 

@@ -131,9 +131,33 @@
         </div>
       </div>
 
+    <div class="row">
+      <div class="col-12 text-center">
+        <h3 class="font-weight-bold text-dark">Información mostrada para los últimos {{selectedDays}} días</h3>
+      </div>
+    </div>
+    <div class="row mt-1 bg-white rounded-lg">
+      <div class="col-12 text-center border border-primary">
+        <vue-good-table
+          :columns="columns"
+          :rows="rows"
+          :search-options="{
+    enabled: true
+  }"
+          @>
+          <template slot="table-row" slot-scope="props">
+    <span v-if="props.column.field == 'medios' && (props.row.estimados > props.row.medios)">
+      <span style="font-weight: bold; color: red;">{{props.row.medios}}</span>
+    </span>
+            <span v-else>
+      {{props.formattedRow[props.column.field]}}
+    </span>
+          </template>
+        </vue-good-table>
+      </div>
+    </div>
 
-
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mt-2">
       <div class="col-sm-12 text-center border border-primary bg-white rounded-lg">
         <div class="row justify-content-center">
           <div class="col-sm-12 text-center bg-white">
@@ -141,6 +165,35 @@
             <Chart type="line" :data="basicData" />
           </div>
         </div>
+      </div>
+    </div>
+
+    <div class="row mt-2 justify-content-center">
+      <div class="col-sm-3 text-center border border-primary m-1 bg-white rounded-lg">
+        <label class="text-dark font-weight-bold mt-5">Seleccione fecha para ver los usuarios y sus pasos</label>
+        <Dropdown v-model="selectedDate" :options="allDates" placeholder="Seleccione fecha" v-on:change="createInfoForSecondGraphic2"/>
+      </div>
+      <div class="col-sm-7 text-center border border-primary m-1 bg-white rounded-lg">
+        <h3 class="text-dark font-weight-bold"> Residentes y pasos del día seleccionado</h3>
+        <!--Chart type="bar" :data="dataForSeparateDays" :options="horizontalOptions" /-->
+        <vue-good-table
+          max-height="300px"
+          :columns="columnsSeparatedDays"
+          :rows="rowsSeparatedDays"
+          :search-options="{
+    enabled: true
+  }"
+          @>
+          <template slot="table-row" slot-scope="props">
+    <span v-if="props.column.field == 'medios' && (props.row.estimados > props.row.medios)">
+      <span style="font-weight: bold; color: red;">{{props.row.medios}}</span>
+    </span>
+            <span v-else>
+      {{props.formattedRow[props.column.field]}}
+    </span>
+          </template>
+        </vue-good-table>
+
       </div>
     </div>
 
@@ -166,31 +219,7 @@
     </div>
     </div>
 
-    <div class="row">
-      <div class="col-12 text-center">
-        <h3 class="font-weight-bold text-dark">Información mostrada para los últimos {{selectedDays}} días</h3>
-      </div>
-    </div>
-    <div class="row mt-4 bg-white rounded-lg">
-      <div class="col-12 text-center border border-primary">
-        <vue-good-table
-          :columns="columns"
-          :rows="rows"
-          :search-options="{
-    enabled: true
-  }"
-        @>
-          <template slot="table-row" slot-scope="props">
-    <span v-if="props.column.field == 'medios' && (props.row.estimados > props.row.medios)">
-      <span style="font-weight: bold; color: red;">{{props.row.medios}}</span>
-    </span>
-            <span v-else>
-      {{props.formattedRow[props.column.field]}}
-    </span>
-          </template>
-        </vue-good-table>
-      </div>
-    </div>
+
 
 
   </div>
@@ -237,7 +266,20 @@ export default {
           field: 'estimados',
         },
       ],
+      columnsSeparatedDays: [
+        {
+          label: 'Nombre del residente',
+          field: 'name',
+        },
+        {
+          label: 'Pasos en el día',
+          field: 'daySteps',
+        },
+      ],
+      selectedDate:'',
+      allDates:[],
       rows: [],
+      rowsSeparatedDays: [],
       isLoading:false,
       threeMoreActiveUsersSteps :[],
       threeMoreActiveUsersNames :[],
@@ -257,6 +299,8 @@ export default {
       selectedGender: 'both',
       selectedDays : 30,
       totalStepsByDates : new Map(),
+     mapWithDateWIthUserAndSteps: [],
+      mapWithNameAndStepsFOrEachDay: [],
       genders:["Hombre","Mujer","Hombres y Mujeres"],
       daysForSearch:[3,7,30],
       numberOfMens:0,
@@ -281,6 +325,18 @@ export default {
           footerIcon: "ti-reload"
         },
       ],
+      dataForSeparateDays:{
+        labels: [],
+        datasets: [
+          {
+            label: 'Pasos de los usuarios en el día seleccionado',
+            data: [],
+            fill: false,
+            borderColor: '#42A5F5',
+            tension: .4
+          }
+        ]
+      },
       basicData: {
         labels: [],
         datasets: [
@@ -373,13 +429,6 @@ export default {
             }
           }
         }
-      },
-
-      table1: {
-        title: "INFORMACION DE PASOS TOTALES Y MEDIA DE PASOS DE LOS RESIDENTES",
-        subTitle: "",
-        columns: [...tableColumns],
-        data: this.list,
       },
 
       residentsNumberData: {
@@ -516,9 +565,12 @@ export default {
     //Metodo para recopilar todos los pasos en un solo map con el total de pasos
     transformInformationToMaps() {
       let self=this;
+      self.mapWithDateWIthUserAndSteps = [];
       self.$store.state.exampleArray = [];
       self.datess = [];
       self.averageSteps = [];
+      self.rowsSeparatedDays= [];
+      self.selectedDate=''
       self.names= [];
       let s = [];
       let mapWIthTotalSteps = new Map();
@@ -529,6 +581,9 @@ export default {
        let list = self.selectGender(userInfo)
         if(list !== null && list !== undefined){
           let map1 = new Map(Object.entries(list));
+          let splitName = userInfo.firstName + ' ' +userInfo.lastName;
+          //Le paso el nombre junto con las fechas y pasos de cada usuario en cada iteracion del bucle
+          self.createListWithDateNameSteps(splitName,map1)
           s.push(map1)
           self.names.push(userInfo.firstName + ' ' +userInfo.lastName)
           self.estimatedStepsArray.push(userInfo.estimatedSteps)
@@ -536,7 +591,7 @@ export default {
       }
       self.agesRanges = [self.sixRange,self.sevenRange,self.eightRange,self.nineRange,self.tenRange]
       self.residentsAgeData.datasets[0].data = self.agesRanges;
-
+      //self.createInfoForSecondGraphic();
       self.list = []
       //crear tabla con información
       self.list = self.createMoreActiveUsers(s);
@@ -545,13 +600,15 @@ export default {
         self.list[usr].estimados = (self.estimatedStepsArray[usr])
       }
 
+
       self.rows = self.list;
       self.showMoreActiveUsers(self.list);
       self.showLessActiveUsers(self.list);
       self.createUnderAverageGraphic(self.list);
-      self.table1.data = self.list;
+      //self.table1.data = self.list;
 
-      //Recorro la lista y creo map con el total
+      //S es el la lista formada por todos los usuarios. Contiene un map con fecha y pasos de ese dia
+      //Los recorro . SI la fecha no esta en el map la añado con los pasos, si esta solo sumo los pasos
       for (let map of s){
         for (const [key, value] of map) {
           if(mapWIthTotalSteps.has(key)){
@@ -563,7 +620,7 @@ export default {
         }
       }
 
-      //Recorro map para crear los array para la primera gráfica
+      //Recorro map para crear los array para la primera gráfica con fecha y numero de pasos. Divido los pasos entre los usuarios para que me de la mitad
       mapWIthTotalSteps.forEach (function(value, key) {
         self.datess.push(key)
         if(value !== 0){
@@ -646,9 +703,41 @@ export default {
       self.dataHighestSteps.datasets[0].data =  self.highestFirstThreeSteps;
 
       self.basicData.labels = self.datess;
+      self.allDates = self.datess;
       self.basicData.datasets[0].data = self.averageSteps;
     },
+    createListWithDateNameSteps(splitName,map1){
+      let self=this;
+      //Itero el map con fecha y pasos para crear lista con fecha, nombre y pasos de todos {1-12,Adrian,1400} de todos los usuarios
+      map1.forEach (function(value, key) {
+        self.mapWithDateWIthUserAndSteps.push({date:key,name:splitName,steps:value});
+      })
+    },
 
+    createInfoForSecondGraphic(){
+      let self=this;
+      self.dataForSeparateDays.datasets[0].data = []
+      self.dataForSeparateDays.labels = []
+      for ( let dayWithUserAndSteps of self.mapWithDateWIthUserAndSteps){
+        if(self.selectedDate == dayWithUserAndSteps.date){
+          self.dataForSeparateDays.datasets[0].data.push(dayWithUserAndSteps.steps)
+          self.dataForSeparateDays.labels.push(dayWithUserAndSteps.name)
+        }
+      }
+    },
+    createInfoForSecondGraphic2(){
+      let self=this;
+      self.dataForSeparateDays.datasets[0].data = []
+      self.dataForSeparateDays.labels = []
+      self.rowsSeparatedDays= []
+      for ( let dayWithUserAndSteps of self.mapWithDateWIthUserAndSteps){
+        if(self.selectedDate == dayWithUserAndSteps.date){
+          self.dataForSeparateDays.datasets[0].data.push(dayWithUserAndSteps.steps)
+          self.dataForSeparateDays.labels.push(dayWithUserAndSteps.name)
+          self.rowsSeparatedDays.push({name:dayWithUserAndSteps.name,daySteps:dayWithUserAndSteps.steps})
+        }
+      }
+    },
     createUnderAverageGraphic(list){
       this.underAverageSteps=0;
       this.moreThanAverageSteps=0;

@@ -36,7 +36,7 @@
     <div class="col-md-4 col-xl-3 mt-4" >
       <p-button type="success"
                 round
-                @click.native.prevent="transformInformation">
+                @click.native.prevent="getAllUsersInfo">
         MOSTRAR INFORMACIÓN
       </p-button>
     </div>
@@ -386,7 +386,7 @@ export default {
       datesss:[],
       averageSteps:[],
       firstUser : {},
-
+      arrayWithSelectedUsers:[],
 
       dataHighestStepsFirstUser: {
         labels: [],
@@ -501,21 +501,31 @@ export default {
       axios.get("http://localhost:5998/pasos/getUsers")
         .then(function (response) {
           self.allUsers = response.data;
-          self.getAllUsersInfo()
+          self.pushUsersInDropDown();
+          self.isLoading = false;
         }).catch(error => {
         console.log(error)
       })
     },
+    getSelectedUsersInfo(){
+      for(let user of this.allUsers){
+        if(user.firstName + ' ' +user.lastName === this.firstResident || user.firstName + ' ' +user.lastName === this.secondResident){
+          this.arrayWithSelectedUsers.push(user);
+        }
+      }
+    },
     getAllUsersInfo() {
       let self = this;
+      self.isLoading = true;
+      self.getSelectedUsersInfo();
       axios.post('http://localhost:5998/pasos/getAllUsersSteps', {
-        users: self.allUsers,
+        users: self.arrayWithSelectedUsers,
         days: 30
       }).then(function (response) {
         self.$store.state.allUsersInformation =[]
         self.$store.state.allUsersInformation = self.convertDateToAge(response.data);
+        self.transformInformation();
         self.isLoading = false;
-        self.pushUsersInDropDown();
       }).catch(error => {
         console.log(error)
       })

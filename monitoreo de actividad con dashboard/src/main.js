@@ -25,8 +25,9 @@ import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css'
 import PrimeVue from 'primevue/config';
 import ConfirmationService from 'primevue/confirmationservice';
+import Vuelidate from "vuelidate";
 
-
+Vue.use(Vuelidate)
 Vue.use(PaperDashboard);
 Vue.use(PrimeVue);
 Vue.use(ConfirmationService);
