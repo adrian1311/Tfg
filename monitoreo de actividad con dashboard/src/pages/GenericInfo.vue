@@ -65,7 +65,7 @@
                 <i :class="'ti-angle-double-up'"></i>
               </div>
               <div class="numbers" slot="content">
-                <h6 class="text-white">ENCIMA DE SU MÉDIA</h6>
+                <h6 class="text-white">ENCIMA DE SU MÉDIA EN 30 DÍAS</h6>
                 <p class="text-white">{{moreThanAverageSteps}}</p>
               </div>
             </stats-card>
@@ -74,7 +74,7 @@
                 <i :class="'ti-angle-double-down'"></i>
               </div>
               <div class="numbers" slot="content">
-                <h6 class="text-white">DEBAJO DE SU MÉDIA</h6>
+                <h6 class="text-white">DEBAJO DE SU MÉDIA EN 30 DÍAS</h6>
                 <p class="text-white">{{underAverageSteps}}</p>
               </div>
             </stats-card>
@@ -210,7 +210,7 @@
 
     <div class="row justify-content-center">
       <div class="col-sm-5 text-center border border-success m-1 bg-white rounded-lg">
-        <h3 class="text-dark font-weight-bold" >Usuarios más activos en los ultimos {{selectedDays}} dias</h3>
+        <h3 class="text-dark font-weight-bold" >Usuarios más activos en los últimos {{selectedDays}} días</h3>
         <Chart type="bar" :data="moreActiveUsers" :options="horizontalOptions" />
       </div>
       <div class="col-sm-5 text-center border border-danger m-1 bg-white rounded-lg">
@@ -523,6 +523,9 @@ export default {
         days: 30
       }).then(function (response) {
         self.$store.state.allUsersInformation = self.convertDateToAge(response.data);
+
+        self.genderCounter();
+        self.createUnderAverageGraphic();
         self.isLoading = false;
         self.processInformation();
       }).catch(error => {
@@ -544,7 +547,6 @@ export default {
 
     //Metodo para procesar toda la informacion
     processInformation() {
-      this.genderCounter();
       this.transformInformationToMaps();
     },
     //Metodo para los contadores de hombres y mujeres
@@ -577,7 +579,6 @@ export default {
       self.sixRange= 0; self.sevenRange= 0; self.eightRange= 0; self.eightRange= 0; self.tenRange = 0;
       //Creo una lista de maps con los maps de todos los usuarion.
       for (let userInfo of self.$store.state.allUsersInformation) {
-       self.createAgeRangeGraphic(userInfo);
        let list = self.selectGender(userInfo)
         if(list !== null && list !== undefined){
           let map1 = new Map(Object.entries(list));
@@ -589,12 +590,12 @@ export default {
           self.estimatedStepsArray.push(userInfo.estimatedSteps)
         }
       }
-      self.agesRanges = [self.sixRange,self.sevenRange,self.eightRange,self.nineRange,self.tenRange]
       self.residentsAgeData.datasets[0].data = self.agesRanges;
       //self.createInfoForSecondGraphic();
       self.list = []
       //crear tabla con información
       self.list = self.createMoreActiveUsers(s);
+
       for (let usr in self.list){
         self.list[usr].nombre = (self.names[usr])
         self.list[usr].estimados = (self.estimatedStepsArray[usr])
@@ -604,7 +605,7 @@ export default {
       self.rows = self.list;
       self.showMoreActiveUsers(self.list);
       self.showLessActiveUsers(self.list);
-      self.createUnderAverageGraphic(self.list);
+
       //self.table1.data = self.list;
 
       //S es el la lista formada por todos los usuarios. Contiene un map con fecha y pasos de ese dia
@@ -738,17 +739,28 @@ export default {
         }
       }
     },
+    //Calculo los pasos medios de los 30 dias por defecto y miro si son mayor o menor que la media
     createUnderAverageGraphic(list){
       this.underAverageSteps=0;
       this.moreThanAverageSteps=0;
 
-      for( let user of list ){
-        if( user.medios <= user.estimados ){
-          this.underAverageSteps++;
-        } else {
-          this.moreThanAverageSteps++;
+      for( let user of  this.$store.state.allUsersInformation ){
+        this.createAgeRangeGraphic(user);
+        //creo map para poder iterar el objeto
+        let mapForIteration = new Map(Object.entries(user.stepsWithDatesMap));
+        let totalSteps = 0;
+        let averageSteps = 0;
+        for (const [key, value] of mapForIteration) {
+          totalSteps += value;
+        }
+        averageSteps = totalSteps/30;
+        if(averageSteps>= user.estimatedSteps){
+          this.moreThanAverageSteps += 1;
+        }else{
+          this.underAverageSteps += 1;
         }
       }
+      this.agesRanges = [this.sixRange, this.sevenRange, this.eightRange, this.nineRange, this.tenRange]
       let residents = [  this.moreThanAverageSteps,this.underAverageSteps]
       this.residentsEstimatedData.datasets[0].data = residents;
     },
@@ -772,7 +784,6 @@ export default {
     },
 
     showMoreActiveUsers(list){
-      console.log('this is my list before',list)
       this.moreActiveUsers.labels = [];
       this.moreActiveUsers.datasets[0].data =  [];
       this.threeMoreActiveUsersSteps=  [];
@@ -848,17 +859,14 @@ export default {
 
   selectGender(userInfo) {
     if (this.selectedGender === 'male' && userInfo.gender === 'male') {
-      console.log('en el male')
       let a =this.selectAgeRange(userInfo);
       return a
     }
       if (this.selectedGender === 'female' && userInfo.gender === 'female') {
-        console.log('en el female')
         let a =this.selectAgeRange(userInfo);
         return a
       }
       if (this.selectedGender === 'both') {
-        console.log('en el both')
         let a =this.selectAgeRange(userInfo);
         return a
       }
