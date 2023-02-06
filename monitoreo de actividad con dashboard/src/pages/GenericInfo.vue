@@ -25,7 +25,7 @@
     </div>
 
 <div class="row justify-content-center mb-2 bg-dark text-center border border-primary rounded-lg">
-  <div class="col-md-10 col-xl-10 ">
+  <div class="col-md-10 col-xl-10  col-sm-10">
     <img class="mr-2 text-warning" src="@/assets/img/people.png" width="50" /><label class="font-weight-bold font-weight-bold h4 text-white">Número total de residentes : {{allUsers.length}}</label>
   </div>
 </div>
