@@ -93,7 +93,7 @@
               </div>
               <div class="row justify-content-center m-2">
                 <div class="col-sm-10 text-center border border-info  rounded-lg m-1">
-                  <h5 class="text-info font-weight-bold mt-2">Notas sobre el usuario: </h5>
+                  <h5 class="text-info font-weight-bold mt-2">Notas sobre el usuario: {{firstUserNotes}}</h5>
                 </div>
               </div>
 
@@ -134,7 +134,7 @@
               </div>
               <div class="row justify-content-center m-2">
                 <div class="col-sm-10 text-center border border-info  rounded-lg m-1">
-                  <h5 class="text-info font-weight-bold mt-2">Notas sobre el usuario: </h5>
+                  <h5 class="text-info font-weight-bold mt-2">Notas sobre el usuario: {{secondUserNotes}}</h5>
                 </div>
               </div>
             </div>
@@ -327,6 +327,8 @@ export default {
       secondUserHight:'',
       firstUserEstimatedSteps:'',
       secondUserEstimatedSteps:'',
+      firstUserNotes:'',
+      secondUserNotes:'',
       firstUserWeight:'',
       secondUserWeight:'',
       allUsers:[],
@@ -851,7 +853,8 @@ export default {
         this.firstUserHight = userInfo.height;
         this.firstUserEstimatedSteps = userInfo.estimatedSteps;
         this.firstUserWeight = userInfo.weight
-        this.firstUserPhoto = userInfo.base64encodedImage
+        this.firstUserPhoto = userInfo.base64encodedImage;
+      this.firstUserNotes = userInfo.notes;
 
     },
     putInformationInSecondBoxInfo(userInfo){
@@ -861,6 +864,7 @@ export default {
         this.secondUserEstimatedSteps = userInfo.estimatedSteps;
         this.secondUserWeight = userInfo.weight
       this.secondUserPhoto = userInfo.base64encodedImage
+      this.secondUserNotes = userInfo.notes;
     },
     createTotalSteps(s){
       let arrayWithTotalAndAvergueSteps = [];

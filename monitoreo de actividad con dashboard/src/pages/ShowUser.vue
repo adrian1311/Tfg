@@ -76,7 +76,7 @@
           </div>
           <div class="row justify-content-center m-2">
             <div class="col-sm-10 text-center border border-info  rounded-lg m-1">
-              <h5 class="text-info font-weight-bold">Notas sobre el usuario: </h5>
+              <h5 class="text-info font-weight-bold">Notas sobre el usuario: {{firstUserNotes}}</h5>
             </div>
           </div>
         </div>
@@ -376,6 +376,7 @@ export default {
       rowsSecondUser : [],
       firstUserTotalSteps:'',
       firstUserAveragueSteps:'',
+      firstUserNotes:'',
       sortedMapWIthTotalStepsFirstUser : new Map(),
       lowerFinallyThreeDatesFirstUser:[],
       lowerFinallyThreeStepsFirstUser:[],
@@ -698,7 +699,8 @@ export default {
       this.firstUserHight = userInfo.height;
       this.firstUserEstimatedSteps = userInfo.estimatedSteps;
       this.firstUserWeight = userInfo.weight
-      this.firstUserPhoto = userInfo.base64encodedImage
+      this.firstUserPhoto = userInfo.base64encodedImage;
+      this.firstUserNotes = userInfo.notes
     },
     createInfoForTables(listWithHours){
       this.rowsFirstUser = []
