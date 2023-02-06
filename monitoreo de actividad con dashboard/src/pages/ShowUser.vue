@@ -36,7 +36,7 @@
     <div class="col-md-4 col-xl-3 mt-4" >
       <p-button type="success"
                 round
-                @click.native.prevent="getAllUsersInfo">
+                @click.native.prevent="transformInformation">
         MOSTRAR INFORMACIÓN
       </p-button>
     </div>
@@ -501,8 +501,7 @@ export default {
       axios.get("http://localhost:5998/pasos/getUsers")
         .then(function (response) {
           self.allUsers = response.data;
-          self.pushUsersInDropDown();
-          self.isLoading = false;
+         self.getAllUsersInfo();
         }).catch(error => {
         console.log(error)
       })
@@ -516,16 +515,15 @@ export default {
     },
     getAllUsersInfo() {
       let self = this;
-      self.isLoading = true;
-      self.getSelectedUsersInfo();
       axios.post('http://localhost:5998/pasos/getAllUsersSteps', {
-        users: self.arrayWithSelectedUsers,
+        users: self.allUsers,
         days: 30
       }).then(function (response) {
         self.$store.state.allUsersInformation =[]
         self.$store.state.allUsersInformation = self.convertDateToAge(response.data);
-        self.transformInformation();
+        //self.transformInformation();
         self.isLoading = false;
+        self.pushUsersInDropDown();
       }).catch(error => {
         console.log(error)
       })

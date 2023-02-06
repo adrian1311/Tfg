@@ -537,10 +537,11 @@ export default {
         users: self.arrayWithSelectedUsers,
         days: 30
       }).then(function (response) {
+        self.isLoading = false;
         self.$store.state.allUsersInformation =[]
         self.$store.state.allUsersInformation = self.convertDateToAge(response.data);
         self.transformInformation();
-        self.isLoading = false;
+
 
       }).catch(error => {
         console.log(error)
